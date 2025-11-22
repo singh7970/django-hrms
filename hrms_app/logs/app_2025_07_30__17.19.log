@@ -1,0 +1,19 @@
+2025-07-28 13:14:27,296 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-28 13:14:27,298 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 5 days, 1:41:44.735578
+2025-07-28 13:14:27,298 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-07-28 13:14:42,269 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-28 13:14:53,106 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-28 13:14:53,106 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-07-28 13:14:53,110 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-28 14:20:02,520 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 223765
+2025-07-28 14:36:27,145 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128873
+2025-07-28 14:37:44,790 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128736
+2025-07-28 14:37:49,152 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 129001
+2025-07-28 15:51:54,646 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 129074
+2025-07-28 15:53:56,268 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 129025
+2025-07-28 15:55:14,632 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128992
+2025-07-28 15:55:16,429 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128998
+2025-07-28 15:55:16,851 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128998
+2025-07-28 15:55:17,239 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 128998
+2025-07-28 15:57:24,274 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 129213
+2025-07-28 15:57:26,967 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/documents HTTP/1.1" 500 129219

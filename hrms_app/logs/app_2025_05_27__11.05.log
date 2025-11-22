@@ -1,0 +1,121 @@
+2025-05-19 18:00:06,479 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-19 18:00:11,033 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-05-19 18:00:11,033 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priyanshu2032004@gmail.com 
+2025-05-19 18:00:11,038 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-05-19 18:00:13,470 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-19 18:00:13,471 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:00:02.437618
+2025-05-19 18:01:09,144 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-19 18:01:09,144 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:00:58.111470
+2025-05-20 11:12:32,688 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 11:12:32,688 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:12:21.655241
+2025-05-20 12:39:41,203 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 12:39:41,203 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 18:39:30.169826
+2025-05-20 12:39:44,085 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 88284
+2025-05-20 12:40:32,113 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 88552
+2025-05-20 12:40:34,112 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 88552
+2025-05-20 12:40:38,744 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 88284
+2025-05-20 12:40:46,986 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 12:40:46,986 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 18:40:35.952796
+2025-05-20 12:41:11,485 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 88284
+2025-05-20 13:53:48,908 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 13:53:48,908 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 19:53:37.874942
+2025-05-20 13:53:51,522 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-05-20 13:53:51,523 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priyanshu2032004@gmail.com 
+2025-05-20 13:53:51,523 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-05-20 13:53:56,651 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-05-20 13:53:56,651 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priyanshu2032004@gmail.com 
+2025-05-20 13:53:56,656 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-05-20 15:05:46,092 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 15:05:46,092 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 1:11:49.440798
+2025-05-20 16:44:45,168 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132369
+2025-05-20 16:45:26,225 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:45:29,164 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-20 16:45:29,164 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2:51:32.513070
+2025-05-20 16:45:31,404 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:45:53,964 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:45:58,524 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:46:02,713 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:48:03,273 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:48:07,666 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:50:12,810 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:50:31,029 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:52:26,284 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:52:30,402 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:53:41,680 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132401
+2025-05-20 16:53:46,395 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132133
+2025-05-20 16:55:01,053 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 132245
+2025-05-21 13:14:13,961 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-21 13:14:13,962 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 23:20:17.310361
+2025-05-21 13:30:43,769 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 172488
+2025-05-21 13:32:26,375 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 172488
+2025-05-21 13:32:50,383 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 206899
+2025-05-21 13:33:00,370 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 206899
+2025-05-21 13:33:11,783 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 206971
+2025-05-21 13:33:36,280 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 172488
+2025-05-21 17:28:22,363 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-21 18:04:38,533 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/ HTTP/1.1" 500 175748
+2025-05-21 18:36:01,757 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-21 18:36:07,607 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-05-21 18:36:07,608 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priyanshus@dewsolutions.in 
+2025-05-21 18:36:07,617 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-05-22 11:55:06,482 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 11:55:06,482 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:02:47.482610
+2025-05-22 11:55:06,482 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 11:55:14,864 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 11:55:14,864 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:02:55.864711
+2025-05-22 11:55:14,864 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 12:15:48,514 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:15:48,515 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:39:40.907062
+2025-05-22 12:15:50,718 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:15:50,718 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:39:43.110438
+2025-05-22 12:16:25,162 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:16:25,163 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:40:17.555099
+2025-05-22 12:17:46,583 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:17:46,584 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:41:38.975905
+2025-05-22 12:22:21,386 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:22:21,386 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:46:13.778573
+2025-05-22 12:23:10,275 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:23:10,276 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:47:02.667975
+2025-05-22 12:25:47,533 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:25:47,534 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:33:28.534136
+2025-05-22 12:25:47,534 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 12:25:55,100 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:25:55,100 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:33:36.100499
+2025-05-22 12:25:55,100 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 12:27:40,918 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:27:40,918 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:35:21.918832
+2025-05-22 12:27:40,918 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 12:28:09,576 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:28:09,576 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 11 days, 20:35:50.576459
+2025-05-22 12:28:09,576 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 12:29:25,138 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:29:25,138 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:53:17.530794
+2025-05-22 12:33:36,337 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 12:33:36,337 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 17:57:28.729335
+2025-05-22 13:42:32,411 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 13:42:32,411 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 19:06:24.803458
+2025-05-22 14:03:42,068 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 14:03:42,068 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 19:27:34.460873
+2025-05-22 16:35:55,204 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/contact_details/ HTTP/1.1" 500 88487
+2025-05-22 16:36:33,790 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/contact_details/ HTTP/1.1" 500 88620
+2025-05-22 17:09:49,696 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-22 17:09:49,696 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2 days, 3:15:53.044943
+2025-05-22 17:09:49,696 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-22 17:19:02,637 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88809
+2025-05-22 17:19:38,233 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88946
+2025-05-22 17:19:40,130 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88946
+2025-05-22 17:20:08,080 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88946
+2025-05-22 17:20:12,491 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88809
+2025-05-22 17:21:02,046 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 89074
+2025-05-22 17:21:08,157 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88946
+2025-05-22 17:21:13,699 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 88809
+2025-05-22 17:50:16,922 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 88538
+2025-05-23 15:10:55,764 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-23 15:10:55,765 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 12 days, 23:18:36.764985
+2025-05-23 15:10:55,765 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-23 15:15:46,621 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-23 15:15:46,622 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 3 days, 1:21:49.970249
+2025-05-23 15:15:46,622 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-23 15:16:16,631 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-23 15:16:16,631 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 12 days, 23:23:57.631832
+2025-05-23 15:16:16,631 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.

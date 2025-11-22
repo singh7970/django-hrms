@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Details</title>
+
+    <!-- Fonts and Icons -->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link href="{% static 'css/my_info/personal_profile.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+
+    <style>
+        .profile-container {
+            display: flex;
+            min-height: 100%;
+        }
+
+        .sidebar-fixed {
+            width: 250px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            background-color: #fff;
+            margin-left: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="animsition">
+<div class="page-wrapper">
+
+    {% include 'sidebar.html' %}
+
+    <div class="page-container">
+        {% include 'navbar.html' %}
+
+        <div class="main-content">
+            <div class="container-fluid" style="background-color: #e5e5e5;">
+                <div style="margin: 10px; margin-top: -10px; border-radius: 10px; padding: 10px; background-color: #e5e5e5; font-family: Arial, sans-serif;">
+                    
+                    <div class="profile-container">
+
+                        <!-- Sidebar -->
+                        <div class="sidebar-fixed">
+                            
+                            <div class="text-center mb-3">
+                                <a href="{% url 'personal_documents' %}">
+        <img src="{{ user.profile_photo.url }}" alt="Profile" class="employee-image">
+    </a>
+                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'show_personal_profile_page' %}">Personal Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'contact_details_page' %}">Contact Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'emergency_contact_page' %}">Emergency Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'dependents_page' %}">Dependents</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'Immigration_page' %}">Immigration</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'job_details_page' %}">Job</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'salary_details_page' %}">Salary</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'personal_documents' %}">Personal Documents</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="content-wrapper">
+                            <h2 class="mb-4 text-primary text-center">Job Details</h2>
+
+                            <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Joined Date <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="{{ request.user.date_joined }}" disabled>
+
+        </div>
+      <div class="form-group col-md-6">
+    <label for="jobTitle">Job Title <span class="text-danger">*</span></label>
+    <select class="form-control job-select" id="jobTitle" name="job_title" required>
+        <option value="">Select Job Title</option>
+        {% for title in job_titles %}
+            <option value="{{ title }}" {% if job_details and job_details.job_title == title %}selected{% endif %}>
+                {{ title }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Job Category <span class="text-danger">*</span></label>
+            <input type="text" name="job_category" class="form-control"
+                   value="{{ job_details.job_category|default:'' }}" required>
+        </div>
+       <div class="form-group col-md-6">
+    <label for="subUnit">Sub Unit</label>
+    <select class="form-control subunit-select" id="subUnit" name="sub_unit">
+        <option value="">Select Sub Unit</option>
+        {% for unit in sub_units %}
+            <option value="{{ unit }}" {% if job_details and job_details.sub_unit == unit %}selected{% endif %}>
+                {{ unit }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Location</label>
+            <input type="text" name="location" class="form-control"
+                   value="{{ job_details.location|default:'' }}">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Job Specification</label>
+            <input type="text" name="job_specification" class="form-control"
+                   value="{{ job_details.job_specification|default:'' }}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Employment Status <span class="text-danger">*</span></label>
+        <select name="employment_status" class="form-control" required>
+            <option value="">-- Select Status --</option>
+            <option value="full_time" {% if job_details.employment_status == "full_time" %}selected{% endif %}>Full-Time</option>
+            <option value="part_time" {% if job_details.employment_status == "part_time" %}selected{% endif %}>Part-Time</option>
+            <option value="contract" {% if job_details.employment_status == "contract" %}selected{% endif %}>Contract</option>
+            <option value="intern" {% if job_details.employment_status == "intern" %}selected{% endif %}>Intern</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <small class="text-danger">* Required fields</small>
+    </div>
+
+    <div class="form-group text-right">
+        <button type="submit" class="btn btn-success px-4">Save</button>
+    </div>
+</form>
+
+
+                        </div>
+
+                    </div> <!-- /.profile-container -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'js/time.js' %}"></script>
+<script src="{% static 'js/my_info/personal_profile.js' %}"></script>
+</body>
+</html>

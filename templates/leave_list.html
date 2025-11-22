@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave List - HRMS</title>
+    <link href="{% static 'css/leave_list.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="apply-leave-container">
+        {% include 'sidebar.html' %}
+        {% include 'navbar.html' %}
+        <div class="leave-subnav"> 
+            {% include 'leave_navbar.html' %} 
+        </div>
+    
+        <div class="container">
+           
+            <div class="header">
+                <h1 class="page-title">Leave Management</h1>
+                <p class="page-subtitle">Manage and track employee leave requests</p>
+            </div>
+
+           
+            <div class="filter-card">
+               <form id="filterForm" method="get">
+    {% csrf_token %}
+                    <div class="filter-grid">
+                        <div class="form-group">
+                            <label class="form-label">From Date</label>
+                            <input type="date" class="form-input" name="from_date" id="fromDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">To Date</label>
+                            <input type="date" class="form-input" name="to_date" id="toDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Show Leave with Status <span class="required">*</span></label>
+                            <select class="form-select" name="status" id="statusFilter">
+                                <option value="">-- Select Status --</option>
+                                <option value="Pending" selected>Pending Approval</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <span class="status-tag" id="statusTag">Pending Approval</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Leave Type</label>
+                            <select class="form-select" name="leave_type" id="leaveTypeFilter">
+                                <option value="">-- Select Leave Type --</option>
+                                {% for leave_type in leave_types %}
+                                    <option value="{{ leave_type.id }}">{{ leave_type.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Employee Name</label>
+                            <select class="form-select" name="employee_name" id="employeeName">
+                                <option value="">-- Select Employee --</option>
+                                {% for emp in employees %}
+                                    <option value="{{ emp.id }}">{{ emp.first_name }} {{ emp.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sub Unit</label>
+                            <select class="form-select" name="sub_unit" id="subUnitFilter">
+                                <option value="">-- Select Sub Unit --</option>
+                                <option value="IT Department">IT Department</option>
+                                <option value="HR Department">HR Department</option>
+                                <option value="Finance Department">Finance Department</option>
+                                <option value="Marketing Department">Marketing Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="include_past" id="includePast">
+                                <label for="includePast" class="checkbox-label">Include Past Employees</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-reset" onclick="resetFilters()">
+                            <span>🔄</span> Reset
+                        </button>
+                        <button type="submit" class="btn btn-search" id="searchBtn">
+                            <span>🔍</span> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            
+            <div class="results-card">
+                <div class="results-header">
+                    <h3 class="results-count" id="recordCount">(0) Records Found</h3>
+                </div>
+                
+                <div class="table-container">
+                    <table class="leave-table">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                                </th>
+                                <th>Date</th>
+                                <th>Employee Name</th>
+                                <th>Leave Type</th>
+                                <th>Leave Balance (Days)</th>
+                                <th>Number of Days</th>
+                                <th>Status</th>
+                                <th>Comments</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaveTableBody">
+                            {% for leave in applied_leaves %}
+                            <tr id="leaveRow-{{ leave.id }}" data-leave-id="{{ leave.id }}">
+                                <td class="checkbox-cell">
+                                    <input type="checkbox" name="leaveRecord" value="{{ leave.id }}">
+                                </td>
+                                <td>{{ leave.leave_date }}</td>
+                                <td>{{ leave.user_profile.first_name }} {{ leave.user_profile.last_name }}</td>
+                                <td>{{ leave.leave_type.name }}</td>
+                                <td>{{ leave.leave_balance|default:"—" }}</td>
+                                <td>{{ leave.number_of_days }}</td>
+                                <td id="status-{{ leave.id }}">
+                                    <span class="status-badge status-{{ leave.status|lower }}">{{ leave.status }}</span>
+                                </td>
+                                <td>{{ leave.comments|default:"" }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        {% if leave.status == 'Pending' %}
+                                           <button class="approve-btn" data-leave-id="{{ leave.id }}">Approve</button>
+                                            <button class="action-btn btn-reject" onclick="rejectLeave(this, '{{ leave.id }}')">Reject</button>
+                                        {% elif leave.status == 'Approved' %}
+                                            <span style="color: #22543d; font-weight: 600;">✓ Approved</span>
+                                        {% elif leave.status == 'Rejected' %}
+                                            <span style="color: #742a2a; font-weight: 600;">✗ Rejected</span>
+                                        {% elif leave.status == 'Cancelled' %}
+                                            <span style="color: #744210; font-weight: 600;">⊗ Cancelled</span>
+                                        {% endif %}
+                                        
+                                        <div class="dropdown-container">
+                                            <button class="btn-more" onclick="toggleDropdown(this)">⋯</button>
+                                            <ul class="dropdown-menu">
+                                                <li onclick="viewDetails('{{ leave.id }}')">View Details</li>
+                                                <li onclick="editLeave('{{ leave.id }}')">Edit Leave</li>
+                                                <!-- <li onclick="cancelLeave('{{ leave.id }}')">Cancel Leave</li> -->
+                                                <li onclick="addComment('{{ leave.id }}')">Add Comment</li>
+                                                <!-- <li onclick="printLeave('{{ leave.id }}')">Print</li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9" class="no-records">
+                                    <div class="no-records-icon">📋</div>
+                                    <div>No leave records found.</div>
+                                    <div style="font-size: 14px; margin-top: 8px;">Use the search filters above to find leave records.</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="{% static 'js/leave_list.js' %}"></script>
+
+    
+    <script>
+        
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + ";path=/";
+        }
+        setCookie("csrftoken", "{{ csrf_token }}");
+
+       
+    </script>
+   
+  <div id="leaveDetailsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="leaveDetailsContent">
+               
+                 
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

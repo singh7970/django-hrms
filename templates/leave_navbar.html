@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/leave.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+<body>
+    <!-- Sub-navbar for Leave section -->
+    <div class="leave-subnav">
+        <div class="container-fluid">
+            <div class="leave-subnav-buttons">
+                <a href="{% url 'apply_leaves' %}" class="leave-subnav-button {% if request.resolver_match.url_name == 'apply_leaves' %}active{% endif %}">
+                    <i class="zmdi zmdi-plus-circle"></i> Apply
+                </a>
+                <a href="{% url 'my_leave' %}" class="leave-subnav-button {% if request.resolver_match.url_name == 'my_leave' %}active{% endif %}">
+                    <i class="zmdi zmdi-calendar-check"></i> My Leave
+                </a>
+                <a href="{% url 'entitlements' %}" class="leave-subnav-button  {% if 'entitlements' in request.path %}active{% endif %}">
+                    <i class="zmdi zmdi-card"></i> Entitlements 
+                </a>
+                <!-- <a href="" class="leave-subnav-button dropdown-toggle {% if 'reports' in request.path %}active{% endif %}">
+                    <i class="zmdi zmdi-file-text"></i> Reports <i class="zmdi zmdi-chevron-down"></i>
+                </a> -->
+                {% if request.user.userrole.role.name == 'manager' %}
+                <a href="{% url 'leave_list' %}" class="leave-subnav-button {% if request.resolver_match.url_name == 'leave_list' %}active{% endif %}">
+                    <i class="zmdi zmdi-format-list-bulleted"></i> Leave List
+                </a>
+            {% endif %}
+            {% if request.user.userrole.role.name == 'manager' %}
+                <a href="{% url 'assign_leave' %}" class="leave-subnav-button {% if request.resolver_match.url_name == 'assign_leave' %}active{% endif %}">
+                    <i class="zmdi zmdi-assignment"></i> Assign Leave
+                </a>
+                  {% endif %}
+                <!-- <a href="" class="leave-subnav-button {% if request.resolver_match.url_name == 'apply_report' %}active{% endif %}">
+                    <i class="zmdi zmdi-file"></i> Apply Report
+                </a>  -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

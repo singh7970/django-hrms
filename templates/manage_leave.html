@@ -1,0 +1,842 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Leaves</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f1f1f3 0%, #f0eef3 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .main-content {
+            margin-left: 30px;
+            padding: 20px;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #f4f5f7 0%, #eae7ec 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-title {
+            color: white;
+        }
+
+        .header-title h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-title h2 {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient( #57a7ec );
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient( #57a7ec );
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(#2a9c3d);
+            color: #333;
+        }
+
+        .btn-danger {
+            background: linear-gradient(#af3618);
+            color: #333;
+        }
+
+        .btn-dark {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .actions-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient( #05052e );
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .status-approved {
+            background: linear-gradient(#2a9c3d);
+            color: #e9ebf0;
+        }
+
+        .status-rejected {
+            background: linear-gradient(#af3618);
+            color: #f7f2f2;
+        }
+
+        .status-pending {
+            background: linear-gradient(#eed921);
+            color: #f7f3f1;
+        }
+
+        .status-cancelled {
+            background: linear-gradient(#ec77dd);
+            color: #faf7f5;
+        }
+
+        .edit-btn {
+            background: linear-gradient(#57a7ec);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .checkbox-col {
+            width: 50px;
+            text-align: center;
+        }
+
+        .checkbox-col input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+
+        .pagination a, .pagination span {
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: linear-gradient(#57a7ec);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .pagination .active {
+            background: linear-gradient(#57a7ec);
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translate(-50%, -60%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+
+        .modal h3 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(#57a7ec);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-section {
+                flex-direction: column;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 700px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+   <div class="page-wrapper">
+
+        {% include 'sidebar.html' %}
+
+        <div class="page-container">
+            {% include 'navbar.html' %}
+
+    <div class="main-content">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1><i class="fas fa-calendar-alt"></i> Manage Employee Leaves</h1>
+                    <h2>Comprehensive leave management system</h2>
+                </div>
+                <div class="header-actions">
+                    <a href="{% url 'hr_dashboard_main' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> HR Dashboard
+                    </a>
+                    <button type="button" onclick="openAddModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Leave
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <form method="GET" action="">
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label for="search">Search Employee</label>
+                        <input type="text" id="search" name="search" class="form-control" 
+                               placeholder="Enter name or email..." value="{{ request.GET.search }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status Filter</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="">All Status</option>
+                            <option value="Approved" {% if request.GET.status == "Approved" %}selected{% endif %}>Approved</option>
+                            <option value="Rejected" {% if request.GET.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                            <option value="Pending" {% if request.GET.status == "Pending" %}selected{% endif %}>Pending</option>
+                            <option value="Cancelled" {% if request.GET.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="from">From Date</label>
+                        <input type="date" id="from" name="from" class="form-control" value="{{ request.GET.from }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="to">To Date</label>
+                        <input type="date" id="to" name="to" class="form-control" value="{{ request.GET.to }}">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 8px;">
+                            <i class="fas fa-search"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Actions Section -->
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="actions-section">
+                <button type="submit" name="action" value="approve" class="btn btn-success">
+                    <i class="fas fa-check"></i> Approve Selected
+                </button>
+                <button type="submit" name="action" value="reject" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Reject Selected
+                </button>
+                <button type="submit" name="action" value="delete" class="btn btn-dark">
+                    <i class="fas fa-trash"></i> Delete Selected
+                </button>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-col">
+                                <input type="checkbox" id="select-all">
+                            </th>
+                            <th><i class="fas fa-user"></i> Employee</th>
+                            <th><i class="fas fa-tag"></i> Leave Type</th>
+                            <th><i class="fas fa-calendar"></i> Date</th>
+                            <th><i class="fas fa-clock"></i> Duration</th>
+                            <th><i class="fas fa-info-circle"></i> Status</th>
+                            <th><i class="fas fa-comment"></i> Reason</th>
+                            <th><i class="fas fa-cogs"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for leave in leaves %}
+                        <tr>
+                            <td class="checkbox-col">
+                                <input type="checkbox" name="selected_ids" value="{{ leave.id }}">
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 40px; height: 40px; background: linear-gradient( #1d233b); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">
+                                        {{ leave.user_profile.email|first|upper }}
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600;">{{ leave.user_profile.email|truncatechars:20 }}</div>
+                                        <!-- <div style="font-size: 12px; color: #666;">{{ leave.user_profile.email }}</div> -->
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!-- <span style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;"> -->
+                                    {{ leave.leave_type.name }}
+                                </span>
+                            </td>
+                            <td>
+                                <div style="font-weight: 600;">{{ leave.leave_date|date:"M d, Y" }}</div>
+                                <div style="font-size: 12px; color: #666;">{{ leave.leave_date|date:"l" }}</div>
+                            </td>
+                            <td>{{ leave.get_duration_display }}</td>
+                            <td>
+                                <span class="status-badge 
+                                    {% if leave.status == 'Approved' %}status-approved
+                                    {% elif leave.status == 'Rejected' %}status-rejected
+                                    {% elif leave.status == 'Cancelled' %}status-cancelled
+                                    {% else %}status-pending
+                                    {% endif %}">
+                                    {{ leave.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ leave.reason }}">
+                                    {{ leave.reason|truncatechars:30 }}
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="edit-btn"
+                                    data-id="{{ leave.id }}"
+                                    data-user="{{ leave.user_profile.email }}"
+                                    data-type-id="{{ leave.leave_type.id }}"
+                                    data-date="{{ leave.leave_date|date:'Y-m-d' }}"
+                                    data-duration="{{ leave.duration }}"
+                                    data-status="{{ leave.status }}"
+                                    data-reason="{{ leave.reason|escapejs }}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8">
+                                <div class="empty-state">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <h3>No leaves found</h3>
+                                    <p>No leave records match your current filters.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if page_number > 1 %}
+                <a href="?page={{ page_number|add:-1 }}&search={{ request.GET.search }}&status={{ request.GET.status }}&from={{ request.GET.from }}&to={{ request.GET.to }}">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </a>
+            {% endif %}
+
+            {% for i in total_pages|add:"0"|make_list %}
+                {% with forloop.counter as page %}
+                    {% if page == page_number %}
+                        <span class="active">{{ page }}</span>
+                    {% else %}
+                        <a href="?page={{ page }}&search={{ request.GET.search }}&status={{ request.GET.status }}&from={{ request.GET.from }}&to={{ request.GET.to }}">{{ page }}</a>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+
+            {% if page_number < total_pages %}
+                <a href="?page={{ page_number|add:1 }}&search={{ request.GET.search }}&status={{ request.GET.status }}&from={{ request.GET.from }}&to={{ request.GET.to }}">
+                    Next <i class="fas fa-chevron-right"></i>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Edit Leave Request</h3>
+            <form method="POST" action="{% url 'update_leave' %}">
+                {% csrf_token %}
+                <input type="hidden" name="leave_id" id="edit-leave-id">
+                
+                <div class="form-group">
+                    <label>Employee Email</label>
+                    <input type="text" id="edit-email" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select name="leave_type" id="edit-type" class="form-control">
+                        {% for lt in leave_types %}
+                            <option value="{{ lt.id }}">{{ lt.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Leave Date</label>
+                    <input type="date" name="leave_date" id="edit-date" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Duration</label>
+                    <select name="duration" id="edit-duration" class="form-control">
+                        <option value="full">Full Day</option>
+                        <option value="half_morning">Half Morning</option>
+                        <option value="half_evening">Half Evening</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" id="edit-status" class="form-control">
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea name="reason" id="edit-reason" class="form-control" placeholder="Enter reason for leave..."></textarea>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Leave
+                    </button>
+                    <button type="button" onclick="closeModal()" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-plus"></i> Add New Leave Request</h3>
+            <form method="POST" action="{% url 'add_leave' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>Employee Email</label>
+                    <input type="email" name="email" class="form-control" required placeholder="Enter employee email...">
+                </div>
+
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select name="leave_type" class="form-control" required>
+                        <option value="">Select leave type...</option>
+                        {% for lt in leave_types %}
+                            <option value="{{ lt.id }}">{{ lt.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Leave Date</label>
+                    <input type="date" name="leave_date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Duration</label>
+                    <select name="duration" class="form-control" required>
+                        <option value="">Select duration...</option>
+                        <option value="full">Full Day</option>
+                        <option value="half_morning">Half Morning</option>
+                        <option value="half_evening">Half Evening</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control" required>
+                        <option value="">Select status...</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea name="reason" class="form-control" required placeholder="Enter reason for leave..."></textarea>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Leave
+                    </button>
+                    <button type="button" onclick="closeAddModal()" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("select-all").addEventListener('change', function(e) {
+            const checkboxes = document.querySelectorAll('input[name="selected_ids"]');
+            checkboxes.forEach(cb => cb.checked = e.target.checked);
+        });
+
+
+     document.querySelectorAll(".edit-btn").forEach(button => {
+    button.addEventListener("click", function () {
+        document.getElementById("edit-leave-id").value = this.dataset.id;
+        document.getElementById("edit-email").value = this.dataset.user;
+        document.getElementById("edit-date").value = this.dataset.date;
+        document.getElementById("edit-duration").value = this.dataset.duration;
+        document.getElementById("edit-status").value = this.dataset.status;
+        document.getElementById("edit-reason").value = this.dataset.reason;
+
+        // ✅ Set correct leave type by ID
+        const typeId = this.dataset.typeId;
+        const leaveTypeSelect = document.getElementById("edit-type");
+        leaveTypeSelect.value = typeId;
+
+        document.getElementById("editModal").style.display = "block";
+    });
+});
+      
+
+function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+
+function openAddModal() {
+    document.getElementById("addModal").style.display = "block";
+}
+
+function closeAddModal() {
+    document.getElementById("addModal").style.display = "none";
+}
+
+</script>
+   
+{% if messages %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        {% for message in messages %}
+        Swal.fire({
+            icon: "{{ message.tags|default:'info' }}",  // 'success', 'error', etc.
+            title: "{{ message|escapejs }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        {% endfor %}
+    });
+</script>
+{% endif %}
+
+
+
+
+</body>
+</html>

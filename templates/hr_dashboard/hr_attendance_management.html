@@ -1,0 +1,544 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Attendance Management</title>
+    <link rel="stylesheet" href="{% static 'css/hr_attendance_management.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+    
+    <div class="main-content">
+        <div class="attendance-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-clock"></i> HR Attendance Management</h1>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="openCreateModal()">
+                        <i class="fas fa-plus"></i> Add Record
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon" style="color: #667eea;"><i class="fas fa-users"></i></div>
+                    <div class="value">{{ total_employees }}</div>
+                    <div class="label">Total Employees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="color: #28a745;"><i class="fas fa-check-circle"></i></div>
+                    <div class="value">{{ present_today }}</div>
+                    <div class="label">Present Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="color: #dc3545;"><i class="fas fa-times-circle"></i></div>
+                    <div class="value">{{ absent_today }}</div>
+                    <div class="label">Absent Today</div>
+                </div>
+             
+
+                <div class="stat-card"  >
+                    <div class="icon" style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="value" style="color: #dc3545;">{{ over_40_hours_count }}</div>
+                    <div class="label" style="color: #dc3545;">Over 40 Hours!</div>
+                </div>
+            </div>
+
+
+
+            <!-- Critical Warning: Employees Over 40 Hours Section -->
+            {% if over_40_hours_count > 0 %}
+            <div class="critical-warning-section" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); margin-bottom: 30px; border: 2px solid #dc3545;">
+                <div class="section-header" style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <i class="fas fa-exclamation-triangle" style="color: #dc3545; font-size: 1.5rem; margin-right: 10px;"></i>
+                    <h3 style="margin: 0; color: #dc3545; font-size: 1.2rem; font-weight: 600;">Employees Over 40 Hours - Action Required</h3>
+                </div>
+                <div class="table-container">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e9ecef; color: #2c3e50; font-weight: 600;">Employee</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e9ecef; color: #2c3e50; font-weight: 600;">Punch In Time</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e9ecef; color: #2c3e50; font-weight: 600;">Status</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e9ecef; color: #2c3e50; font-weight: 600;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in over_40_hours_records %}
+                            <tr style="border-bottom: 1px solid #e9ecef;" data-record-id="{{ record.id }}">
+                                <td style="padding: 10px;">
+                                    <strong>{{ record.user.username }}</strong>
+                                </td>
+                                <td style="padding: 10px;">
+                                    {{ record.punch_in_time|date:"M d, Y H:i" }}
+                                </td>
+                                <td style="padding: 10px;">
+                                    <span class="status-badge" style="background: #dc3545; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Over 40 Hours</span>
+                                </td>
+                                <td style="padding: 10px;">
+                                    <div class="action-buttons">
+                                        <button class="btn btn-danger btn-sm" type="button" onclick="emergencyPunchOut({{ record.id }})" style="background: #dc3545; color: white;">
+                                            <i class="fas fa-sign-out-alt"></i> Punch Out
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <form method="GET" class="filters-form">
+                    <div class="form-group">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ start_date }}" class="datepicker">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ end_date }}" class="datepicker">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employee">Employee</label>
+                        <select id="employee" name="employee">
+                            <option value="">All Employees</option>
+                            {% for employee in employees %}
+                            <option value="{{ employee.username }}" {% if employee_filter == employee.username %}selected{% endif %}>
+                                {{ employee.username }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="">All Status</option>
+                            <option value="PUNCHED_IN" {% if status_filter == 'PUNCHED_IN' %}selected{% endif %}>Punched In</option>
+                            <option value="PUNCHED_OUT" {% if status_filter == 'PUNCHED_OUT' %}selected{% endif %}>Punched Out</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Filter
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Attendance Table -->
+            <div class="attendance-table">
+                <div class="table-header">
+                    <h3>Attendance Records</h3>
+                    <span>Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} records</span>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Punch In</th>
+                                <th>Punch Out</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in page_obj %}
+                            <tr data-record-id="{{ record.id }}" 
+                                data-punch-in="{{ record.punch_in_time|date:'Y-m-d\TH:i' }}"
+                                data-punch-out="{% if record.punch_out_time %}{{ record.punch_out_time|date:'Y-m-d\TH:i' }}{% endif %}"
+                                data-punch-in-note="{{ record.punch_in_note|default:'' }}"
+                                data-punch-out-note="{{ record.punch_out_time|default:'' }}">
+                                <td>{{ record.user.username }}</td>
+                                <td>{{ record.punch_in_time|date:"M d, Y H:i" }}</td>
+                                <td>{{ record.punch_out_time|date:"M d, Y H:i"|default:"-" }}</td>
+                                <td>{{ record.duration_hms }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ record.status|lower|cut:'_' }}">
+                                        {{ record.status|title|cut:'_' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if record.punch_in_note or record.punch_out_note %}
+                                        <small>
+                                            {% if record.punch_in_note %}<strong>In:</strong> {{ record.punch_in_note }}<br>{% endif %}
+                                            {% if record.punch_out_note %}<strong>Out:</strong> {{ record.punch_out_note }}{% endif %}
+                                        </small>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-primary btn-sm" type="button" onclick="openEditModal('{{ record.id }}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" type="button" onclick="deleteRecord('{{ record.id }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <!-- Only show Punch Out button if status is PUNCHED_IN -->
+                                        {% if record.status == 'PUNCHED_IN' %}
+                                        <button class="btn btn-danger btn-sm" type="button" onclick="emergencyPunchOut('{{ record.id }}')" style="background: #dc3545; color: white;">
+                                            <i class="fas fa-sign-out-alt"></i> Punch Out
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-inbox" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
+                                    <p>No attendance records found for the selected criteria.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1&start_date={{ start_date }}&end_date={{ end_date }}&employee={{ employee_filter }}&status={{ status_filter }}">&laquo; First</a>
+                        <a href="?page={{ page_obj.previous_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&employee={{ employee_filter }}&status={{ status_filter }}">Previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&employee={{ employee_filter }}&status={{ status_filter }}">Next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}&start_date={{ start_date }}&end_date={{ end_date }}&employee={{ employee_filter }}&status={{ status_filter }}">Last &raquo;</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Record Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Attendance Record</h3>
+                <span class="close" onclick="closeCreateModal()">&times;</span>
+            </div>
+            <form id="createForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="create_employee">Employee</label>
+                        <select id="create_employee" required>
+                            <option value="">Select Employee</option>
+                            {% for employee in employees %}
+                            <option value="{{ employee.id }}">{{ employee.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="create_punch_in">Punch In Time</label>
+                        <input type="datetime-local" id="create_punch_in" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="create_punch_out">Punch Out Time</label>
+                        <input type="datetime-local" id="create_punch_out">
+                    </div>
+                    <div class="form-group">
+                        <label for="create_status">Status</label>
+                        <select id="create_status" required>
+                            <option value="PUNCHED_IN">Punched In</option>
+                            <option value="PUNCHED_OUT">Punched Out</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="create_punch_in_note">Punch In Note</label>
+                        <input type="text" id="create_punch_in_note" placeholder="Optional note for punch in">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="create_punch_out_note">Punch Out Note</label>
+                        <input type="text" id="create_punch_out_note" placeholder="Optional note for punch out">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <button type="submit" class="btn btn-success">Create Record</button>
+                    <button type="button" class="btn btn-danger" onclick="closeCreateModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Record Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Attendance Record</h3>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="edit_record_id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit_punch_in">Punch In Time</label>
+                        <input type="datetime-local" id="edit_punch_in" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_punch_out">Punch Out Time</label>
+                        <input type="datetime-local" id="edit_punch_out">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="edit_punch_in_note">Punch In Note</label>
+                        <input type="text" id="edit_punch_in_note" placeholder="Optional note for punch in">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="edit_punch_out_note">Punch Out Note</label>
+                        <input type="text" id="edit_punch_out_note" placeholder="Optional note for punch out">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <button type="submit" class="btn btn-success">Update Record</button>
+                    <button type="button" class="btn btn-danger" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Punch Out Details Modal -->
+    <div id="punchOutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Punch Out Details</h3>
+                <span class="close" onclick="closePunchOutModal()">&times;</span>
+            </div>
+            <form id="punchOutForm">
+                <input type="hidden" id="punch_out_record_id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="punch_out_time">Punch Out Time</label>
+                        <input type="datetime-local" id="punch_out_time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="punch_out_note">Punch Out Note</label>
+                        <input type="text" id="punch_out_note" placeholder="Reason for punch out (optional)">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <button type="submit" class="btn btn-success">Punch Out Employee</button>
+                    <button type="button" class="btn btn-danger" onclick="closePunchOutModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize date pickers
+        flatpickr(".datepicker", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+
+        // Modal functions
+        function openCreateModal() {
+            document.getElementById('createModal').style.display = 'block';
+        }
+
+        function closeCreateModal() {
+            document.getElementById('createModal').style.display = 'none';
+            document.getElementById('createForm').reset();
+        }
+
+        function openEditModal(recordId) {
+            const recordRow = document.querySelector(`tr[data-record-id="${recordId}"]`);
+            if (recordRow) {
+                // Get data from attributes (more reliable)
+                const punchInTime = recordRow.dataset.punchIn;
+                const punchOutTime = recordRow.dataset.punchOut;
+                const punchInNote = recordRow.dataset.punchInNote;
+                const punchOutNote = recordRow.dataset.punchOutNote;
+                
+                // Populate the form
+                document.getElementById('editModal').style.display = 'block';
+                document.getElementById('edit_record_id').value = recordId;
+                document.getElementById('edit_punch_in').value = punchInTime || '';
+                document.getElementById('edit_punch_out').value = punchOutTime || '';
+                document.getElementById('edit_punch_in_note').value = punchInNote || '';
+                document.getElementById('edit_punch_out_note').value = punchOutNote || '';
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            document.getElementById('editForm').reset();
+        }
+
+        function closePunchOutModal() {
+            document.getElementById('punchOutModal').style.display = 'none';
+            document.getElementById('punchOutForm').reset();
+        }
+
+        // Form submissions
+        document.getElementById('createForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                user_id: document.getElementById('create_employee').value,
+                punch_in_time: document.getElementById('create_punch_in').value,
+                punch_out_time: document.getElementById('create_punch_out').value || null,
+                punch_in_note: document.getElementById('create_punch_in_note').value,
+                punch_out_note: document.getElementById('create_punch_out_note').value
+            };
+
+            fetch('{% url "create_attendance_record" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Record created successfully!');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+        });
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const recordId = document.getElementById('edit_record_id').value;
+            const formData = {
+                punch_in_time: document.getElementById('edit_punch_in').value,
+                punch_out_time: document.getElementById('edit_punch_out').value || null,
+                punch_in_note: document.getElementById('edit_punch_in_note').value,
+                punch_out_note: document.getElementById('edit_punch_out_note').value
+            };
+
+            fetch(`/hrms_app/hr/attendance/edit/${recordId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Record updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+        });
+
+        document.getElementById('punchOutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const recordId = document.getElementById('punch_out_record_id').value;
+            const formData = {
+                punch_out_time: document.getElementById('punch_out_time').value,
+                punch_out_note: document.getElementById('punch_out_note').value
+            };
+
+            fetch(`/hrms_app/hr/attendance/edit/${recordId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Employee has been punched out successfully!');
+                    closePunchOutModal();
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+        });
+
+        function deleteRecord(recordId) {
+            if (confirm('Are you sure you want to delete this attendance record?')) {
+                fetch(`/hrms_app/hr/attendance/delete/${recordId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }
+
+        function emergencyPunchOut(recordId) {
+            // Open the punch out modal
+            document.getElementById('punchOutModal').style.display = 'block';
+            document.getElementById('punch_out_record_id').value = recordId;
+            
+            // Set default time to current time
+            const now = new Date();
+            document.getElementById('punch_out_time').value = now.toISOString().slice(0, 16);
+            
+            // Set default note
+            document.getElementById('punch_out_note').value = 'Punched out by HR ';
+        }
+
+        // Get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

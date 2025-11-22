@@ -1,0 +1,22 @@
+2025-06-23 13:08:47,669 , INFO, hrms_app.views.performance.employee_reviews ,employee_reviews.py, 60 ,employee_reviews ,Filtered reviews count: 2
+2025-06-23 13:18:56,293 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 183026
+2025-06-23 13:21:06,553 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 171264
+2025-06-23 13:21:21,071 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 171264
+2025-06-23 13:21:59,939 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 172792
+2025-06-23 13:22:06,605 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 172527
+2025-06-23 13:22:26,585 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/add_emp HTTP/1.1" 500 168878
+2025-06-23 13:53:39,257 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/get-review-info/6/ HTTP/1.1" 500 70829
+2025-06-23 17:12:39,528 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 88804
+2025-06-23 17:14:15,681 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 93789
+2025-06-23 17:16:52,125 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 77169
+2025-06-23 17:17:21,511 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 197058
+2025-06-23 17:30:53,834 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/my_reviews HTTP/1.1" 500 149110
+2025-06-23 17:33:07,378 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/review-detail/6/ HTTP/1.1" 500 89922
+2025-06-23 17:44:50,812 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/review-detail/6/ HTTP/1.1" 500 89922
+2025-06-23 17:45:11,994 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/review-detail/6/ HTTP/1.1" 500 89922
+2025-06-23 23:02:51,290 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-06-23 23:02:51,290 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-06-23 23:02:51,303 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-06-23 23:02:52,444 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-06-23 23:02:52,444 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-06-23 23:02:52,445 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 

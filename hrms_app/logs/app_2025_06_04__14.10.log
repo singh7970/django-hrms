@@ -1,0 +1,1 @@
+2025-06-02 11:16:46,183 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/job_details/ HTTP/1.1" 500 77184

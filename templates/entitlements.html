@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave/Entitlements</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/entitlement.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> -->
+    <link href="{% static 'css/leave.css' %}" rel="stylesheet" media="all">
+    
+    
+</head>
+<body>
+    <div class="apply-leave-container">
+        {% include 'sidebar.html' %}
+        {% include 'navbar.html' %}
+        <div class="leave-subnav"> {% include 'leave_navbar.html' %} </div>
+        
+        <div class="apply-leave-form">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Main Content -->
+            <div class="main-content1">
+                <!-- Page Header -->
+               
+                <!-- Content -->
+                <div class="content-wrapper">
+                    <!-- Stats Overview -->
+                    <div class="stats-overview">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h2 class="stats-title">My Leave Entitlements</h2>
+                                <p class="stats-subtitle">Complete leave balance overview for current period</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="total-days-display">{{ total_days }}</div>
+                                <div class="days-label">Total Days</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter Section -->
+                    
+                    <form method="GET" id="searchForm" action="{% url 'entitlements' %}">
+                           
+                            <div class="row g-3 align-items-end" style="margin-bottom: 10px;">
+                                <div class="col-md-3" style=" margin-left: 10px;">
+                                    <i class="fas fa-filter"></i>
+                                    Filter Entitlements
+                                    <label class="form-label" style=" margin-top: 10px; margin-bottom: 14px;" >Leave Type</label>
+                                    <select name="leave_type" class="form-select" style="font-weight: 200; line-height: 2.0;">
+                                        <option value="">Select Leave Type</option>
+                                        {% for leave_type in leave_types %}
+                                            <option value="{{ leave_type.name }}"
+                                                {% if request.GET.leave_type == leave_type.name %}selected{% endif %}>
+                                                {{ leave_type.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-7" style="margin-top: 10px;">
+                                    <label class="form-label">Leave Period</label>
+                                    <div class="date-range-container">
+                                        <input type="date" name="start_date" class="form-control date-input" 
+                                               value="{{ request.GET.start_date }}" placeholder="From Date">
+                                        <span class="date-separator">to</span>
+                                        <input type="date" name="end_date" class="form-control date-input" 
+                                               value="{{ request.GET.end_date }}" placeholder="To Date">
+                                    </div>
+                                </div>
+                                <div class="col-md-1" style=" margin-top: 5px; padding: 5px;">
+                                    <div class="text-center">
+                                        <button id="search-entitlement-btn" class="btn-search">
+                                            <i class="fas fa-search me-1"></i> Search
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="results-section">
+                        <div class="results-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="results-title">
+                                    <i class="fas fa-list-ul"></i>
+                                    Entitlement Records
+                                    <span class="record-badge">{{ record_count }}</span>
+                                </h3>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container" id="entitlement-table-container">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Leave Type</th>
+                                        <th>Type</th>
+                                        <th>Valid From</th>
+                                        <th>Valid To</th>
+                                        <th class="text-center">Days</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="entitlementTable">
+                                    {% if only_table %}
+                                        {% for entitlement in entitlements %}
+                                        <tr>
+                                            <td>    
+                                                <div class="leave-type-name">{{ entitlement.leave_type.name }}</div>
+                                                {% if entitlement.leave_type.code %}
+                                                    <div class="leave-type-code">{{ entitlement.leave_type.code }}</div>
+                                                {% endif %}
+                                            </td>
+                                            <td><span class="entitlement-badge">Added</span></td>
+                                            <td><div class="date-display">{{ entitlement.valid_from|date:"M d, Y" }}</div></td>
+                                            <td><div class="date-display">{{ entitlement.valid_to|date:"M d, Y" }}</div></td>
+                                            <td class="days-cell">
+                                                <span class="total-days-value">{{ entitlement.total_days|floatformat:1 }}</span>
+                                                <div class="usage-info">
+                                                    <span class="used-count">Used: {{ entitlement.used_days|floatformat:1 }}</span>
+                                                    <span class="remaining-count">Left: {{ entitlement.remaining_days|floatformat:1 }}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="p-0">
+                                                <div class="empty-state">
+                                                    <i class="fas fa-calendar-times empty-icon"></i>
+                                                    <div class="empty-title">No Entitlements Found</div>
+                                                    <p class="empty-message">No leave entitlements match your search criteria</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for entitlement in entitlements %}
+                                        <tr>
+                                            <td>
+                                                <div class="leave-type-name">{{ entitlement.leave_type.name }}</div>
+                                                {% if entitlement.leave_type.code %}
+                                                    <div class="leave-type-code">{{ entitlement.leave_type.code }}</div>
+                                                {% endif %}
+                                            </td>
+                                            <td><span class="entitlement-badge">Added</span></td>
+                                            <td><div class="date-display">{{ entitlement.valid_from|date:"M d, Y" }}</div></td>
+                                            <td><div class="date-display">{{ entitlement.valid_to|date:"M d, Y" }}</div></td>
+                                            <td class="days-cell">
+                                                <span class="total-days-value">{{ entitlement.total_days|floatformat:1 }}</span>
+                                                <div class="usage-info">
+                                                    <span class="used-count">Used: {{ entitlement.used_days|floatformat:1 }}</span>
+                                                    <span class="remaining-count">Left: {{ entitlement.remaining_days|floatformat:1 }}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="p-0">
+                                                <div class="empty-state">
+                                                    <i class="fas fa-calendar-times empty-icon"></i>
+                                                    <div class="empty-title">No Entitlements Found</div>
+                                                    <p class="empty-message">No leave entitlements match your search criteria</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if entitlements.has_other_pages %}
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {% if entitlements.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ entitlements.previous_page_number }}">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in entitlements.paginator.page_range %}
+                                {% if entitlements.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if entitlements.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ entitlements.next_page_number }}">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchBtn = document.getElementById('search-entitlement-btn');
+            const leaveTypeFilter = document.querySelector('select[name="leave_type"]');
+            const startDateFilter = document.querySelector('input[name="start_date"]');
+            const endDateFilter = document.querySelector('input[name="end_date"]');
+        
+            function showLoading(container) {
+                const overlay = document.createElement('div');
+                overlay.className = 'loading-overlay';
+                overlay.innerHTML = '<div class="loading-spinner"></div>';
+                container.style.position = 'relative';
+                container.appendChild(overlay);
+                return overlay;
+            }
+        
+            function hideLoading(overlay) {
+                if (overlay && overlay.parentNode) {
+                    overlay.parentNode.removeChild(overlay);
+                }
+            }
+        
+            function refreshEntitlementTable() {
+                const container = document.getElementById('entitlement-table-container');
+                const overlay = showLoading(container);
+        
+                let queryParams = [];
+                if (leaveTypeFilter.value) queryParams.push(`leave_type=${encodeURIComponent(leaveTypeFilter.value)}`);
+                if (startDateFilter.value) queryParams.push(`start_date=${startDateFilter.value}`);
+                if (endDateFilter.value) queryParams.push(`end_date=${endDateFilter.value}`);
+                const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+        
+                fetch("{% url 'entitlements' %}" + queryString, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('entitlementTable').innerHTML = data.table_html;
+                    document.querySelector('.record-badge').textContent = data.record_count;
+        
+                    document.getElementById('entitlement-table-container').classList.add('fade-in');
+                    setTimeout(() => {
+                        document.getElementById('entitlement-table-container').classList.remove('fade-in');
+                    }, 300);
+                })
+                .catch(err => {
+                    console.error("Entitlement AJAX error:", err);
+                    alert("Something went wrong while loading entitlements.");
+                })
+                .finally(() => {
+                    hideLoading(overlay);
+                });
+            }
+        
+            searchBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                refreshEntitlementTable();
+            });
+        
+            leaveTypeFilter.addEventListener('change', function () {
+                refreshEntitlementTable();
+            });
+        });
+        </script>
+</body>
+</html>

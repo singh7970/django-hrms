@@ -1,0 +1,14 @@
+2025-06-17 10:38:31,544 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/userrolepermission/ HTTP/1.1" 500 201344
+2025-06-17 11:05:00,223 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /admin/hrms_app/userprofile/add/ HTTP/1.1" 500 287774
+2025-06-17 11:05:46,368 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /admin/hrms_app/userprofile/add/ HTTP/1.1" 500 287792
+2025-06-17 11:06:37,472 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /admin/hrms_app/userprofile/add/ HTTP/1.1" 500 287792
+2025-06-17 13:31:36,606 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 75054
+2025-06-17 13:31:47,570 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 74786
+2025-06-17 14:34:39,963 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 121069
+2025-06-17 14:36:25,575 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 121454
+2025-06-17 14:36:29,535 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 121058
+2025-06-17 17:37:46,874 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 146173
+2025-06-17 17:39:08,430 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 146110
+2025-06-17 17:39:19,608 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 146136
+2025-06-18 14:30:07,031 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 117039
+2025-06-18 14:43:06,331 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/performance/add_emp HTTP/1.1" 500 95990

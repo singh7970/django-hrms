@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        
+        .main-content {
+            margin-left: 290px;
+            padding: 30px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header h1 i {
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            /* align-items: center; */
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .holiday-table {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #f8f9ff;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+        }
+
+        .date-cell {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .occasion-cell {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            color: #333;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #7f8c8d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>
+                <i class="fas fa-calendar-day"></i>
+                Holiday Management
+            </h1>
+            <p>Configure and manage company holidays efficiently</p>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search holidays by occasion...">
+                <i class="fas fa-search"></i>
+            </div>
+            <a href="{% url 'hr_dashboard_main' %}" class="add-btn">
+                        <i class="fas fa-arrow-left me-2"></i>HR Dashboard
+                    </a>
+            <button class="add-btn" onclick="openAddModal()">
+                <i class="fas fa-plus"></i>
+                Add Holiday
+            </button>
+        </div>
+
+        <div class="holiday-table">
+            <div class="table-header">
+                <h3><i class="fas fa-list"></i> Holiday List</h3>
+            </div>
+            
+            <table id="holidayTable">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-calendar"></i> Date</th>
+                        <th><i class="fas fa-star"></i> Occasion</th>
+                        <th><i class="fas fa-cog"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="holidayTableBody">
+                    <tr>
+                        <td colspan="3" class="empty-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading holidays...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="holidayModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">
+                    <i class="fas fa-plus-circle"></i>
+                    Add Holiday
+                </h3>
+            </div>
+            
+            <form id="holidayForm">
+                <input type="hidden" id="holidayId">
+                
+                <div class="form-group">
+                    <label for="holidayDate">
+                        <i class="fas fa-calendar"></i> Date
+                    </label>
+                    <input type="date" id="holidayDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="holidayOccasion">
+                        <i class="fas fa-star"></i> Occasion
+                    </label>
+                    <input type="text" id="holidayOccasion" placeholder="Enter holiday occasion" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Save Holiday
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let holidays = [];
+        
+        // Get CSRF token for Django
+        function getCSRFToken() {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') {
+                    return value;
+                }
+            }
+            return '';
+        }
+
+        // Load holidays from Django backend
+        async function loadHolidays() {
+            try {
+                const response = await fetch('/hrms_app/api/holidays/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                if (response.ok) {
+                    holidays = await response.json();
+                    renderHolidays();
+                } else {
+                    console.error('Failed to load holidays');
+                }
+            } catch (error) {
+                console.error('Error loading holidays:', error);
+            }
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Holiday';
+            document.getElementById('holidayId').value = '';
+            document.getElementById('holidayDate').value = '';
+            document.getElementById('holidayOccasion').value = '';
+            document.getElementById('holidayModal').style.display = 'block';
+        }
+
+        function openEditModal(id, date, occasion) {
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Holiday';
+            document.getElementById('holidayId').value = id;
+            document.getElementById('holidayDate').value = date;
+            document.getElementById('holidayOccasion').value = occasion;
+            document.getElementById('holidayModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('holidayModal').style.display = 'none';
+        }
+
+        async function deleteHoliday(id) {
+            if (confirm('Are you sure you want to delete this holiday?')) {
+                try {
+                    const response = await fetch(`/hrms_app/api/holidays/${id}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCSRFToken()
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        holidays = holidays.filter(holiday => holiday.id !== id);
+                        renderHolidays();
+                    } else {
+                        const error = await response.json();
+                        alert('Error: ' + (error.message || 'Failed to delete holiday'));
+                    }
+                } catch (error) {
+                    console.error('Error deleting holiday:', error);
+                    alert('Error deleting holiday');
+                }
+            }
+        }
+
+        function renderHolidays() {
+            const tbody = document.getElementById('holidayTableBody');
+            
+            if (holidays.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty-state">
+                            <i class="fas fa-calendar-day"></i>
+                            <p>No holidays found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = holidays.map(holiday => `
+                <tr>
+                    <td class="date-cell">${holiday.date}</td>
+                    <td class="occasion-cell">${holiday.occasion}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-edit" onclick="openEditModal(${holiday.id}, '${holiday.date}', '${holiday.occasion}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteHoliday(${holiday.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Form submission
+        document.getElementById('holidayForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('holidayId').value;
+            const date = document.getElementById('holidayDate').value;
+            const occasion = document.getElementById('holidayOccasion').value;
+
+            const holidayData = {
+                date: date,
+                occasion: occasion
+            };
+
+            try {
+                let response;
+                if (id) {
+                    // Update existing holiday
+                    response = await fetch(`/hrms_app/api/holidays/${id}/`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCSRFToken()
+                        },
+                        body: JSON.stringify(holidayData)
+                    });
+                } else {
+                    // Add new holiday
+                    response = await fetch('/hrms_app/api/holidays/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCSRFToken()
+                        },
+                        body: JSON.stringify(holidayData)
+                    });
+                }
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (id) {
+                        // Update existing holiday in array
+                        const holidayIndex = holidays.findIndex(h => h.id === parseInt(id));
+                        if (holidayIndex !== -1) {
+                            holidays[holidayIndex] = result;
+                        }
+                    } else {
+                        // Add new holiday to array
+                        holidays.push(result);
+                    }
+                    
+                    // Sort holidays by date
+                    holidays.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    
+                    renderHolidays();
+                    closeModal();
+                } else {
+                    const error = await response.json();
+                    alert('Error: ' + (error.message || 'Failed to save holiday'));
+                }
+            } catch (error) {
+                console.error('Error saving holiday:', error);
+                alert('Error saving holiday');
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredHolidays = holidays.filter(holiday => 
+                holiday.occasion.toLowerCase().includes(searchTerm) ||
+                holiday.date.includes(searchTerm)
+            );
+            
+            const tbody = document.getElementById('holidayTableBody');
+            
+            if (filteredHolidays.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>No holidays found matching "${searchTerm}"</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredHolidays.map(holiday => `
+                <tr>
+                    <td class="date-cell">${holiday.date}</td>
+                    <td class="occasion-cell">${holiday.occasion}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-edit" onclick="openEditModal(${holiday.id}, '${holiday.date}', '${holiday.occasion}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteHoliday(${holiday.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('holidayModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Load holidays when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHolidays();
+        });
+    </script>
+</body>
+</html>

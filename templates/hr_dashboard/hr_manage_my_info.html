@@ -1,0 +1,589 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>HR • Manage My Info</title>
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/hr_attendance_management.css' %}">
+	<link rel="stylesheet" href="{% static 'css/hr_manage_my_info.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+	{% include 'sidebar.html' %}
+	{% include 'navbar.html' %}
+
+	<div class="main-content">
+		<div class="attendance-container">
+			<div class="page-header">
+				<h1><i class="fas fa-id-card"></i> Manage My Info (HR)</h1>
+				<div class="header-actions">
+					<!-- Reserved for future actions -->
+				</div>
+			</div>
+			<div class="card">
+				<p>Select an employee and edit their personal details.</p>
+				<form method="get" action="" class="hrmi-employee-select">
+					<div class="row full">
+						<div>
+							<label>Search Employee by Name / Email</label>
+							<div class="input-group">
+								<input type="text" id="emp_search" class="form-control" placeholder="Type to search...">
+								<div class="input-group-append">
+									<button class="btn btn-success" id="emp_search_btn" type="button"><i
+											class="fas fa-search"></i> Search</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Hide native select; results shown below -->
+					<label for="user_id" style="margin-top:12px; display:none;">Employee</label>
+					<select id="user_id" name="user_id" onchange="this.form.submit()" style="display:none;">
+						<option value="">— Select Employee —</option>
+						{% for emp in employees %}
+						<option value="{{ emp.id }}" {% if selected_user and emp.id==selected_user.id %}selected{% endif
+							%}>
+							{{ emp.username }} ({{ emp.email }})
+						</option>
+						{% endfor %}
+					</select>
+				</form>
+				<!-- Search Results (click to open) -->
+				<div id="emp_results" class="hrmi-results"></div>
+			</div>
+
+			<!-- Section Tabs -->
+			<div class="card" style="padding-bottom: 8px;">
+				<ul class="nav nav-pills justify-content-center hrmi-tabs">
+					<li class="nav-item"><a href="#" class="nav-link active" data-target="section-personal"><i
+								class="fas fa-user"></i> Personal</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-contact"><i
+								class="fas fa-address-card"></i> Contact</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-emergency"><i
+								class="fas fa-phone"></i> Emergency</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-dependents"><i
+								class="fas fa-users"></i> Dependents</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-job"><i
+								class="fas fa-briefcase"></i> Job</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-immigration"><i
+								class="fas fa-passport"></i> Immigration</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-salary"><i
+								class="fas fa-rupee-sign"></i> Salary</a></li>
+					<li class="nav-item"><a href="#" class="nav-link" data-target="section-documents"><i
+								class="fas fa-file-alt"></i> Documents</a></li>
+				</ul>
+			</div>
+
+			{% if selected_user and personal_details %}
+			<form method="post" enctype="multipart/form-data" class="card hrmi-section active" id="section-personal">
+				{% csrf_token %}
+				<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+				<input type="hidden" name="section" value="personal_details">
+				<h3>Personal Details</h3>
+				<!-- Read-only default details summary -->
+				<div class="hrmi-summary">
+					<table class="table">
+						<tbody>
+							<tr>
+								<th style="width: 30%;">Employee ID</th>
+								<td>{{ selected_user.id }}</td>
+
+							</tr>
+							<tr>
+
+								<th>Email</th>
+								<td>{{ selected_user.email }}</td>
+							</tr>
+
+
+						</tbody>
+					</table>
+				</div>
+				<div class="row">
+					<div>
+						<label>First Name</label>
+						<input type="text" name="first_name" value="{{ selected_user.first_name|default_if_none:'' }}">
+					</div>
+					<div>
+						<label>Last Name</label>
+						<input type="text" name="last_name" value="{{ selected_user.last_name|default_if_none:'' }}">
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<label>Username</label>
+						<input type="text" name="username" value="{{ selected_user.username }}">
+					</div>
+					<div>
+						<label>Date of Birth</label>
+						<input type="date" name="dob" value="{{ selected_user.dob|date:'Y-m-d' }}">
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<label>Middle Name</label>
+						<input type="text" name="middle_name"
+							value="{{ personal_details.middle_name|default_if_none:'' }}">
+					</div>
+					<div>
+						<label>Other ID</label>
+						<input type="text" name="other_id" value="{{ personal_details.other_id|default_if_none:'' }}">
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<label>License Number</label>
+						<input type="text" name="license_number"
+							value="{{ personal_details.license_number|default_if_none:'' }}">
+					</div>
+					<div>
+						<label>License Expiry</label>
+						<input type="date" name="license_expiry"
+							value="{{ personal_details.license_expiry|date:'Y-m-d' }}">
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<label>Nationality</label>
+						<select name="nationality">
+							<option value="">— Select —</option>
+							{% for val,label in personal_details.NATIONALITY_CHOICES %}
+							<option value="{{ val }}" {% if personal_details.nationality==val %}selected{% endif %}>{{
+								label }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div>
+						<label>Marital Status</label>
+						<select name="marital_status">
+							<option value="">— Select —</option>
+							{% for val,label in personal_details.MARITAL_STATUS_CHOICES %}
+							<option value="{{ val }}" {% if personal_details.marital_status==val %}selected{% endif %}>
+								{{ label }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<label>Gender</label>
+						<select name="gender">
+							<option value="">— Select —</option>
+							{% for val,label in personal_details.GENDER_CHOICES %}
+							<option value="{{ val }}" {% if personal_details.gender==val %}selected{% endif %}>{{ label
+								}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="actions">
+					<button type="submit" class="btn btn-success">Save Personal</button>
+				</div>
+			</form>
+
+			<form method="post" class="card hrmi-section" id="section-contact">
+				{% csrf_token %}
+				<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+				<input type="hidden" name="section" value="contact_details">
+				<h3>Contact Details</h3>
+				<div class="row">
+					<div><label>Street 1</label><input name="street_1" value="{{ contact_details.street_1 }}"></div>
+					<div><label>Street 2</label><input name="street_2" value="{{ contact_details.street_2 }}"></div>
+				</div>
+				<div class="row">
+					<div><label>City</label><input name="city" value="{{ contact_details.city }}"></div>
+					<div><label>State</label><input name="state" value="{{ contact_details.state }}"></div>
+				</div>
+				<div class="row">
+					<div><label>Postal Code</label><input name="postal_code" value="{{ contact_details.postal_code }}">
+					</div>
+					<div><label>Country</label><input name="country" value="{{ contact_details.country }}"></div>
+				</div>
+				<div class="row">
+					<div><label>Home Phone</label><input name="home_phone" value="{{ contact_details.home_phone }}">
+					</div>
+					<div><label>Mobile</label><input name="mobile" value="{{ contact_details.mobile }}"></div>
+				</div>
+				<div class="row">
+					<div><label>Work Phone</label><input name="work_phone" value="{{ contact_details.work_phone }}">
+					</div>
+					<div><label>Work Email</label><input name="work_email" type="email"
+							value="{{ contact_details.work_email }}"></div>
+				</div>
+				<div class="row full">
+					<div><label>Other Email</label><input name="other_email" type="email"
+							value="{{ contact_details.other_email }}"></div>
+				</div>
+				<div class="actions"><button type="submit" class="btn btn-success">Save Contact</button></div>
+			</form>
+
+			<div class="card hrmi-section" id="section-emergency">
+				<h3>Emergency Contacts</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Relationship</th>
+							<th>Home</th>
+							<th>Mobile</th>
+							<th>Work</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for ec in emergency_contacts %}
+						<tr>
+							<td>{{ ec.name }}</td>
+							<td>{{ ec.relationship }}</td>
+							<td>{{ ec.home_phone }}</td>
+							<td>{{ ec.mobile }}</td>
+							<td>{{ ec.work_phone }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="5">No emergency contacts.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<form method="post">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+					<input type="hidden" name="section" value="emergency_contact_add">
+					<div class="row">
+						<div><label>Name</label><input name="name"></div>
+						<div><label>Relationship</label><input name="relationship"></div>
+					</div>
+					<div class="row">
+						<div><label>Home Phone</label><input name="home_phone"></div>
+						<div><label>Mobile</label><input name="mobile"></div>
+					</div>
+					<div class="row full">
+						<div><label>Work Phone</label><input name="work_phone"></div>
+					</div>
+					<div class="actions"><button type="submit" class="btn btn-success">Add Emergency Contact</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="card hrmi-section" id="section-dependents">
+				<h3>Dependents</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Relationship</th>
+							<th>DOB</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for d in dependents %}
+						<tr>
+							<td>{{ d.name }}</td>
+							<td>{{ d.relationship }}</td>
+							<td>{{ d.dob }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="3">No dependents.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<form method="post">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+					<input type="hidden" name="section" value="dependent_add">
+					<div class="row">
+						<div><label>Name</label><input name="name"></div>
+						<div>
+							<label>Relationship</label>
+							<select name="relationship">
+								<option value="spouse">Spouse</option>
+								<option value="child">Child</option>
+								<option value="parent">Parent</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+					</div>
+					<div class="row full">
+						<div><label>Date of Birth</label><input type="date" name="dob"></div>
+					</div>
+					<div class="actions"><button type="submit" class="btn btn-success">Add Dependent</button></div>
+				</form>
+			</div>
+
+			<form method="post" class="card hrmi-section" id="section-job">
+				{% csrf_token %}
+				<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+				<input type="hidden" name="section" value="job_details">
+				<h3>Job Details</h3>
+				<div class="row">
+					<div><label>Job Title</label><input name="job_title" value="{{ job_details.job_title }}"></div>
+					<div><label>Job Category</label><input name="job_category" value="{{ job_details.job_category }}">
+					</div>
+				</div>
+				<div class="row">
+					<div><label>Sub Unit</label><input name="sub_unit" value="{{ job_details.sub_unit }}"></div>
+					<div><label>Location</label><input name="location" value="{{ job_details.location }}"></div>
+				</div>
+				<div class="row">
+					<div><label>Job Specification</label><input name="job_specification"
+							value="{{ job_details.job_specification }}"></div>
+					<div>
+						<label>Employment Status</label>
+						<select name="employment_status">
+							<option value="full_time" {% if job_details.employment_status=='full_time' %}selected{%
+								endif %}>Full-Time</option>
+							<option value="part_time" {% if job_details.employment_status=='part_time' %}selected{%
+								endif %}>Part-Time</option>
+							<option value="contract" {% if job_details.employment_status=='contract' %}selected{% endif
+								%}>Contract</option>
+							<option value="intern" {% if job_details.employment_status=='intern' %}selected{% endif %}>
+								Intern</option>
+						</select>
+					</div>
+				</div>
+				<div class="actions"><button type="submit" class="btn btn-success">Save Job</button></div>
+			</form>
+
+			<div class="card hrmi-section" id="section-immigration">
+				<h3>Immigration</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Number</th>
+							<th>Issued</th>
+							<th>Expiry</th>
+							<th>Issued By</th>
+							<th>Eligible State</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for im in immigration_records %}
+						<tr>
+							<td>{{ im.document_type }}</td>
+							<td>{{ im.number }}</td>
+							<td>{{ im.issued_date }}</td>
+							<td>{{ im.expiry_date }}</td>
+							<td>{{ im.issued_by }}</td>
+							<td>{{ im.eligible_state }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="6">No immigration records.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<form method="post">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+					<input type="hidden" name="section" value="immigration_add">
+					<div class="row">
+						<div>
+							<label>Document Type</label>
+							<select name="document_type">
+								<option value="passport">Passport</option>
+								<option value="visa">Visa</option>
+							</select>
+						</div>
+						<div><label>Number</label><input name="number"></div>
+					</div>
+					<div class="row">
+						<div><label>Issued Date</label><input type="date" name="issued_date"></div>
+						<div><label>Expiry Date</label><input type="date" name="expiry_date"></div>
+					</div>
+					<div class="row">
+						<div><label>Issued By (Country)</label><input name="issued_by"></div>
+						<div><label>Eligible State</label><input name="eligible_state"></div>
+					</div>
+					<div class="row full">
+						<div><label>Review Date</label><input type="date" name="eligible_review_date"></div>
+					</div>
+					<div class="row full">
+						<div><label>Comment</label><input name="comment"></div>
+					</div>
+					<div class="actions"><button type="submit" class="btn btn-success">Add Immigration</button></div>
+				</form>
+			</div>
+
+			<div class="card hrmi-section" id="section-salary">
+				<h3>Salary</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Basic</th>
+							<th>HRA</th>
+							<th>Bonus</th>
+							<th>Net</th>
+							<th>Mode</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for s in salaries %}
+						<tr>
+							<td>{{ s.basic_salary }}</td>
+							<td>{{ s.hra }}</td>
+							<td>{{ s.bonus|default_if_none:'-' }}</td>
+							<td>{{ s.net_salary|default_if_none:'-' }}</td>
+							<td>{{ s.payment_mode }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="5">No salary records.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<form method="post">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+					<input type="hidden" name="section" value="salary_add">
+					<div class="row">
+						<div><label>Basic Salary</label><input name="basic_salary" type="number" step="0.01"></div>
+						<div><label>HRA</label><input name="hra" type="number" step="0.01"></div>
+					</div>
+					<div class="row">
+						<div><label>Special Allowance</label><input name="special_allowance" type="number" step="0.01">
+						</div>
+						<div><label>Bonus</label><input name="bonus" type="number" step="0.01"></div>
+					</div>
+					<div class="row">
+						<div><label>Other Allowances</label><input name="other_allowances" type="number" step="0.01">
+						</div>
+						<div><label>Deductions</label><input name="deductions" type="number" step="0.01"></div>
+					</div>
+					<div class="row">
+						<div><label>Net Salary</label><input name="net_salary" type="number" step="0.01"></div>
+						<div>
+							<label>Payment Mode</label>
+							<select name="payment_mode">
+								<option value="bank_transfer">Bank Transfer</option>
+								<option value="cash">Cash</option>
+								<option value="cheque">Cheque</option>
+							</select>
+						</div>
+					</div>
+					<div class="actions"><button type="submit" class="btn btn-success">Add Salary</button></div>
+				</form>
+			</div>
+
+			<div class="card hrmi-section" id="section-documents">
+				<h3>Personal Documents</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Uploaded</th>
+							<th>File</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for doc in documents %}
+						<tr>
+							<td>{{ doc.document_type }}</td>
+							<td>{{ doc.uploaded_at }}</td>
+							<td><a href="{{ doc.document_file.url }}" target="_blank">Download</a></td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="3">No documents uploaded.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ selected_user.id }}">
+					<input type="hidden" name="section" value="document_add">
+					<div class="row">
+						<div>
+							<label>Document Type</label>
+							<select name="document_type">
+								<option value="aadhaar">Aadhaar</option>
+								<option value="pan">PAN Card</option>
+								<option value="passport">Passport</option>
+								<option value="voter">Voter ID</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+						<div>
+							<label>File</label>
+							<input type="file" name="document_file" required>
+						</div>
+					</div>
+					<div class="actions"><button type="submit" class="btn btn-success">Upload Document</button></div>
+				</form>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+	<script>
+		// Simple tab switching for HR My Info sections
+		document.addEventListener('DOMContentLoaded', function () {
+			const links = document.querySelectorAll('.hrmi-tabs .nav-link');
+			const sections = document.querySelectorAll('.hrmi-section');
+			links.forEach(link => {
+				link.addEventListener('click', function (e) {
+					e.preventDefault();
+					// active link
+					links.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+					// active section
+					const targetId = this.getAttribute('data-target');
+					sections.forEach(sec => {
+						if (sec.id === targetId) {
+							sec.classList.add('active');
+							sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+						} else {
+							sec.classList.remove('active');
+						}
+					});
+				});
+			});
+
+			// Employee search repopulates dropdown
+			const searchInput = document.getElementById('emp_search');
+			const searchBtn = document.getElementById('emp_search_btn');
+			const userSelect = document.getElementById('user_id');
+			function repopulateEmployees(employees) {
+				const results = document.getElementById('emp_results');
+				results.innerHTML = '';
+				if (!employees || employees.length === 0) {
+					results.innerHTML = '<div class="text-muted">No results found.</div>';
+					return;
+				}
+				employees.forEach(emp => {
+					const card = document.createElement('div');
+					card.className = 'hrmi-result-card';
+					card.innerHTML = `<div class="hrmi-result-name">${emp.name}</div>
+					<div class="hrmi-result-meta">${emp.email}</div>
+					<div class="hrmi-result-meta">${emp.job_title || ''}${emp.location ? ' • ' + emp.location : ''}</div>`;
+					card.addEventListener('click', function () {
+						window.location.href = `?user_id=${emp.id}`;
+					});
+					results.appendChild(card);
+				});
+			}
+			async function doSearch() {
+				const q = (searchInput.value || '').trim();
+				if (!q) return;
+				try {
+					const res = await fetch(`/hrms_app/api/employees/search/?name=${encodeURIComponent(q)}&page_size=50`);
+					const data = await res.json();
+					if (data && data.success) {
+						repopulateEmployees(data.employees || []);
+					}
+				} catch (e) { console.error('Search failed', e); }
+			}
+			searchBtn && searchBtn.addEventListener('click', doSearch);
+			searchInput && searchInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
+		});
+	</script>
+</body>
+
+</html>

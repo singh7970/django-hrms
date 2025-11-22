@@ -1,0 +1,433 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Leave</title>
+    <link rel="stylesheet" href="{% static 'css/leave.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+<div class="apply-leave-container">
+    {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+<div class="leave-subnav"> {% include 'leave_navbar.html' %} </div>
+
+    <div class="apply-leave-form">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert alert-danger{% else %}alert alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="my-leave-header">
+            <h2 class="section-title">My Leave Records</h2>
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="leave-status">Status:</label>
+                    <select id="leave-status" class="filter-control">
+                        <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                        <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="from-date">From:</label>
+                    <input type="date" id="from-date" class="filter-control" value="{{ from_date|default:'' }}">
+                </div>
+                <div class="filter-group">
+                    <label for="to-date">To:</label>
+                    <input type="date" id="to-date" class="filter-control" value="{{ to_date|default:'' }}">
+                </div>
+                <button id="search-btn" class="btn-search">
+                    <i class="zmdi zmdi-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <div class="balance-container">
+            <div class="leave-balance-summary" id="leave-balance-summary">
+                <div class="balance-card">
+                    <div class="balance-title">Casual Leave (CL)</div>
+                    <div class="balance-value" id="casual-leave-balance">{{ casual_leave_balance|floatformat:1 }}</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-title">Sick Leave (SL)</div>
+                    <div class="balance-value" id="sick-leave-balance">{{ sick_leave_balance|floatformat:1 }}</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-title">Leave Without Pay (LWP)</div>
+                    <div class="balance-value" id="earned-leave-balance">{{ earned_leave_balance|floatformat:1 }}</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-title">Privilege Leave (PL)</div>
+                    <div class="balance-value" id="paid-leave-balance">{{ paid_leave_balance|floatformat:1 }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="my-leave-table-container" id="leave-table-container">
+                <table class="my-leave-table">
+                    <thead>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Days</th>
+                            <th>Applied On</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leave-table-body">
+                        {% if applied_leaves %}
+                            {% for leave in applied_leaves %}
+                            <tr id="leave-row-{{ leave.id }}" class="leave-row {% if leave.status == 'Pending' %}pending{% elif leave.status == 'Approved' %}approved{% elif leave.status == 'Rejected' %}rejected{% elif leave.status == 'Cancelled' %}cancelled{% elif leave.status == 'Auto-Approved' %}approved{% endif %}">
+                                <td>{{ leave.leave_type.name }} ({{ leave.leave_type.code }})</td>
+                                <td>{{ leave.start_date|date:"d M Y" }}</td>
+                                <td>{{ leave.end_date|date:"d M Y" }}</td>
+                                <td>{{ leave.days|floatformat:1 }}</td>
+                                <td>{{ leave.created_at|date:"d M Y" }}</td>
+                                <td class="leave-status">
+                                    <span class="status-badge status-{{ leave.status|lower }}">
+                                        {{ leave.status }}
+                                    </span>
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="action-btn btn-view" data-id="{{ leave.id }}" title="View Details">
+                                        <i class="zmdi zmdi-eye"></i>
+                                    </button>
+                                    {% if leave.cancel_allowed %}
+                                        <button class="action-btn btn-cancel" data-id="{{ leave.id }}" title="Cancel">
+                                            <i class="zmdi zmdi-close"></i>
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="no-data">No leave records found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="pagination-container">
+                {% if applied_leaves.has_other_pages %}
+                <div class="pagination">
+                    {% if applied_leaves.has_previous %}
+                        <a href="javascript:void(0)" class="page-link" data-page="{{ applied_leaves.previous_page_number }}">&laquo;</a>
+                    {% endif %}
+
+                    {% for i in applied_leaves.paginator.page_range %}
+                        {% if applied_leaves.number == i %}
+                            <a class="page-link active">{{ i }}</a>
+                        {% else %}
+                            <a href="javascript:void(0)" class="page-link" data-page="{{ i }}">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if applied_leaves.has_next %}
+                        <a href="javascript:void(0)" class="page-link" data-page="{{ applied_leaves.next_page_number }}">&raquo;</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leave Details Modal -->
+<div id="leave-details-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Leave Details</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <!-- Content dynamically loaded -->
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchBtn = document.getElementById('search-btn');
+    const statusFilter = document.getElementById('leave-status');
+    const fromDateFilter = document.getElementById('from-date');
+    const toDateFilter = document.getElementById('to-date');
+
+    // Function to show loading overlay
+    function showLoading(container) {
+        const overlay = document.createElement('div');
+        overlay.className = 'loading-overlay';
+        overlay.innerHTML = '<div class="loading-spinner"></div>';
+        container.style.position = 'relative';
+        container.appendChild(overlay);
+        return overlay;
+    }
+
+    // Function to hide loading overlay
+    function hideLoading(overlay) {
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+
+    // Function to refresh table and balance
+    function refreshTableAndBalance(params = {}) {
+        const tableContainer = document.querySelector('.table-container');
+        const balanceContainer = document.querySelector('.balance-container');
+        
+        const tableOverlay = showLoading(tableContainer);
+        const balanceOverlay = showLoading(balanceContainer);
+
+        // Build query parameters
+        let queryParams = [];
+        if (params.status && params.status !== 'all') queryParams.push(`status=${params.status}`);
+        if (params.from_date) queryParams.push(`from_date=${params.from_date}`);
+        if (params.to_date) queryParams.push(`to_date=${params.to_date}`);
+        if (params.page) queryParams.push(`page=${params.page}`);
+        
+        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+
+        fetch("{% url 'my_leave' %}" + queryString, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            // Parse the response to extract table and balance data
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Update table body
+            const newTableBody = doc.getElementById('leave-table-body');
+            if (newTableBody) {
+                document.getElementById('leave-table-body').innerHTML = newTableBody.innerHTML;
+            }
+            
+            // Update pagination
+            const newPagination = doc.getElementById('pagination-container');
+            if (newPagination) {
+                document.getElementById('pagination-container').innerHTML = newPagination.innerHTML;
+            }
+            
+            // Update balance values
+            const casualBalance = doc.getElementById('casual-leave-balance');
+            const sickBalance = doc.getElementById('sick-leave-balance');
+            const earnedBalance = doc.getElementById('earned-leave-balance');
+            const paidBalance = doc.getElementById('paid-leave-balance');
+            
+            if (casualBalance) document.getElementById('casual-leave-balance').textContent = casualBalance.textContent;
+            if (sickBalance) document.getElementById('sick-leave-balance').textContent = sickBalance.textContent;
+            if (earnedBalance) document.getElementById('earned-leave-balance').textContent = earnedBalance.textContent;
+            if (paidBalance) document.getElementById('paid-leave-balance').textContent = paidBalance.textContent;
+            
+            // Add fade-in animation
+            document.getElementById('leave-table-container').classList.add('fade-in');
+            document.getElementById('leave-balance-summary').classList.add('fade-in');
+            
+            // Remove animation class after animation completes
+            setTimeout(() => {
+                document.getElementById('leave-table-container').classList.remove('fade-in');
+                document.getElementById('leave-balance-summary').classList.remove('fade-in');
+            }, 300);
+            
+            // Reattach event listeners
+            attachEventListeners();
+            
+            hideLoading(tableOverlay);
+            hideLoading(balanceOverlay);
+        })
+        .catch(error => {
+            hideLoading(tableOverlay);
+            hideLoading(balanceOverlay);
+            console.error('Error:', error);
+            Swal.fire('Error', 'Something went wrong while refreshing data', 'error');
+        });
+    }
+
+    // Function to attach event listeners
+    function attachEventListeners() {
+        // View buttons
+        const viewButtons = document.querySelectorAll('.btn-view');
+        const modal = document.getElementById('leave-details-modal');
+        const modalBody = modal.querySelector('.modal-body');
+        const closeModal = modal.querySelector('.close-modal');
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const leaveId = this.dataset.id;
+                fetch(`{% url 'get_leave_details' %}?id=${leaveId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            modalBody.innerHTML = `<div class="error-message">${data.error}</div>`;
+                        } else {
+                            let durationHtml = '';
+                            if (data.daily_durations) {
+                                durationHtml = '<div class="leave-detail-item"><strong>Daily Durations:</strong><ul>';
+                                for (const [date, duration] of Object.entries(data.daily_durations)) {
+                                    durationHtml += `<li>${date}: ${duration}</li>`;
+                                }
+                                durationHtml += '</ul></div>';
+                            }
+                            
+                            modalBody.innerHTML = `
+                                <div class="leave-detail-item"><strong>Leave Type:</strong> ${data.leave_type}</div>
+                                <div class="leave-detail-item"><strong>From:</strong> ${data.start_date}</div>
+                                <div class="leave-detail-item"><strong>To:</strong> ${data.end_date}</div>
+                                <div class="leave-detail-item"><strong>Total Days:</strong> ${data.days}</div>
+                                <div class="leave-detail-item"><strong>Applied On:</strong> ${data.applied_on}</div>
+                                <div class="leave-detail-item"><strong>Status:</strong> ${data.status}</div>
+                                <div class="leave-detail-item"><strong>Reason:</strong> ${data.reason}</div>
+                                ${durationHtml}
+                            `;
+                        }
+                        modal.style.display = 'block';
+                    })
+                    .catch(error => {
+                        modalBody.innerHTML = `<div class="error-message">Error loading leave details</div>`;
+                        modal.style.display = 'block';
+                    });
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Cancel buttons
+        const cancelButtons = document.querySelectorAll('.btn-cancel');
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const leaveId = this.dataset.id;
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you really want to cancel this leave?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, cancel it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("{% url 'cancel_leave' %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ leave_id: leaveId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Cancelled!', data.success, 'success');
+                                
+                                // Refresh table and balance after cancellation
+                                const currentParams = {
+                                    status: statusFilter.value,
+                                    from_date: fromDateFilter.value,
+                                    to_date: toDateFilter.value
+                                };
+                                refreshTableAndBalance(currentParams);
+                            } else {
+                                Swal.fire('Error', data.error || 'Unable to cancel leave.', 'error');
+                            }
+                        })
+                        .catch(() => {
+                            Swal.fire('Error', 'Something went wrong while cancelling.', 'error');
+                        });
+                    }
+                });
+            });
+        });
+
+        // Pagination links
+        const pageLinks = document.querySelectorAll('.page-link[data-page]');
+        pageLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                const params = {
+                    status: statusFilter.value,
+                    from_date: fromDateFilter.value,
+                    to_date: toDateFilter.value,
+                    page: page
+                };
+                refreshTableAndBalance(params);
+            });
+        });
+    }
+
+    // Search button event listener
+    searchBtn.addEventListener('click', function () {
+        const params = {
+            status: statusFilter.value,
+            from_date: fromDateFilter.value,
+            to_date: toDateFilter.value
+        };
+        refreshTableAndBalance(params);
+    });
+
+    // Initial event listeners attachment
+    attachEventListeners();
+
+    // Listen for custom events from other parts of the application
+    document.addEventListener('leaveActionCompleted', function(e) {
+        const currentParams = {
+            status: statusFilter.value,
+            from_date: fromDateFilter.value,
+            to_date: toDateFilter.value
+        };
+        refreshTableAndBalance(currentParams);
+    });
+
+    // Listen for messages from apply leave page or other pages
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'refreshLeaveTable') {
+            const currentParams = {
+                status: statusFilter.value,
+                from_date: fromDateFilter.value,
+                to_date: toDateFilter.value
+            };
+            refreshTableAndBalance(currentParams);
+        }
+    });
+});
+
+// Function to trigger refresh from external scripts
+window.refreshLeaveTable = function() {
+    const event = new CustomEvent('leaveActionCompleted');
+    document.dispatchEvent(event);
+};
+
+// Function to be called from apply leave form
+window.onLeaveApplied = function() {
+    window.refreshLeaveTable();
+};
+</script>
+</body>
+</html>

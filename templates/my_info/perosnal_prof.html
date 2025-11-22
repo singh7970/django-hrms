@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Profile</title>
+
+    <!-- Fonts and Icons -->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link href="{% static 'css/my_info/personal_profile.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+
+    <style>
+        .profile-container {
+            display: flex;
+            min-height: 100%;
+        }
+
+        .sidebar-fixed {
+            width: 250px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            background-color: #fff;
+            margin-left: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="animsition">
+<div class="page-wrapper">
+
+    {% include 'sidebar.html' %}
+
+    <div class="page-container">
+        {% include 'navbar.html' %}
+
+        <div class="main-content">
+            <div class="container-fluid" style="background-color: #e5e5e5;">
+                <div style="margin: 10px; margin-top: -10px; border-radius: 10px; padding: 10px; background-color: #e5e5e5; font-family: Arial, sans-serif;">
+                    
+                    <div class="profile-container">
+
+                        <!-- Sidebar -->
+                        <div class="sidebar-fixed">
+                            
+                            <div class="text-center mb-3">
+                                 <a href="{% url 'personal_documents' %}">
+        {% if user.profile_photo %}
+            <img src="{{ user.profile_photo.url }}" alt="Profile" class="employee-image">
+        {% else %}
+            <div class="employee-image-placeholder" style="width: 120px; height: 120px; border: 2px dashed #ccc; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto;">
+                <i class="fa fa-user" style="font-size: 48px; color: #ccc;"></i>
+                <p style="margin-top: 10px; color: #999; font-size: 12px;">No Photo</p>
+            </div>
+        {% endif %}
+    </a>
+                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'show_personal_profile_page' %}">Personal Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'contact_details_page' %}">Contact Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'emergency_contact_page' %}">Emergency Details</a></li>
+
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'dependents_page' %}">Dependents</a></li>                          
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'job_details_page' %}">Job</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'Immigration_page' %}">Immigration</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'salary_details_page' %}">Salary</a></li>
+
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'personal_documents' %}">Personal Documents</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="content-wrapper">
+                            <h2 class="mb-4 text-primary text-center">Personal Details</h2>
+
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label>Employee First Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="{{ request.user.first_name }}" disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Middle Name</label>
+                                        <input type="text" class="form-control" name="middleName" value="{{ personal_details.middle_name|default:'' }}">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" value="{{ request.user.last_name }}" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Employee ID</label>
+                                        <input type="text" class="form-control" value="{{ request.user.id }}" disabled>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Other ID</label>
+                                        <input type="text" class="form-control" name="otherID" value="{{ personal_details.other_id|default:'' }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Driver's License Number</label>
+                                        <input type="text" class="form-control" name="licenseNumber" value="{{ personal_details.license_number|default:'' }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>License Expiry Date</label>
+                                        <input type="date" class="form-control" name="licenseExpiry" value="{{ personal_details.license_expiry|date:'Y-m-d' }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Nationality</label>
+                                        <select class="form-control" name="nationality">
+                                            <option disabled>Select your nationality</option>
+                                            <option value="indian" {% if personal_details.nationality == "indian" %}selected{% endif %}>Indian</option>
+                                            <option value="american" {% if personal_details.nationality == "american" %}selected{% endif %}>American</option>
+                                            <option value="canadian" {% if personal_details.nationality == "canadian" %}selected{% endif %}>Canadian</option>
+                                            <option value="british" {% if personal_details.nationality == "british" %}selected{% endif %}>British</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Marital Status</label>
+                                        <select class="form-control" name="marital_Status">
+                                            <option disabled>Select marital status</option>
+                                            <option value="single" {% if personal_details.marital_status == "single" %}selected{% endif %}>Single</option>
+                                            <option value="married" {% if personal_details.marital_status == "married" %}selected{% endif %}>Married</option>
+                                            <option value="divorced" {% if personal_details.marital_status == "divorced" %}selected{% endif %}>Divorced</option>
+                                            <option value="widowed" {% if personal_details.marital_status == "widowed" %}selected{% endif %}>Widowed</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Date of Birth</label>
+                                        <input type="date" name="dob" class="form-control" value="{{ request.user.dob|date:'Y-m-d' }}" disabled>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Gender</label><br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" value="male" {% if personal_details.gender == "male" %}checked{% endif %}>
+                                            <label class="form-check-label">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" value="female" {% if personal_details.gender == "female" %}checked{% endif %}>
+                                            <label class="form-check-label">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <small class="text-danger">* Required fields</small>
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <button type="submit" class="btn btn-success px-4">Save</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div> <!-- /.profile-container -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'js/time.js' %}"></script>
+<script src="{% static 'js/my_info/personal_profile.js' %}"></script>
+</body>
+</html>

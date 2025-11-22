@@ -1,0 +1,10 @@
+2025-05-30 11:21:21,574 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-30 16:07:54,658 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/Immigration/ HTTP/1.1" 500 74405
+2025-05-30 16:08:58,190 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/Immigration/ HTTP/1.1" 500 74440
+2025-05-30 16:09:05,088 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/Immigration/ HTTP/1.1" 500 74303
+2025-05-30 17:22:31,069 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 203767
+2025-05-30 17:23:53,299 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 203717
+2025-05-30 17:24:30,626 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 203852
+2025-05-30 17:24:32,021 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 203852
+2025-05-30 17:25:01,135 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 203878
+2025-05-30 17:26:03,813 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/Immigration/ HTTP/1.1" 500 204006

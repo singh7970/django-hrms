@@ -1,0 +1,49 @@
+2025-05-27 11:05:51,203 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-27 11:05:51,203 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 6 days, 21:11:54.552206
+2025-05-27 11:05:51,204 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-27 11:06:39,316 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-27 11:06:39,316 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 6 days, 21:12:42.664527
+2025-05-27 11:06:39,316 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-27 11:06:59,195 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-27 11:06:59,195 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 6 days, 21:13:02.544001
+2025-05-27 11:06:59,195 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-05-27 11:07:12,739 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-27 11:07:15,218 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-05-27 11:07:15,218 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priyanshu2032004@gmail.com 
+2025-05-27 11:07:15,229 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-05-27 13:14:00,378 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/contact_details/ HTTP/1.1" 500 138401
+2025-05-27 13:14:09,401 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/contact_details/ HTTP/1.1" 500 138401
+2025-05-27 15:43:35,724 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-27 15:43:35,725 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 4:36:20.506471
+2025-05-27 15:50:08,926 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-05-27 15:50:08,927 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 4:42:53.708519
+2025-05-27 15:50:11,782 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-05-27 15:50:11,782 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priyanshu2032004@gmail.com 
+2025-05-27 15:50:11,782 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-05-27 15:54:12,526 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/appliedleaves/ HTTP/1.1" 500 222814
+2025-05-27 15:54:55,807 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/holiday/ HTTP/1.1" 500 221913
+2025-05-27 15:56:40,344 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/holiday/ HTTP/1.1" 500 221913
+2025-05-27 16:34:35,661 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-27 16:36:35,416 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /admin/hrms_app/leavetypes/ HTTP/1.1" 500 244291
+2025-05-27 17:11:56,565 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-27 17:12:30,904 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/appliedleaves/ HTTP/1.1" 500 223694
+2025-05-27 17:12:39,136 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /admin/hrms_app/appliedleaves/ HTTP/1.1" 500 223685
+2025-05-27 17:14:46,739 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-05-28 11:57:32,092 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 127127
+2025-05-28 11:59:20,242 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 126990
+2025-05-28 12:03:48,455 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 90566
+2025-05-28 12:14:19,897 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 200027
+2025-05-28 16:15:11,352 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/emergency_contact/ HTTP/1.1" 500 138332
+2025-05-28 16:46:22,090 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126858
+2025-05-28 16:47:40,390 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126720
+2025-05-28 16:49:21,022 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126857
+2025-05-28 16:49:21,975 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126857
+2025-05-28 16:49:22,469 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126857
+2025-05-28 16:49:22,726 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126857
+2025-05-28 16:50:56,891 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 126858
+2025-05-28 16:55:20,882 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/dependents/ HTTP/1.1" 500 96086
+2025-05-28 16:55:58,463 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 136938
+2025-05-28 16:56:17,711 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/dependents/ HTTP/1.1" 500 136944
+2025-05-28 16:56:20,006 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/personal_details/ HTTP/1.1" 500 140081
+2025-05-28 16:56:20,841 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/personal_details/ HTTP/1.1" 500 140081
+2025-05-28 16:56:25,274 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/personal_details/ HTTP/1.1" 500 139813

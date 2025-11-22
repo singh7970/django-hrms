@@ -1,0 +1,90 @@
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Arial', sans-serif;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Or your preferred font */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 180px;
+    background-color: white;
+    height: 100vh;
+    padding: 20px 0;
+    border-right: 1px solid #e0e0e0;
+}
+
+
+.rounded-custom {
+    border-radius: 1.25rem !important;
+}
+
+/* Profile Navigation */
+.profile-nav a {
+    display: block;
+    padding: 12px 0;
+    color: #555;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.profile-nav a.active {
+    color: #1976d2;
+    font-weight: bold;
+}
+.nav-link:hover {
+    background-color: #e8e8e8;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}/* Profile Image Container */
+.profile-img-container {
+    width: 150px; /* Set the container size */
+    height: 150px; /* Set the container size */
+ /* Make the container round */
+    overflow: visible; /* Ensure the image stays within the rounded container */
+     
+    background-color: #f9f9f9; /* Optional: background color for the container */
+    display: inline-block;
+    text-align: center;
+    margin-top: -14px; /* Adds spacing between the username and the image */
+}
+
+/* Employee Image Styling */
+.employee-image {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Make the image fill the container */
+    object-fit: cover; /* Ensures the image covers the round container */
+    border-radius: 100%;
+}
+
+/* User Name Styling */
+h5 {
+    font-size: 18px; /* Font size for the username */
+    font-weight: bold; /* Makes the username bold */
+    color: #333; /* Color for the username */
+}
+/* Profile Image Styling */
+.employee-image {
+    width: 200px; /* Set the width of the image */
+   /* Set the height of the image */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image maintains aspect ratio while covering the area */
+    box-shadow: 0 0 8px 1px #3498db; /* Blue glowing effect */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    border-radius: 10px !important;
+}
+
+

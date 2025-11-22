@@ -1,0 +1,782 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Title Page-->
+    <title>Dashboard</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.css' %}" rel="stylesheet" media="all">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS-->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+    <!-- <link rel="stylesheet" href="{% static 'vendor/material-design-iconic-font/css/material-design-iconic-font.min.css' %}"> -->
+
+    <!-- Vendor CSS-->
+<link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/slick/slick.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'css/leave.css' %}" rel="stylesheet" media="all">
+   
+    <style>
+        /* Enhanced validation styles */
+       
+    </style>
+
+</head>
+
+
+<body>
+ 
+
+<!-- This should be placed in your main content area after the sidebar and navbar -->
+<div class="apply-leave-container">
+    {% include 'sidebar.html' %}
+{% include 'navbar.html' %}>
+<div class="leave-subnav"> 
+  {% include 'leave_navbar.html' %} </div>
+
+    <div class="apply-leave-form">
+     
+      {% if messages %}
+      {% for message in messages %}
+        <div class="{% if message.tags == 'error' %}alert alert-danger{% else %}alert alert-success{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+      <h2 class="form-title">Apply Leave</h2>
+
+      <!-- Validation Summary -->
+      <div id="validationSummary" class="validation-summary">
+        <h4><i class="fa fa-exclamation-triangle"></i> Please fix the following errors:</h4>
+        <ul id="errorList"></ul>
+      </div>
+
+      <form id="leave_form" action="{% url 'apply_leaves' %}" method="post">
+        {% csrf_token %}
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Leave Type<span class="required">*</span></label>
+            <select class="form-control" name="leave_type" id="leave_type" required>
+              <option value="">-- Select --</option>
+              {% for leave in leave_types %}
+                <option value="{{ leave.id }}">{{ leave.name }} ({{ leave.code }})</option>
+              {% endfor %}
+            </select>
+            <span class="validation-error" id="leaveTypeError"></span>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Leave Balance</label>
+            <div class="balance-display" id="leave_balance">0.00 Day(s)</div>
+            <span class="validation-error" id="balanceError"></span>
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">From Date<span class="required">*</span></label>
+            <input type="date" class="form-control" name="start_date" required>
+            <span class="validation-error" id="startDateError"></span>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">To Date<span class="required">*</span></label>
+            <input type="date" class="form-control" name="end_date" required>
+            <span class="validation-error" id="endDateError"></span>
+            <div id="holidayWarning" class="holiday-warning" style="display: none;"></div>
+          </div>
+        </div>
+        
+        <div id="durationSection" class="form-row" style="display: none;">
+          <div class="form-group full-width">
+            <label>Duration</label>
+            <div id="durationOptions"></div>
+            <span class="validation-error" id="durationError"></span>
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group" style="width: 100%;">
+            <label class="form-label">Comments</label>
+            <textarea class="form-control" name="reason" placeholder="Enter your comments here" ></textarea>
+          </div>
+        </div>
+      
+        <div class="required-note">* Required</div>
+      
+        <div class="form-actions">
+          <button type="submit" class="btn-apply" id="applyButton" disabled>Apply</button>
+        </div>
+        <div id="errorContainer" class="mt-2 text-danger"></div>
+      <!-- </form><script src="{% static 'js/apply_leave.js' %}"></script> -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      
+
+      <script>
+   
+   
+        // Holiday dates - you can update this list or fetch from backend
+         const holidays = [
+             '2025-01-01',
+             '2025-01-26', // Republic Day
+             '2025-03-14',
+             '2025-03-31',
+             '2025-04-18',
+             '2025-07-10',
+             '2025-08-15', // Independence Day
+             '2025-10-02', // Gandhi Jayanti
+             '2025-10-21', // Dussehra
+             '2025-11-05', // Diwali
+             '2025-12-25', // Christmas
+             // Add more holidays as needed
+           ];
+           
+           // Validation state object
+           const validationState = {
+             leaveType: false,
+             balance: false,
+             startDate: false,
+             endDate: false,
+             duration: false,
+             holidays: true // true means no holiday issues
+           };
+           
+           // Field interaction tracking
+           const fieldTouched = {
+             leaveType: false,
+             startDate: false,
+             endDate: false,
+             duration: false
+           };
+           
+           document.addEventListener('DOMContentLoaded', function () {
+       
+       // Original leave balance handling with validation
+     console.log("apply_leavefinctions js is loaded!");
+     
+       const leaveTypeSelect = document.querySelector('select[name="leave_type"]');
+       const balanceDisplay = document.getElementById('leave_balance');
+       const leaveBalanceUrl = "{% url 'get_leave_balance' %}";
+       let currentBalance = 0;
+       
+       leaveTypeSelect.addEventListener('change', function () {
+         const leaveTypeId = this.value;
+         fieldTouched.leaveType = true; // Mark as touched
+         
+         if (!leaveTypeId) {
+           balanceDisplay.textContent = "0.00 Day(s)";
+           balanceDisplay.className = "balance-display";
+           currentBalance = 0;
+           validationState.leaveType = false;
+           validationState.balance = false;
+           if (fieldTouched.leaveType) {
+             showValidationError('leaveTypeError', 'Please select a leave type');
+           }
+           updateApplyButton();
+           return;
+         }
+         
+         // Clear leave type error
+         clearValidationError('leaveTypeError');
+         validationState.leaveType = true;
+         
+         fetch(`${leaveBalanceUrl}?leave_type_id=${leaveTypeId}`)
+           .then(response => response.json())
+           .then(data => {
+             if (data.balance !== undefined) {
+               currentBalance = parseFloat(data.balance);
+               balanceDisplay.textContent = `${data.balance} Day(s)`;
+               
+               if (currentBalance <= 0) {
+                 balanceDisplay.className = "balance-display insufficient";
+                 validationState.balance = false;
+                 if (fieldTouched.leaveType) {
+                   showValidationError('balanceError', 'This leave type has 0 balance. Please select another leave type.');
+                 }
+               } else {
+                 balanceDisplay.className = "balance-display sufficient";
+                 validationState.balance = true;
+                 clearValidationError('balanceError');
+               }
+             } else {
+               balanceDisplay.textContent = "No balance info";
+               balanceDisplay.className = "balance-display";
+               currentBalance = 0;
+               validationState.balance = false;
+               if (fieldTouched.leaveType) {
+                 showValidationError('balanceError', 'Unable to fetch balance information');
+               }
+             }
+             updateApplyButton();
+           })
+           .catch(error => {
+             console.error('Fetch error:', error);
+             balanceDisplay.textContent = "Error loading balance";
+             balanceDisplay.className = "balance-display";
+             currentBalance = 0;
+             validationState.balance = false;
+             if (fieldTouched.leaveType) {
+               showValidationError('balanceError', 'Error loading balance information');
+             }
+             updateApplyButton();
+           });
+       });
+       
+       // New duration functionality with validation
+       const fromDateInput = document.querySelector('input[name="start_date"]');
+       const toDateInput = document.querySelector('input[name="end_date"]');
+       const durationSection = document.getElementById('durationSection');
+       const durationOptions = document.getElementById('durationOptions');
+       
+       // Function to format date as DD-MM-YYYY
+       function formatDate(date) {
+         const d = new Date(date);
+         const day = String(d.getDate()).padStart(2, '0');
+         const month = String(d.getMonth() + 1).padStart(2, '0');
+         const year = d.getFullYear();
+         return `${day}-${month}-${year}`;
+       }
+       
+       // Function to get all dates between start and end dates
+       function getDatesInRange(startDate, endDate) {
+         const dates = [];
+         let currentDate = new Date(startDate);
+         const lastDate = new Date(endDate);
+         
+         // Add one day to make the range inclusive
+         lastDate.setDate(lastDate.getDate() + 1);
+         
+         while (currentDate < lastDate) {
+           dates.push(new Date(currentDate));
+           currentDate.setDate(currentDate.getDate() + 1);
+         }
+         
+         return dates;
+       }
+     console.log("if date is holiday js is loaded!");
+       
+       // Function to check if date is holiday
+       function isHoliday(date) {
+         const dateStr = date.toISOString().split('T')[0];
+         return holidays.includes(dateStr);
+       }
+       
+       // Function to validate holiday dates
+       function validateHolidayDates() {
+         const fromDate = fromDateInput.value;
+         const toDate = toDateInput.value;
+         
+         if (!fromDate || !toDate) {
+           validationState.holidays = true;
+           document.getElementById('holidayWarning').style.display = 'none';
+           return;
+         }
+         
+         // Check if user directly selected holiday dates
+         const fromDateObj = new Date(fromDate);
+         const toDateObj = new Date(toDate);
+         
+         const isFromHoliday = isHoliday(fromDateObj);
+         const isToHoliday = isHoliday(toDateObj);
+         
+         if (isFromHoliday || isToHoliday) {
+           const holidayWarning = document.getElementById('holidayWarning');
+           let holidayDates = [];
+           if (isFromHoliday) holidayDates.push(formatDate(fromDateObj));
+           if (isToHoliday && !isFromHoliday) holidayDates.push(formatDate(toDateObj));
+           
+           const holidayNames = holidayDates.join(', ');
+           holidayWarning.innerHTML = `<i class="fa fa-exclamation-triangle"></i> Holiday date(s) selected: ${holidayNames}. Cannot apply leave on holidays.`;
+           holidayWarning.style.display = 'block';
+           validationState.holidays = false;
+         } else {
+           // If holidays are in between the dates, show info but allow
+           const dates = getDatesInRange(fromDate, toDate);
+           const holidayDatesInRange = dates.filter(date => isHoliday(date) && 
+             date.getTime() !== fromDateObj.getTime() && 
+             date.getTime() !== toDateObj.getTime()
+           );
+           
+           if (holidayDatesInRange.length > 0) {
+             const holidayWarning = document.getElementById('holidayWarning');
+             const holidayNames = holidayDatesInRange.map(date => formatDate(date)).join(', ');
+             holidayWarning.innerHTML = `<i class="fa fa-info-circle"></i> Note: Holiday(s) in between: ${holidayNames}.`;
+             holidayWarning.style.display = 'block';
+             holidayWarning.style.backgroundColor = '#d1ecf1';
+             holidayWarning.style.borderColor = '#bee5eb';
+             holidayWarning.style.color = '#0c5460';
+           } else {
+             document.getElementById('holidayWarning').style.display = 'none';
+           }
+           
+           validationState.holidays = true;
+         }
+         
+         updateApplyButton();
+       }
+       
+       // Function to update duration options based on selected dates
+       function updateDurationOptions() {
+         const fromDate = fromDateInput.value;
+         const toDate = toDateInput.value;
+         
+         if (!fromDate || !toDate) {
+           durationSection.style.display = 'none';
+           validationState.duration = false;
+           updateApplyButton();
+           return;
+         }
+         
+         durationSection.style.display = 'flex';
+         durationOptions.innerHTML = '';
+         
+         const dates = getDatesInRange(fromDate, toDate);
+         
+         if (dates.length === 1) {
+           // Single day selection
+           const durations = `
+             <select name="duration" class="form-control">
+               <option value="full">Full Day</option>
+               <option value="half_morning">Half Day - Morning</option>
+               <option value="half_evening">Half Day - Evening</option>
+             </select>
+           `;
+           durationOptions.innerHTML = durations;
+         } else {
+           // Multiple days selection
+           let durationHTML = '';
+           
+           dates.forEach((date, index) => {
+             const dateStr = date.toISOString().split('T')[0];
+             const formattedDate = formatDate(date);
+             
+             const day = date.getDay(); // 0 = Sunday, 6 = Saturday
+       
+             let optionsHTML = '';
+             if (day === 0 || day === 6) {
+               // Weekend — only allow full day
+               optionsHTML = `
+                 <option value="full" selected>Full Day</option>
+                 <option value="half_morning" disabled>Half Day - Morning</option>
+                 <option value="half_evening" disabled>Half Day - Evening</option>
+               `;
+             } else {
+               // Weekday — allow all options
+               optionsHTML = `
+                 <option value="full">Full Day</option>
+                 <option value="half_morning">Half Day - Morning</option>
+                 <option value="half_evening">Half Day - Evening</option>
+               `;
+             }
+       
+             durationHTML += `
+               <div class="duration-day">
+                 <div class="duration-day-date">${formattedDate}</div>
+                 <select name="duration_${dateStr}" class="form-control">
+                   ${optionsHTML}
+                 </select>
+               </div>
+             `;
+           });
+           
+           durationOptions.innerHTML = durationHTML;
+         }
+         
+         validationState.duration = true;
+         clearValidationError('durationError');
+         updateApplyButton();
+       }
+       
+       // Date validation functions
+       function validateDates() {
+         const fromDate = fromDateInput.value;
+         const toDate = toDateInput.value;
+         
+         // Validate start date only if touched
+         if (fieldTouched.startDate) {
+           if (!fromDate) {
+             validationState.startDate = false;
+             showValidationError('startDateError', 'Start date is required');
+           } else {
+             const selectedFromDate = new Date(fromDate);
+             const dayOfWeek = selectedFromDate.getDay();
+             
+             if (dayOfWeek === 0 || dayOfWeek === 6) {
+               validationState.startDate = false;
+               showValidationError('startDateError', 'Cannot select weekend dates');
+             } else {
+               validationState.startDate = true;
+               clearValidationError('startDateError');
+             }
+           }
+         } else {
+           // If not touched, check if date is valid for button state
+           if (fromDate) {
+             const selectedFromDate = new Date(fromDate);
+             const dayOfWeek = selectedFromDate.getDay();
+             validationState.startDate = (dayOfWeek !== 0 && dayOfWeek !== 6);
+           } else {
+             validationState.startDate = false;
+           }
+         }
+         
+         // Validate end date only if touched
+         if (fieldTouched.endDate) {
+           if (!toDate) {
+             validationState.endDate = false;
+             showValidationError('endDateError', 'End date is required');
+           } else if (!fromDate) {
+             validationState.endDate = false;
+             showValidationError('endDateError', 'Please select start date first');
+           } else {
+             const selectedFromDate = new Date(fromDate);
+             const selectedToDate = new Date(toDate);
+             selectedFromDate.setHours(0, 0, 0, 0);
+             selectedToDate.setHours(0, 0, 0, 0);
+             
+             if (selectedToDate < selectedFromDate) {
+               validationState.endDate = false;
+               showValidationError('endDateError', 'End date cannot be before start date');
+             } else {
+               const dayOfWeek = selectedToDate.getDay();
+               if (dayOfWeek === 0 || dayOfWeek === 6) {
+                 validationState.endDate = false;
+                 showValidationError('endDateError', 'Cannot select weekend dates');
+               } else {
+                 validationState.endDate = true;
+                 clearValidationError('endDateError');
+               }
+             }
+           }
+         } else {
+           // If not touched, check if date is valid for button state
+           if (toDate && fromDate) {
+             const selectedFromDate = new Date(fromDate);
+             const selectedToDate = new Date(toDate);
+             selectedFromDate.setHours(0, 0, 0, 0);
+             selectedToDate.setHours(0, 0, 0, 0);
+             
+             const dayOfWeek = selectedToDate.getDay();
+             validationState.endDate = (selectedToDate >= selectedFromDate && dayOfWeek !== 0 && dayOfWeek !== 6);
+           } else {
+             validationState.endDate = false;
+           }
+         }
+         
+         // Check required leave days vs balance (only if both dates are valid and balance check is needed)
+         if (validationState.startDate && validationState.endDate && validationState.balance && fromDate && toDate) {
+           const dates = getDatesInRange(fromDate, toDate);
+           
+           // Count only working days (exclude weekends and holidays)
+           const workingDays = dates.filter(date => {
+             const day = date.getDay();
+             const isWeekend = day === 0 || day === 6;
+             const isHolidayDate = isHoliday(date);
+             return !isWeekend && !isHolidayDate; // Only count non-weekend, non-holiday days
+           }).length;
+           
+           if (workingDays > currentBalance) {
+             validationState.balance = false;
+             if (fieldTouched.leaveType || fieldTouched.startDate || fieldTouched.endDate) {
+               showValidationError('balanceError', `Required ${workingDays} working day(s) but only ${currentBalance} day(s) available`);
+             }
+           } else {
+             validationState.balance = true;
+             clearValidationError('balanceError');
+           }
+         }
+         
+         validateHolidayDates();
+         updateApplyButton();
+       }
+       
+       // Event listeners for date inputs with validation
+       if (fromDateInput && toDateInput) {
+         // Add focus event listeners to mark fields as touched
+         fromDateInput.addEventListener('focus', function() {
+           fieldTouched.startDate = true;
+         });
+         
+         toDateInput.addEventListener('focus', function() {
+           fieldTouched.endDate = true;
+         });
+         
+         fromDateInput.addEventListener('change', function() {
+           fieldTouched.startDate = true;
+           updateDurationOptions();
+           validateDates();
+         });
+         
+         toDateInput.addEventListener('change', function() {
+           fieldTouched.endDate = true;
+           updateDurationOptions();
+           validateDates();
+         });
+         
+         // Check if dates are already filled (in case of form resubmission)
+         if (fromDateInput.value && toDateInput.value) {
+           fieldTouched.startDate = true;
+           fieldTouched.endDate = true;
+           updateDurationOptions();
+           validateDates();
+         }
+       }
+       
+       // Validation helper functions
+       function showValidationError(elementId, message) {
+         const errorElement = document.getElementById(elementId);
+         if (errorElement) {
+           errorElement.textContent = message;
+           errorElement.style.display = 'block';
+           
+           // Add error class to form group
+           const formGroup = errorElement.closest('.form-group');
+           if (formGroup) {
+             formGroup.classList.add('has-error');
+           }
+         }
+       }
+       
+       function clearValidationError(elementId) {
+         const errorElement = document.getElementById(elementId);
+         if (errorElement) {
+           errorElement.textContent = '';
+           errorElement.style.display = 'none';
+           
+           // Remove error class from form group
+           const formGroup = errorElement.closest('.form-group');
+           if (formGroup) {
+             formGroup.classList.remove('has-error');
+           }
+         }
+       }
+       
+     console.log("update apply button state and validation summaryjs is loaded!");
+     
+       // Function to update apply button state and validation summary
+       function updateApplyButton() {
+         const applyButton = document.getElementById('applyButton');
+         const validationSummary = document.getElementById('validationSummary');
+         const errorList = document.getElementById('errorList');
+         
+         const isValid = Object.values(validationState).every(state => state === true);
+         
+         if (isValid) {
+           applyButton.disabled = false;
+           validationSummary.style.display = 'none';
+         } else {
+           applyButton.disabled = true;
+           
+           // Only show validation summary if user has interacted with form
+           const hasInteracted = Object.values(fieldTouched).some(touched => touched === true);
+           
+           if (hasInteracted) {
+             // Build error list for touched fields only
+             const errors = [];
+             if (!validationState.leaveType && fieldTouched.leaveType) errors.push('Select a valid leave type with sufficient balance');
+             if (!validationState.balance && (fieldTouched.leaveType || fieldTouched.startDate || fieldTouched.endDate)) errors.push('Insufficient leave balance or balance loading error');
+             if (!validationState.startDate && fieldTouched.startDate) errors.push('Valid start date required');
+             if (!validationState.endDate && fieldTouched.endDate) errors.push('Valid end date required');
+             if (!validationState.duration && (fieldTouched.startDate || fieldTouched.endDate)) errors.push('Duration selection required');
+             if (!validationState.holidays) errors.push('Holiday dates selected');
+             
+             if (errors.length > 0) {
+               errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+               validationSummary.style.display = 'block';
+             } else {
+               validationSummary.style.display = 'none';
+             }
+           } else {
+             validationSummary.style.display = 'none';
+           }
+         }
+       }
+       
+       // Success message handling (from your original code)
+       const successFlag = "{{ success_flag|yesno:'true,false' }}";
+       if (successFlag === "true") {
+         Swal.fire({
+           title: 'Success!',
+           text: 'Your leave application has been submitted successfully and waiting for approval.',
+           icon: 'success',
+           confirmButtonText: 'OK'
+         });
+       }
+       
+       // Form submission handling to collect duration data
+       const leaveForm = document.getElementById('leave_form');
+       if (leaveForm) {
+         leaveForm.addEventListener('submit', function(event) {
+           // Final validation before submission
+           if (!Object.values(validationState).every(state => state === true)) {
+             event.preventDefault();
+             Swal.fire({
+               title: 'Validation Error!',
+               text: 'Please fix all validation errors before submitting.',
+               icon: 'error',
+               confirmButtonText: 'OK'
+             });
+             return;
+           }
+           
+           // If you want to add any additional data to the form before submission
+           const durations = {};
+           const durationSelects = durationOptions.querySelectorAll('select');
+           durationSelects.forEach(select => {
+             durations[select.name] = select.value;
+           });
+           
+           // You could add these to hidden fields if needed
+           for (const [key, value] of Object.entries(durations)) {
+             const hiddenField = document.createElement('input');
+             hiddenField.type = 'hidden';
+             hiddenField.name = key;
+             hiddenField.value = value;
+             leaveForm.appendChild(hiddenField);
+           }
+         });
+       }
+       
+       // Today button logic (unchanged from your original code)
+       let toDatePicker;
+       
+       const fromDatePicker = flatpickr("input[name='start_date']", {
+         dateFormat: "Y-m-d",
+         disable: [
+           date => date.getDay() === 0 || date.getDay() === 6
+         ],
+         onChange: function (selectedDates, dateStr) {
+           if (selectedDates.length) {
+             fieldTouched.startDate = true;
+             // Set end date to same as start date automatically
+             toDatePicker.setDate(dateStr, true);
+             toDatePicker.set('minDate', dateStr);
+             
+             // Show duration section immediately
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           }
+         },
+         onReady: function (selectedDates, dateStr, instance) {
+           const todayButton = document.createElement('button');
+           todayButton.textContent = "Today";
+           todayButton.type = "button";
+           todayButton.className = "flatpickr-today-btn";
+           todayButton.style.margin = "10px";
+       
+           todayButton.addEventListener('click', function () {
+             const today = new Date();
+             
+             fieldTouched.startDate = true;
+             fieldTouched.endDate = true;
+       
+             fromDatePicker.setDate(today, true); // Trigger change
+             if (toDatePicker) {
+               toDatePicker.setDate(today, true);
+               toDatePicker.set('minDate', today);
+             }
+       
+             fromDatePicker.close();
+             if (toDatePicker) toDatePicker.close();
+       
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           });
+       
+           instance.calendarContainer.appendChild(todayButton);
+         }
+       });
+       
+       toDatePicker = flatpickr("input[name='end_date']", {
+         dateFormat: "Y-m-d",
+         disable: [
+           date => date.getDay() === 0 || date.getDay() === 6
+         ],
+         onChange: function (selectedDates) {
+           fieldTouched.endDate = true;
+           const startDate = fromDatePicker.selectedDates[0];
+           if (selectedDates.length && startDate && selectedDates[0] < startDate) {
+             alert("End date cannot be before start date.");
+             toDatePicker.clear();
+             return;
+           }
+           showDurationSection();
+           updateDurationOptions();
+           validateDates();
+         },
+         onReady: function (selectedDates, dateStr, instance) {
+           const todayButton = document.createElement('button');
+           todayButton.textContent = "Today";
+           todayButton.type = "button";
+           todayButton.className = "flatpickr-today-btn";
+           todayButton.style.margin = "10px";
+       
+           todayButton.addEventListener('click', function () {
+             const today = new Date();
+             
+             fieldTouched.startDate = true;
+             fieldTouched.endDate = true;
+       
+             fromDatePicker.setDate(today, true);
+             toDatePicker.setDate(today, true);
+             toDatePicker.set('minDate', today);
+       
+             toDatePicker.close();
+             fromDatePicker.close();
+       
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           });
+       
+           instance.calendarContainer.appendChild(todayButton);
+         }
+       });
+       
+       function showDurationSection() {
+         const durationBox = document.getElementById("durationSection");
+         if (durationBox) {
+           durationBox.style.display = "block";
+         }
+       }
+       
+       // Initial validation check
+       updateApplyButton();
+       });
+     
+       </script>
+
+    </body>
+</html>
+
+    

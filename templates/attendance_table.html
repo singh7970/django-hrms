@@ -1,0 +1,43 @@
+
+<table class="table table-striped"><thead>
+  
+  
+ <tbody>
+  {% for record in records %}
+    <tr>
+      <td>{{ record.user.username }}</td>
+     
+      <td> {{ record.punch_in_time|date:"Y-m-d" }} {{ record.punch_in_time|time:"H:i:s" }}</td>
+      <td>
+        {% if record.punch_out_time %}
+        {{ record.punch_out_time|date:"Y-m-d" }} {{ record.punch_out_time|time:"H:i:s" }}
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>
+        {% if record.duration %}
+          {{ record.duration_hms }}
+        {% elif record.punch_out_time %}
+          {% with diff=record.punch_out_time|timesince:record.punch_in_time %}
+            {{ diff }}
+          {% endwith %}
+        {% else %}
+          In Progress
+        {% endif %}
+      </td>
+      <td>
+        {% if record.punch_out_time %}
+          <span class="badge badge-success">Completed</span>
+        {% else %}
+          <span class="badge badge-warning">In Progress</span>
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="6" class="text-center">No attendance records found.</td>
+    </tr>
+  {% endfor %}
+ </tbody>
+</div>

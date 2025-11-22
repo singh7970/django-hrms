@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Review</title>
+
+    <!-- Fonts and CSS -->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+
+    <style>
+        .scroll-container {
+            max-height: 90vh;
+            overflow-y: auto;
+            background-color: #fdfdfd;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-top: -30px;
+        }
+        h3 {
+            font-weight: 600;
+            color: #333;
+        }
+        .btn, .form-control {
+            border-radius: 8px !important;
+        }
+        .info-box {
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e3e6f0;
+        }
+    </style>
+</head>
+
+<body class="animsition">
+<div class="page-wrapper">
+    {% include 'sidebar.html' %}
+    <div class="page-container">
+        {% include 'navbar.html' %}
+
+        <div class="main-content">
+            <div class="scroll-container">
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-start gap-4 mb-4">
+                    {% if request.user.userrole.role.name == "manager" %}
+                    <div class="dropdown mr-3">
+                        <a class="btn btn-outline-primary dropdown-toggle" href="#" data-toggle="dropdown">Performance</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'add_employee_reviews' %}">Add Reviews</a>
+                            <a class="dropdown-item" href="{% url 'employee_reviews' %}">Reviews</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="dropdown mr-3">
+                        <a class="btn btn-outline-primary dropdown-toggle" href="#" data-toggle="dropdown">My Records</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'my_reviews' %}">My Reviews</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Info -->
+                <h3 class="mb-2">My Review</h3>
+
+                <!-- Reviews Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Job Title</th>
+                            <th>Sub Unit</th>
+                            <th>Date</th>
+                            <th>Comment</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.employee_name }}</td>
+                            <td>{{ review.job_title }}</td>
+                            <td>{{ review.sub_unit }}</td>
+                            <td>{{ review.review_date|date:"Y-m-d" }}</td>
+                            <td>{{ review.comments|default:"-" }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary view-review-btn"data-url="{% url 'review_detail' review.id %}">View</button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No reviews found.</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if request.user.userrole.role.name != "manager" and not reviews %}
+               
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Review Detail -->
+<div class="modal fade" id="reviewDetailModal" tabindex="-1" role="dialog" aria-labelledby="reviewDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="reviewDetailModalLabel">Review Details</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-md-4 font-weight-bold">Employee Name:</div>
+            <div class="col-md-8" id="employeeName"></div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-4 font-weight-bold">Job Title:</div>
+            <div class="col-md-8" id="jobTitle"></div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-4 font-weight-bold">Sub Unit:</div>
+            <div class="col-md-8" id="subUnit"></div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-4 font-weight-bold">Review Date:</div>
+            <div class="col-md-8" id="reviewDate"></div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-4 font-weight-bold">Comments:</div>
+            <div class="col-md-8" id="comments"></div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'js/time.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll('.view-review-btn');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            const url = this.getAttribute('data-url');
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("employeeName").textContent = data.employee_name;
+                    document.getElementById("jobTitle").textContent = data.job_title;
+                    document.getElementById("subUnit").textContent = data.sub_unit;
+                    document.getElementById("reviewDate").textContent = data.review_date;
+                    document.getElementById("comments").textContent = data.comments;
+                    
+                    $('#reviewDetailModal').modal('show');
+                })
+                .catch(error => {
+                    alert("Could not load review details.");
+                    console.error("Fetch error:", error);
+                });
+        });
+    });
+});
+</script>
+
+
+</body>
+</html>

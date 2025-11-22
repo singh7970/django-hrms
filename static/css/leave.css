@@ -1,0 +1,805 @@
+
+.apply-leave-container {
+  margin-left: 300px; /* Adjust based on your sidebar width */
+  padding: 20px;
+  background-color: #f5f5f5;
+  z-index: 1;
+  /* position: relative; */
+  
+}
+
+
+.apply-leave-form {
+  background-color: white;
+  /* position:relative; */
+  padding: 50px;
+  z-index: 1;
+  border-radius: 4px;
+  margin-top: 70px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.form-row {
+  display: flex;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 20px;
+  min-width: 250px;
+  margin-bottom: 15px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 38px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Date inputs styling to match screenshot */
+.date-input-container {
+  position: relative;
+}
+
+.date-input-container .form-control {
+  padding-right: 30px;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #999;
+}
+
+/* Comment textarea */
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Leave balance display */
+.balance-display {
+  padding: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Required field marker */
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+/* Required field note */
+.required-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* Submit button */
+.form-actions {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.btn-apply {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-apply:hover {
+  background-color: #0069d9;
+}
+
+/* Dropdown styling */
+select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .apply-leave-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .form-group {
+    flex: 100%;
+    margin-right: 0;
+  }
+}
+
+/* Integration styles for CoolAdmin theme */
+body.cooladmin-theme .apply-leave-container {
+  background-color: #f3f3f3;
+}
+
+body.cooladmin-theme .form-title {
+  font-family: inherit;
+}
+
+body.cooladmin-theme .btn-apply {
+  font-weight: 400;
+}
+
+/* Fix for any potential z-index issues with sidebar */
+.sidebar {
+  z-index: 1100;
+}
+/* .navbar { */
+  /* z-index: 1100; Same as sidebar */
+/* } */
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.duration-day {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.duration-day-date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.duration-day select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Main sub-navbar container */
+/* Sticky top sub-navbar */
+.leave-subnav {
+  position: sticky;
+  top: 75px;
+  bottom: 10px;
+  z-index: 1050;
+  background-color: #ffffff;
+  /* border-bottom: 3px solid #e0e0e0; */
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  overflow: visible !important;
+  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); */
+}
+
+
+/* Flex layout for buttons */
+.leave-subnav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Each nav button */
+.leave-subnav-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  padding: 6px 12px;
+  background-color: #f3f4f6;
+  color: #333;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  transition: 0.2s ease-in-out;
+  white-space: nowrap;
+}
+
+/* On hover */
+.leave-subnav-button:hover {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
+/* Active state */
+.leave-subnav-button.active {
+  background-color: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* Icons */
+.leave-subnav-button i {
+  font-size: 14px;
+}
+
+/* Special spacing for chevron */
+.leave-subnav-button.dropdown-toggle i:last-child {
+  margin-left: 3px;
+}
+/* .account-dropdown js-dropdown
+{
+  z-index: 9999;
+} */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .leave-subnav-buttons {
+      padding: 0;
+  }
+  
+  .leave-subnav-button {
+      padding: 10px 15px;
+      font-size: 13px;
+  }
+  
+  .leave-subnav-button i:first-child {
+      font-size: 14px;
+  }
+}
+/* My Leave page specific styles */
+.my-leave-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.my-leave-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.section-title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 500;
+  color: #495057;
+  white-space: nowrap;
+}
+
+.filter-control {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn-search {
+  background-color: #2970e3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-search:hover {
+  background-color: #1c5bc5;
+}
+
+/* Leave balance summary */
+.leave-balance-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.balance-card {
+  flex: 1;
+  min-width: 150px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  border-top: 3px solid #2970e3;
+}
+
+.balance-title {
+  color: #495057;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.balance-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2970e3;
+}
+
+/* Leave table styles */
+.my-leave-table-container {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.my-leave-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.my-leave-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #e9ecef;
+  white-space: nowrap;
+}
+
+.my-leave-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e9ecef;
+  color: #212529;
+}
+
+.my-leave-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.leave-row.pending {
+  border-left: 3px solid #ffc107;
+}
+
+.leave-row.approved {
+  border-left: 3px solid #28a745;
+}
+
+.leave-row.rejected {
+  border-left: 3px solid #dc3545;
+}
+
+.leave-row.cancelled {
+  border-left: 3px solid #6c757d;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-cancelled {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.actions-cell {
+  white-space: nowrap;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.btn-view:hover {
+  color: #0056b3;
+}
+
+.btn-edit:hover {
+  color: #28a745;
+}
+
+.btn-cancel:hover {
+  color: #dc3545;
+}
+
+.no-data {
+  text-align: center;
+  color: #6c757d;
+  padding: 30px 0;
+  font-style: italic;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.page-link {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #2970e3;
+  transition: all 0.2s;
+}
+
+.page-link:hover {
+  background-color: #e9ecef;
+}
+
+.page-link.active {
+  background-color: #2970e3;
+  color: white;
+  border-color: #2970e3;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 6px;
+  margin-left: 30%;
+  margin-right: 30%;
+  /* margin-top: 10%; */
+  
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 600px;
+  max-height: auto;
+  overflow: visible;
+}
+
+.modal-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.close-modal {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6c757d;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.leave-detail-item {
+  display: flex;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 12px;
+}
+
+.detail-label {
+  flex: 0 0 120px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.detail-value {
+  flex: 1;
+}
+
+.daily-durations, .approval-details {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.daily-durations h4, .approval-details h4 {
+  color: #495057;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.duration-item {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.duration-date {
+  flex: 0 0 100px;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #dc3545;
+  padding: 15px;
+  text-align: center;
+}
+.btn-apply:disabled {
+  background-color: #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.validation-error {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 5px;
+  display: block;
+}
+
+.form-group.has-error .form-control {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.validation-summary {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.validation-summary h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.validation-summary ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.balance-display.insufficient {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.balance-display.sufficient {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.holiday-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.disabled-btn {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+}
+
+.holiday-info {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+  color: #0c5460;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filter-section {
+      flex-direction: column;
+      gap: 10px;
+  }
+  
+  .filter-group {
+      width: 100%;
+  }
+  
+  .filter-control {
+      flex: 1;
+  }
+  
+  .btn-search {
+      width: 100%;
+      justify-content: center;
+  }
+  
+  .my-leave-table {
+      display: block;
+      overflow-x: auto;
+  }
+  
+  .leave-balance-summary {
+      flex-direction: column;
+  }
+  
+  .balance-card {
+      width: 100%;
+  }
+  
+  .leave-detail-item {
+      flex-direction: column;
+  }
+  
+  .detail-label {
+      margin-bottom: 5px;
+  }
+}
+
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (max-width: 768px) {
+  .apply-leave-form {
+      margin-top: 100px;
+      padding: 15px;
+  }
+}
+@media (max-width: 768px) {
+  .leave-subnav {
+    top: 60px; /* Adjust for mobile */
+
+  }
+  
+  .apply-leave-form {
+    margin-top: 100px;
+    padding: 15px;
+    z-index: 1; /* Lower than subnav */
+  }
+}
+
+.leave-subnav {
+
+  z-index: 1; /* Must be lower than 9999 */
+}

@@ -1,0 +1,33 @@
+2025-07-03 10:27:14,468 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=abhyerna+tiwari&job_title=&sub_unit=&include=&review_status=&from_date=&to_date= HTTP/1.1" 500 121175
+2025-07-03 10:28:16,672 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=abhyerna+tiwari&job_title=&sub_unit=&include=&review_status=&from_date=2025-07-01&to_date=2025-07-31 HTTP/1.1" 500 121355
+2025-07-03 10:28:37,761 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=priyanshu3+singh&job_title=&sub_unit=&include=&review_status=&from_date=2025-06-03&to_date=2025-07-30 HTTP/1.1" 500 121372
+2025-07-03 10:53:26,458 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 140764
+2025-07-03 10:55:58,107 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 139963
+2025-07-03 11:00:35,038 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 145749
+2025-07-03 11:00:47,140 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 145484
+2025-07-03 11:06:45,341 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=abhyerna+tiwari&job_title=&sub_unit=&include=&review_status=&from_date=&to_date= HTTP/1.1" 500 122532
+2025-07-03 11:12:19,396 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 236764
+2025-07-03 11:13:02,161 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 236764
+2025-07-03 11:13:48,852 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 235163
+2025-07-03 11:14:31,387 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 235329
+2025-07-03 11:15:48,386 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 234417
+2025-07-03 11:15:51,188 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review HTTP/1.1" 500 234289
+2025-07-03 11:17:04,401 , WARNING, hrms_app.views.performance.employee_reviews ,employee_reviews.py, 51 ,employee_reviews ,Auto-fill error: not enough values to unpack (expected 2, got 1)
+2025-07-03 11:17:04,464 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6 HTTP/1.1" 500 119841
+2025-07-03 11:19:59,330 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6&job_title=Software+Engineer&sub_unit=Human+Resources&include=&review_status=&from_date=&to_date= HTTP/1.1" 500 121805
+2025-07-03 11:21:41,816 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6&job_title=Software+Engineer&sub_unit=Human+Resources&include=&review_status=&from_date=&to_date= HTTP/1.1" 500 122070
+2025-07-03 11:21:56,189 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6&job_title=Software+Engineer&sub_unit=Human+Resources&include=current&review_status=pending&from_date=&to_date= HTTP/1.1" 500 121931
+2025-07-03 11:23:25,442 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6&job_title=Software+Engineer&sub_unit=Human+Resources&include=&review_status=&from_date=&to_date= HTTP/1.1" 500 124481
+2025-07-03 11:23:51,536 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=6&job_title=Software+Engineer&sub_unit=Human+Resources&include=current&review_status=pending&from_date=2025-07-01&to_date=2025-07-03&review_type=self HTTP/1.1" 500 125073
+2025-07-03 11:25:48,959 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/performance/emp_review?employee_name=3&job_title=python+dev&sub_unit=engr&include=current&review_status=&from_date=&to_date= HTTP/1.1" 500 120718
+2025-07-03 11:30:18,205 , WARNING, hrms_app.views.performance.employee_reviews ,employee_reviews.py, 69 ,employee_reviews ,Auto-fill job/sub_unit failed: JobDetails matching query does not exist.
+2025-07-03 12:42:55,559 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-03 12:43:07,043 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-03 14:52:32,740 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-03 14:52:32,741 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: ayush@gmail.com 
+2025-07-03 14:52:32,763 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-03 14:52:48,527 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-03 14:52:48,527 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:00:15.786510
+2025-07-03 14:52:50,944 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-07-03 14:52:50,944 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: ayush@gmail.com 
+2025-07-03 14:52:50,944 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 

@@ -1,0 +1,56 @@
+2025-08-25 11:49:14,858 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-25 11:49:20,621 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-25 11:52:33,224 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-25 13:03:48,252 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-25 13:03:56,877 , INFO, hrms_app ,time_punch_in_out_view.py, 40 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-25 13:03:56,879 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-25 13:03:56,902 , INFO, hrms_app ,time_punch_in_out_view.py, 54 ,save_punch_in_data ,Punched in successfully
+2025-08-26 12:31:11,922 , INFO, hrms_app ,time_punch_in_out_view.py, 40 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-26 12:31:11,922 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,save_punch_in_data ,User: anu@gmail.com 
+2025-08-26 12:31:11,945 , INFO, hrms_app ,time_punch_in_out_view.py, 54 ,save_punch_in_data ,Punched in successfully
+2025-08-26 16:38:25,272 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-26 16:38:25,272 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 1 day, 3:34:28.393885
+2025-08-26 16:40:51,809 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-26 16:40:51,810 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 1 day, 3:36:54.930997
+2025-08-26 16:41:00,206 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-26 16:41:00,206 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 1 day, 3:37:03.327370
+2025-08-26 16:41:43,938 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-26 16:41:43,938 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 1 day, 3:37:47.059562
+2025-08-26 16:41:46,181 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,call punch out urls
+2025-08-26 16:41:46,182 , INFO, hrms_app ,time_punch_in_out_view.py, 63 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-08-26 16:41:46,182 , INFO, hrms_app ,time_punch_in_out_view.py, 68 ,save_punch_out_data ,note- : 
+2025-08-26 16:50:52,567 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-26 17:11:23,495 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 106 for user priyanshu1
+2025-08-26 17:11:37,815 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 94 for user abhyerna12
+2025-08-26 17:11:41,878 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 100 for user priyanshu1
+2025-08-26 17:11:47,009 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 104 for user priyanshu1
+2025-08-26 17:18:30,927 , INFO, hrms_app ,time_punch_in_out_view.py, 52 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-26 17:18:30,928 , INFO, hrms_app ,time_punch_in_out_view.py, 68 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-26 17:18:30,937 , INFO, hrms_app ,time_punch_in_out_view.py, 76 ,save_punch_in_data ,Punched in successfully
+2025-08-26 17:19:53,631 , INFO, hrms_app ,time_punch_in_out_view.py, 30 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-26 17:19:53,631 , INFO, hrms_app ,time_punch_in_out_view.py, 34 ,punch_in_out_page ,Time elapsed: 0:01:22.703776
+2025-08-26 17:19:55,126 , INFO, hrms_app ,time_punch_in_out_view.py, 84 ,save_punch_out_data ,call punch out urls
+2025-08-26 17:19:55,126 , INFO, hrms_app ,time_punch_in_out_view.py, 85 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-08-26 17:19:55,126 , INFO, hrms_app ,time_punch_in_out_view.py, 100 ,save_punch_out_data ,note- : 
+2025-08-26 17:29:16,886 , INFO, hrms_app ,time_punch_in_out_view.py, 30 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-26 18:02:26,984 , INFO, hrms_app ,time_punch_in_out_view.py, 30 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-26 18:05:15,396 , INFO, hrms_app ,time_punch_in_out_view.py, 52 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-26 18:05:15,397 , INFO, hrms_app ,time_punch_in_out_view.py, 68 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-26 18:05:15,412 , INFO, hrms_app ,time_punch_in_out_view.py, 76 ,save_punch_in_data ,Punched in successfully
+2025-08-26 18:10:55,040 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 114 for user priyanshu1
+2025-08-26 18:11:00,143 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 113 for user priyanshu1
+2025-08-26 18:11:13,611 , INFO, hrms_app ,time_punch_in_out_view.py, 43 ,punch_in_out_page ,Holiday restriction: qqqqqqqqqqqqqq - all functions disabled
+2025-08-26 18:34:28,202 , INFO, hrms_app ,time_punch_in_out_view.py, 43 ,punch_in_out_page ,Holiday restriction: qqqqqqqqqqqqqq - all functions disabled
+2025-08-27 12:10:44,690 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-27 12:11:02,208 , INFO, hrms_app ,time_punch_in_out_view.py, 71 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-27 12:11:02,210 , INFO, hrms_app ,time_punch_in_out_view.py, 97 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-27 12:11:02,220 , INFO, hrms_app ,time_punch_in_out_view.py, 105 ,save_punch_in_data ,Punched in successfully
+2025-08-27 12:15:03,063 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-27 12:15:03,063 , INFO, hrms_app ,time_punch_in_out_view.py, 50 ,punch_in_out_page ,Time elapsed: 0:04:00.855515
+2025-08-27 12:18:38,399 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 105 for user priyanshu1
+2025-08-27 12:37:19,839 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-27 12:37:19,853 , INFO, hrms_app ,time_punch_in_out_view.py, 50 ,punch_in_out_page ,Time elapsed: 0:26:17.644996
+2025-08-27 12:37:27,988 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-27 12:37:27,991 , INFO, hrms_app ,time_punch_in_out_view.py, 50 ,punch_in_out_page ,Time elapsed: 0:26:25.782794
+2025-08-27 12:49:40,194 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-27 12:49:40,195 , INFO, hrms_app ,time_punch_in_out_view.py, 50 ,punch_in_out_page ,Time elapsed: 0:38:37.987573

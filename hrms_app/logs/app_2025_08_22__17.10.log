@@ -1,0 +1,19 @@
+2025-08-18 12:36:46,656 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-18 12:36:46,657 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 3 days, 23:25:05.618859
+2025-08-18 12:36:46,657 , INFO, hrms_app ,time_punch_in_out_view.py, 28 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-08-18 12:37:14,755 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-18 12:37:14,755 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 3 days, 23:25:33.717719
+2025-08-18 12:37:14,756 , INFO, hrms_app ,time_punch_in_out_view.py, 28 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-08-18 12:37:53,693 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-18 12:37:56,793 , INFO, hrms_app ,time_punch_in_out_view.py, 40 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-18 12:37:56,793 , INFO, hrms_app ,time_punch_in_out_view.py, 46 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-18 12:37:56,799 , INFO, hrms_app ,time_punch_in_out_view.py, 54 ,save_punch_in_data ,Punched in successfully
+2025-08-18 12:38:00,079 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-18 12:38:00,080 , INFO, hrms_app ,time_punch_in_out_view.py, 24 ,punch_in_out_page ,Time elapsed: 0:00:03.286089
+2025-08-18 12:39:57,227 , INFO, hrms_app ,time_punch_in_out_view.py, 20 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-18 12:41:17,575 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 110 for user priyanshu1
+2025-08-18 12:41:26,170 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 108 for user KishanG
+2025-08-18 12:41:29,203 , INFO, hrms_app.views.hr_attendance_management ,hr_attendance_management.py, 177 ,delete_attendance_record ,Successfully deleted Record 109 for user priyanshu1
+2025-08-18 12:52:28,158 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/hr-dashboard/main/ HTTP/1.1" 500 132843
+2025-08-18 12:52:53,694 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/hr-dashboard/main/ HTTP/1.1" 500 132980
+2025-08-18 12:54:49,172 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/hr-dashboard/main/ HTTP/1.1" 500 133108

@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+
+    <!-- Theme -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+</head>
+
+<body class="animsition dashboard-page"> <!-- Added: dashboard-page -->
+    <div class="page-wrapper">
+
+        {% include 'sidebar.html' %}
+
+        <div class="page-container">
+            {% include 'navbar.html' %}
+
+            <div class="main-content">
+                <div class="dashboard">
+                    <div class="dashboard-header">
+                        <h1>Welcome Back  {{ user.first_name }} {{ user.last_name }}</h1>
+
+                          {% if user.userrole.role.name == "admin" %}
+    <a href="{% url 'hr_dashboard_main' %}" class="btn btn-primary" style="margin-top: 10px; display: inline-block;">
+        Go to HR Dashboard
+    </a>
+    {% endif %}
+                        
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                {% if is_punched_in %}
+                                    <div class="status-badge status-active">Active</div>
+                                {% else %}
+                                    <div class="status-badge status-inactive">Inactive</div>
+                                {% endif %}
+                            </div>
+                            <div class="stat-value" id="hours-today">{{ total_hours_today }}</div>
+                            <div class="stat-label">Working hours today </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">{{ working_days_this_month }}</div>
+                            <div class="stat-label">Working Days This Month</div>
+                        </div>
+
+
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-plane"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">{{ total_remaining_leaves }}</div>
+                            <div class="stat-label">Total Leave Balance</div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="main-grid">
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-business-time"></i>
+                                Punch In/Out
+                            </h3>
+
+                            <div class="punch-display">
+                                <div class="punch-item">
+                                    <div class="punch-time">
+                                        {% if latest_attendance %}
+                                        {{ latest_attendance.punch_in_time|date:"h:i A" }}
+                                        {% else %}
+                                        --:--
+                                        {% endif %}
+                                    </div>
+                                    <div class="punch-label">Punch In</div>
+                                </div>
+                                <div class="punch-item">
+                                    <div class="punch-time">
+                                        {% if latest_attendance and latest_attendance.punch_out_time %}
+                                        {{ latest_attendance.punch_out_time|date:"h:i A" }}
+                                        {% else %}
+                                        --:--
+                                        {% endif %}
+                                    </div>
+                                    <div class="punch-label">Punch Out</div>
+                                </div>
+                            </div>
+
+                            <div class="status-display">
+                                <div class="current-status">
+                                    {% if latest_attendance %}
+                                    <div
+                                        class="status-badge {% if latest_attendance.status == 'PUNCHED_IN' %}status-active{% else %}status-inactive{% endif %}">
+                                        <i class="fas fa-circle"></i>
+                                        {% if latest_attendance.status == 'PUNCHED_IN' %}
+                                        Active
+                                        {% else %}
+                                        Not Active
+                                        {% endif %}
+                                    </div>
+                                    {% if latest_attendance.status == 'PUNCHED_IN' %}
+                                    <div class="status-time">
+                                        Working since {{ latest_attendance.punch_in_time|date:"h:i A" }}
+                                    </div>
+                                    {% endif %}
+                                    {% else %}
+                                    <div class="status-badge status-inactive">
+                                        <i class="fas fa-circle"></i> No Record
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-umbrella-beach"></i>
+                                Leave Balance
+                            </h3>
+                            <div class="leave-grid">
+                                {% if user_leaves %}
+                                {% for leave in user_leaves %}
+                                <div class="leave-item">
+                                    <div class="leave-count">{{ leave.remaining_leaves }}</div>
+                                    <div class="leave-type">{{ leave.leave_type.name }}</div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <p>no Leave</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="profile-header">
+
+                            <div class="profile-avatar">
+                                {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                            </div>
+                            <div class="profile-info">
+                                <h2>{{ user.first_name }} {{ user.last_name  }}</h2>
+
+                                <p>{{ job_details.job_title }}</p>
+
+
+                            </div>
+                        </div>
+
+                        <div class="profile-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Employee ID</div>
+                                <div class="detail-value">EMPID {{user.id}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Department</div>
+                                <div class="detail-value">{{ job_details.job_title }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Join Date</div>
+                                <div class="detail-value">{{user.date_joined}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">{{user.email}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">{{contact_details.mobile}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Manager</div>
+                                <div class="detail-value">Jane Smith</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+
+</html>

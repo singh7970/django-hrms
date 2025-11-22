@@ -1,0 +1,89 @@
+2025-07-07 11:38:56,136 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 11:48:28,879 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 12:04:39,105 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 89007
+2025-07-07 12:05:03,861 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 89071
+2025-07-07 12:05:05,647 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 89071
+2025-07-07 12:05:14,913 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 89080
+2025-07-07 12:05:18,444 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 88806
+2025-07-07 12:05:52,333 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 88943
+2025-07-07 12:05:53,152 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 88943
+2025-07-07 12:09:38,614 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/index/ HTTP/1.1" 500 153635
+2025-07-07 12:50:20,226 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 13:38:16,376 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 158014
+2025-07-07 13:40:20,651 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 13:40:24,063 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-07 13:40:24,063 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-07-07 13:40:24,072 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-07 14:57:34,844 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128953
+2025-07-07 14:57:47,848 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128953
+2025-07-07 14:57:49,379 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128953
+2025-07-07 14:57:53,570 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128557
+2025-07-07 14:59:54,159 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 129027
+2025-07-07 15:05:00,295 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128882
+2025-07-07 15:05:07,391 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128486
+2025-07-07 15:06:47,684 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128500
+2025-07-07 15:09:09,846 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128896
+2025-07-07 15:09:11,696 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128896
+2025-07-07 15:09:15,417 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 128500
+2025-07-07 15:15:03,339 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 75557
+2025-07-07 15:15:20,810 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 75685
+2025-07-07 15:21:57,799 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 123859
+2025-07-07 15:50:21,125 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/login/ HTTP/1.1" 500 91371
+2025-07-07 16:02:08,412 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 188276
+2025-07-07 16:02:14,298 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 172307
+2025-07-07 16:03:57,155 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-07 16:03:57,156 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2:23:33.092319
+2025-07-07 16:05:01,874 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 16:05:04,512 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-07 16:05:04,512 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: ayush@gmail.com 
+2025-07-07 16:05:04,531 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-07 16:08:45,807 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-07 16:08:45,807 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:03:41.294474
+2025-07-07 16:08:48,024 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-07-07 16:08:48,024 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: ayush@gmail.com 
+2025-07-07 16:08:48,024 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-07-07 16:10:20,467 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 16:10:24,585 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-07 16:10:24,585 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: ayush@gmail.com 
+2025-07-07 16:10:24,608 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-07 16:11:53,543 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-07 16:11:53,543 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:01:28.958148
+2025-07-07 16:12:22,734 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-07 16:12:22,735 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2:31:58.671345
+2025-07-07 16:12:24,717 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-07-07 16:12:24,718 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-07-07 16:12:24,718 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-07-07 16:18:22,713 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-07 16:31:11,058 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/job_details/ HTTP/1.1" 500 196576
+2025-07-08 11:09:18,153 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-08 11:09:18,154 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 18:58:53.568693
+2025-07-08 11:09:20,828 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-07-08 11:09:20,828 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: ayush@gmail.com 
+2025-07-08 11:09:20,828 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-07-08 11:50:26,551 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 123841
+2025-07-08 11:51:32,403 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 80777
+2025-07-08 11:51:33,368 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 80905
+2025-07-08 11:52:18,940 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 80991
+2025-07-08 11:54:31,460 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 81674
+2025-07-08 11:54:58,154 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 81746
+2025-07-08 11:55:12,760 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 77571
+2025-07-08 11:55:19,708 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 77699
+2025-07-08 11:55:35,084 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 77683
+2025-07-08 11:57:17,002 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 80917
+2025-07-08 12:01:51,912 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 194180
+2025-07-08 12:50:16,514 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-08 12:50:20,222 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-08 12:50:20,222 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-07-08 12:50:20,228 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-08 12:52:05,345 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-08 12:52:05,345 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:01:45.122717
+2025-07-08 13:19:04,815 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-08 13:19:04,815 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:28:44.593099
+2025-07-08 13:19:09,090 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-07-08 13:19:09,090 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-07-08 13:19:09,090 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-07-08 13:19:30,526 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-07-08 13:19:30,526 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-07-08 13:19:30,531 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-07-08 15:45:22,184 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-08 15:45:22,184 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2:25:51.657960

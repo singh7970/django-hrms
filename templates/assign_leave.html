@@ -1,0 +1,934 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   
+    <title>Assign Leave</title>
+
+   
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.css' %}" rel="stylesheet" media="all">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+   
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+
+    
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/slick/slick.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
+
+   
+    <link href="{% static 'css/leave.css' %}" rel="stylesheet" media="all">
+   
+    <style>
+       
+        .employee-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .employee-info.show {
+            display: block;
+        }
+        
+        .employee-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .employee-detail:last-child {
+            margin-bottom: 0;
+        }
+        
+        .employee-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .employee-value {
+            color: #6c757d;
+        }
+        
+        .manager-badge {
+            background-color: #007bff;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .assign-leave-container .form-title {
+            color: #28a745;
+            border-bottom: 2px solid #28a745;
+        }
+        
+        .btn-assign {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .btn-assign:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        
+        .btn-assign:disabled {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="apply-leave-container">
+    {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+    <div class="leave-subnav"> 
+        {% include 'leave_navbar.html' %} 
+    </div>
+
+    <div class="apply-leave-form">
+     
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert alert-danger{% else %}alert alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <h2 class="form-title">Assign Leave</h2>
+
+        
+        <div id="validationSummary" class="validation-summary">
+            <h4><i class="fa fa-exclamation-triangle"></i> Please fix the following errors:</h4>
+            <ul id="errorList"></ul>
+        </div>
+
+        <form id="assign_leave_form" action="{% url 'assign_leave' %}" method="post">
+            {% csrf_token %}
+            
+           
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Select Employee<span class="required">*</span></label>
+                    <select class="form-control" name="employee_id" id="employee_select" required>
+                        <option value="">-- Select Employee --</option>
+                        {% for employee in team_members %}
+                           <option value="{{ employee.id }}"
+        data-name="{{ employee.first_name }} {{ employee.last_name }}"
+        data-email="{{ employee.email }}"
+        data-sub-unit="{{ employee.job_details.sub_unit|default:'-' }}"
+        data-position="{{ employee.job_details.job_title|default:'-' }}"
+        data-employee-id="{{ employee.id }}">
+    {{ employee.first_name }} {{ employee.last_name }} ({{ employee.id }})
+</option>
+                        {% endfor %}
+                    </select>
+                    <span class="validation-error" id="employeeError"></span>
+                </div>
+            </div>
+
+            
+            <div id="employeeInfo" class="employee-info">
+                <div class="employee-detail">
+                    <span class="employee-label">Full Name:</span>
+                    <span class="employee-value" id="empName">-</span>
+                </div>
+                <div class="employee-detail">
+                    <span class="employee-label">Employee ID:</span>
+                    <span class="employee-value" id="empId">-</span>
+                </div>
+                <div class="employee-detail">
+                    <span class="employee-label">Email:</span>
+                    <span class="employee-value" id="empEmail">-</span>
+                </div>
+                <div class="employee-detail">
+                    <span class="employee-label">Department:</span>
+                    <span class="employee-value" id="empDepartment">-</span>
+                </div>
+                <div class="employee-detail">
+                    <span class="employee-label">Position:</span>
+                    <span class="employee-value" id="empPosition">-</span>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Leave Type<span class="required">*</span></label>
+                    <select class="form-control" name="leave_type" id="leave_type" required>
+                        <option value="">-- Select --</option>
+                        {% for leave in leave_types %}
+                            <option value="{{ leave.id }}">{{ leave.name }} ({{ leave.code }})</option>
+                        {% endfor %}
+                    </select>
+                    <span class="validation-error" id="leaveTypeError"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Leave Balance</label>
+                    <div class="balance-display" id="leave_balance">0.00 Day(s)</div>
+                    <span class="validation-error" id="balanceError"></span>
+                </div>
+            </div>
+        
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">From Date<span class="required">*</span></label>
+                    <input type="date" class="form-control" name="start_date" required>
+                    <span class="validation-error" id="startDateError"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">To Date<span class="required">*</span></label>
+                    <input type="date" class="form-control" name="end_date" required>
+                    <span class="validation-error" id="endDateError"></span>
+                    <div id="holidayWarning" class="holiday-warning" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <div id="durationSection" class="form-row" style="display: none;">
+                <div class="form-group full-width">
+                    <label>Duration</label>
+                    <div id="durationOptions"></div>
+                    <span class="validation-error" id="durationError"></span>
+                </div>
+            </div>
+        
+            <div class="form-row">
+                <div class="form-group" style="width: 100%;">
+                    <label class="form-label">Comments</label>
+                    <textarea class="form-control" name="reason" placeholder="Enter assignment reason/comments here"></textarea>
+                </div>
+            </div>
+
+           
+            <!-- <div class="form-row">
+                <div class="form-group" style="width: 100%;">
+                    <label class="form-label">Assignment Type</label>
+                    <div style="margin-top: 10px;"> -->
+                        <!-- <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input type="radio" name="assignment_type" value="direct" checked style="margin-right: 8px;">
+                            Direct Assignment (Approved immediately)
+                        </label> -->
+                        <!-- <label style="display: flex; align-items: center;">
+                            <input type="radio" name="assignment_type" value="request" style="margin-right: 8px;">
+                            Request Assignment (Requires employee approval)
+                        </label> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+        
+            <div class="required-note">* Required</div>
+        
+            <div class="form-actions">
+                <button type="submit" class="btn-apply btn-assign" id="assignButton" disabled>Assign Leave</button>
+            </div>
+            <div id="errorContainer" class="mt-2 text-danger"></div>
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+        <script>
+           
+            const holidays = [
+                '2025-01-01',
+                '2025-01-26', // Republic Day
+                '2025-03-14',
+                '2025-03-31',
+                '2025-04-18',
+                '2025-07-10',
+                '2025-08-15', // Independence Day
+                '2025-10-02', // Gandhi Jayanti
+                '2025-10-21', // Dussehra
+                '2025-11-05', // Diwali
+                '2025-12-25', // Christmas
+            ];
+            
+        
+            const validationState = {
+                employee: false,
+                leaveType: false,
+                balance: false,
+                startDate: false,
+                endDate: false,
+                duration: false,
+                holidays: true
+            };
+            
+         
+            const fieldTouched = {
+                employee: false,
+                leaveType: false,
+                startDate: false,
+                endDate: false,
+                duration: false
+            };
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log("Assign leave functions loaded!");
+                  
+                const employeeSelect = document.getElementById('employee_select');
+                const employeeInfo = document.getElementById('employeeInfo');
+                const leaveTypeSelect = document.querySelector('select[name="leave_type"]');
+                const balanceDisplay = document.getElementById('leave_balance');
+                const leaveBalanceUrl = "{% url 'get_leave_balance_assign' %}"; // New URL for getting employee balance
+                let currentBalance = 0;
+                let selectedEmployeeId = null;
+                
+                
+                employeeSelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    fieldTouched.employee = true;
+                    selectedEmployeeId = this.value;
+                    
+                    if (!this.value) {
+                        employeeInfo.classList.remove('show');
+                        validationState.employee = false;
+                        validationState.balance = false;
+                        balanceDisplay.textContent = "0.00 Day(s)";
+                        balanceDisplay.className = "balance-display";
+                        currentBalance = 0;
+                        
+                       
+                        leaveTypeSelect.value = '';
+                        validationState.leaveType = false;
+                        
+                        if (fieldTouched.employee) {
+                            showValidationError('employeeError', 'Please select an employee');
+                        }
+                        updateAssignButton();
+                        return;
+                    }
+                    
+                   
+                    document.getElementById('empName').textContent = selectedOption.dataset.name;
+                    document.getElementById('empId').textContent = selectedOption.dataset.employeeId || '-';
+                    document.getElementById('empEmail').textContent = selectedOption.dataset.email;
+                    document.getElementById('empDepartment').textContent = selectedOption.dataset.subUnit || '-';
+                    document.getElementById('empPosition').textContent = selectedOption.dataset.position;
+                    
+                    employeeInfo.classList.add('show');
+                    validationState.employee = true;
+                    clearValidationError('employeeError');
+                    
+                    
+                    leaveTypeSelect.value = '';
+                    validationState.leaveType = false;
+                    validationState.balance = false;
+                    balanceDisplay.textContent = "0.00 Day(s)";
+                    balanceDisplay.className = "balance-display";
+                    currentBalance = 0;
+                    
+                    updateAssignButton();
+                });
+                
+             
+                leaveTypeSelect.addEventListener('change', function () {
+                    const leaveTypeId = this.value;
+                    fieldTouched.leaveType = true;
+                    
+                    if (!selectedEmployeeId) {
+                        validationState.leaveType = false;
+                        validationState.balance = false;
+                        if (fieldTouched.leaveType) {
+                            showValidationError('leaveTypeError', 'Please select an employee first');
+                        }
+                        updateAssignButton();
+                        return;
+                    }
+                    
+                    if (!leaveTypeId) {
+                        balanceDisplay.textContent = "0.00 Day(s)";
+                        balanceDisplay.className = "balance-display";
+                        currentBalance = 0;
+                        validationState.leaveType = false;
+                        validationState.balance = false;
+                        if (fieldTouched.leaveType) {
+                            showValidationError('leaveTypeError', 'Please select a leave type');
+                        }
+                        updateAssignButton();
+                        return;
+                    }
+                    
+                  
+                    clearValidationError('leaveTypeError');
+                    validationState.leaveType = true;
+                    
+                 
+                    fetch(`${leaveBalanceUrl}?employee_id=${selectedEmployeeId}&leave_type_id=${leaveTypeId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.balance !== undefined) {
+                                currentBalance = parseFloat(data.balance);
+                                balanceDisplay.textContent = `${data.balance} Day(s)`;
+                                
+                                if (currentBalance <= 0) {
+                                    balanceDisplay.className = "balance-display insufficient";
+                                    validationState.balance = false;
+                                    if (fieldTouched.leaveType) {
+                                        showValidationError('balanceError', 'This employee has 0 balance for selected leave type.');
+                                    }
+                                } else {
+                                    balanceDisplay.className = "balance-display sufficient";
+                                    validationState.balance = true;
+                                    clearValidationError('balanceError');
+                                }
+                            } else {
+                                balanceDisplay.textContent = "No balance info";
+                                balanceDisplay.className = "balance-display";
+                                currentBalance = 0;
+                                validationState.balance = false;
+                                if (fieldTouched.leaveType) {
+                                    showValidationError('balanceError', 'Unable to fetch balance information');
+                                }
+                            }
+                            updateAssignButton();
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                            balanceDisplay.textContent = "Error loading balance";
+                            balanceDisplay.className = "balance-display";
+                            currentBalance = 0;
+                            validationState.balance = false;
+                            if (fieldTouched.leaveType) {
+                                showValidationError('balanceError', 'Error loading balance information');
+                            }
+                            updateAssignButton();
+                        });
+                });
+                
+               
+                const fromDateInput = document.querySelector('input[name="start_date"]');
+                const toDateInput = document.querySelector('input[name="end_date"]');
+                const durationSection = document.getElementById('durationSection');
+                const durationOptions = document.getElementById('durationOptions');
+                
+                function formatDate(date) {
+                    const d = new Date(date);
+                    const day = String(d.getDate()).padStart(2, '0');
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                    const year = d.getFullYear();
+                    return `${day}-${month}-${year}`;
+                }
+                
+                function getDatesInRange(startDate, endDate) {
+                    const dates = [];
+                    let currentDate = new Date(startDate);
+                    const lastDate = new Date(endDate);
+                    lastDate.setDate(lastDate.getDate() + 1);
+                    
+                    while (currentDate < lastDate) {
+                        dates.push(new Date(currentDate));
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    
+                    return dates;
+                }
+                
+                function isHoliday(date) {
+                    const dateStr = date.toISOString().split('T')[0];
+                    return holidays.includes(dateStr);
+                }
+                
+                function validateHolidayDates() {
+                    const fromDate = fromDateInput.value;
+                    const toDate = toDateInput.value;
+                    
+                    if (!fromDate || !toDate) {
+                        validationState.holidays = true;
+                        document.getElementById('holidayWarning').style.display = 'none';
+                        return;
+                    }
+                    
+                    const fromDateObj = new Date(fromDate);
+                    const toDateObj = new Date(toDate);
+                    
+                    const isFromHoliday = isHoliday(fromDateObj);
+                    const isToHoliday = isHoliday(toDateObj);
+                    
+                    if (isFromHoliday || isToHoliday) {
+                        const holidayWarning = document.getElementById('holidayWarning');
+                        let holidayDates = [];
+                        if (isFromHoliday) holidayDates.push(formatDate(fromDateObj));
+                        if (isToHoliday && !isFromHoliday) holidayDates.push(formatDate(toDateObj));
+                        
+                        const holidayNames = holidayDates.join(', ');
+                        holidayWarning.innerHTML = `<i class="fa fa-exclamation-triangle"></i> Holiday date(s) selected: ${holidayNames}. Cannot assign leave on holidays.`;
+                        holidayWarning.style.display = 'block';
+                        validationState.holidays = false;
+                    } else {
+                        const dates = getDatesInRange(fromDate, toDate);
+                        const holidayDatesInRange = dates.filter(date => isHoliday(date) && 
+                            date.getTime() !== fromDateObj.getTime() && 
+                            date.getTime() !== toDateObj.getTime()
+                        );
+                        
+                        if (holidayDatesInRange.length > 0) {
+                            const holidayWarning = document.getElementById('holidayWarning');
+                            const holidayNames = holidayDatesInRange.map(date => formatDate(date)).join(', ');
+                            holidayWarning.innerHTML = `<i class="fa fa-info-circle"></i> Note: Holiday(s) in between: ${holidayNames}.`;
+                            holidayWarning.style.display = 'block';
+                            holidayWarning.style.backgroundColor = '#d1ecf1';
+                            holidayWarning.style.borderColor = '#bee5eb';
+                            holidayWarning.style.color = '#0c5460';
+                        } else {
+                            document.getElementById('holidayWarning').style.display = 'none';
+                        }
+                        
+                        validationState.holidays = true;
+                    }
+                    
+                    updateAssignButton();
+                }
+                
+                function updateDurationOptions() {
+                    const fromDate = fromDateInput.value;
+                    const toDate = toDateInput.value;
+                    
+                    if (!fromDate || !toDate) {
+                        durationSection.style.display = 'none';
+                        validationState.duration = false;
+                        updateAssignButton();
+                        return;
+                    }
+                    
+                    durationSection.style.display = 'flex';
+                    durationOptions.innerHTML = '';
+                    
+                    const dates = getDatesInRange(fromDate, toDate);
+                    
+                    if (dates.length === 1) {
+                        const durations = `
+                            <select name="duration" class="form-control">
+                                <option value="full">Full Day</option>
+                                <option value="half_morning">Half Day - Morning</option>
+                                <option value="half_evening">Half Day - Evening</option>
+                            </select>
+                        `;
+                        durationOptions.innerHTML = durations;
+                    } else {
+                        let durationHTML = '';
+                        
+                        dates.forEach((date, index) => {
+                            const dateStr = date.toISOString().split('T')[0];
+                            const formattedDate = formatDate(date);
+                            const day = date.getDay();
+        
+                            let optionsHTML = '';
+                            if (day === 0 || day === 6) {
+                                optionsHTML = `
+                                    <option value="full" selected>Full Day</option>
+                                    <option value="half_morning" disabled>Half Day - Morning</option>
+                                    <option value="half_evening" disabled>Half Day - Evening</option>
+                                `;
+                            } else {
+                                optionsHTML = `
+                                    <option value="full">Full Day</option>
+                                    <option value="half_morning">Half Day - Morning</option>
+                                    <option value="half_evening">Half Day - Evening</option>
+                                `;
+                            }
+        
+                            durationHTML += `
+                                <div class="duration-day">
+                                    <div class="duration-day-date">${formattedDate}</div>
+                                    <select name="duration_${dateStr}" class="form-control">
+                                        ${optionsHTML}
+                                    </select>
+                                </div>
+                            `;
+                        });
+                        
+                        durationOptions.innerHTML = durationHTML;
+                    }
+                    
+                    validationState.duration = true;
+                    clearValidationError('durationError');
+                    updateAssignButton();
+                }
+                
+                function validateDates() {
+                    const fromDate = fromDateInput.value;
+                    const toDate = toDateInput.value;
+                    
+                   
+                    if (fieldTouched.startDate) {
+                        if (!fromDate) {
+                            validationState.startDate = false;
+                            showValidationError('startDateError', 'Start date is required');
+                        } else {
+                            const selectedFromDate = new Date(fromDate);
+                            const dayOfWeek = selectedFromDate.getDay();
+                            
+                            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                validationState.startDate = false;
+                                showValidationError('startDateError', 'Cannot select weekend dates');
+                            } else {
+                                validationState.startDate = true;
+                                clearValidationError('startDateError');
+                            }
+                        }
+                    } else {
+                        if (fromDate) {
+                            const selectedFromDate = new Date(fromDate);
+                            const dayOfWeek = selectedFromDate.getDay();
+                            validationState.startDate = (dayOfWeek !== 0 && dayOfWeek !== 6);
+                        } else {
+                            validationState.startDate = false;
+                        }
+                    }
+                    
+                   
+                    if (fieldTouched.endDate) {
+                        if (!toDate) {
+                            validationState.endDate = false;
+                            showValidationError('endDateError', 'End date is required');
+                        } else if (!fromDate) {
+                            validationState.endDate = false;
+                            showValidationError('endDateError', 'Please select start date first');
+                        } else {
+                            const selectedFromDate = new Date(fromDate);
+                            const selectedToDate = new Date(toDate);
+                            selectedFromDate.setHours(0, 0, 0, 0);
+                            selectedToDate.setHours(0, 0, 0, 0);
+                            
+                            if (selectedToDate < selectedFromDate) {
+                                validationState.endDate = false;
+                                showValidationError('endDateError', 'End date cannot be before start date');
+                            } else {
+                                const dayOfWeek = selectedToDate.getDay();
+                                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                    validationState.endDate = false;
+                                    showValidationError('endDateError', 'Cannot select weekend dates');
+                                } else {
+                                    validationState.endDate = true;
+                                    clearValidationError('endDateError');
+                                }
+                            }
+                        }
+                    } else {
+                        if (toDate && fromDate) {
+                            const selectedFromDate = new Date(fromDate);
+                            const selectedToDate = new Date(toDate);
+                            selectedFromDate.setHours(0, 0, 0, 0);
+                            selectedToDate.setHours(0, 0, 0, 0);
+                            
+                            const dayOfWeek = selectedToDate.getDay();
+                            validationState.endDate = (selectedToDate >= selectedFromDate && dayOfWeek !== 0 && dayOfWeek !== 6);
+                        } else {
+                            validationState.endDate = false;
+                        }
+                    }
+                    
+                    
+                    if (validationState.startDate && validationState.endDate && validationState.balance && fromDate && toDate) {
+                        const dates = getDatesInRange(fromDate, toDate);
+                        const workingDays = dates.filter(date => {
+                            const day = date.getDay();
+                            const isWeekend = day === 0 || day === 6;
+                            const isHolidayDate = isHoliday(date);
+                            return !isWeekend && !isHolidayDate;
+                        }).length;
+                        
+                        if (workingDays > currentBalance) {
+                            validationState.balance = false;
+                            if (fieldTouched.leaveType || fieldTouched.startDate || fieldTouched.endDate) {
+                                showValidationError('balanceError', `Required ${workingDays} working day(s) but employee has only ${currentBalance} day(s) available`);
+                            }
+                        } else {
+                            validationState.balance = true;
+                            clearValidationError('balanceError');
+                        }
+                    }
+                    
+                    validateHolidayDates();
+                    updateAssignButton();
+                }
+                
+                
+                if (fromDateInput && toDateInput) {
+                    fromDateInput.addEventListener('focus', function() {
+                        fieldTouched.startDate = true;
+                    });
+                    
+                    toDateInput.addEventListener('focus', function() {
+                        fieldTouched.endDate = true;
+                    });
+                    
+                    fromDateInput.addEventListener('change', function() {
+                        fieldTouched.startDate = true;
+                        updateDurationOptions();
+                        validateDates();
+                    });
+                    
+                    toDateInput.addEventListener('change', function() {
+                        fieldTouched.endDate = true;
+                        updateDurationOptions();
+                        validateDates();
+                    });
+                }
+                
+               
+                function showValidationError(elementId, message) {
+         const errorElement = document.getElementById(elementId);
+         if (errorElement) {
+           errorElement.textContent = message;
+           errorElement.style.display = 'block';
+           
+          
+           const formGroup = errorElement.closest('.form-group');
+           if (formGroup) {
+             formGroup.classList.add('has-error');
+           }
+         }
+       }
+       
+       function clearValidationError(elementId) {
+         const errorElement = document.getElementById(elementId);
+         if (errorElement) {
+           errorElement.textContent = '';
+           errorElement.style.display = 'none';
+           
+           
+           const formGroup = errorElement.closest('.form-group');
+           if (formGroup) {
+             formGroup.classList.remove('has-error');
+           }
+         }
+       }
+       
+     console.log("update apply button state and validation summaryjs is loaded!");
+      
+       function updateAssignButton() {
+         const applyButton = document.getElementById('assignButton');
+         const validationSummary = document.getElementById('validationSummary');
+         const errorList = document.getElementById('errorList');
+         
+         const isValid = Object.values(validationState).every(state => state === true);
+         
+         if (isValid) {
+           applyButton.disabled = false;
+           validationSummary.style.display = 'none';
+         } else {
+           applyButton.disabled = true;
+           
+          
+           const hasInteracted = Object.values(fieldTouched).some(touched => touched === true);
+           
+           if (hasInteracted) {
+             
+             const errors = [];
+             if (!validationState.leaveType && fieldTouched.leaveType) errors.push('Select a valid leave type with sufficient balance');
+             if (!validationState.balance && (fieldTouched.leaveType || fieldTouched.startDate || fieldTouched.endDate)) errors.push('Insufficient leave balance or balance loading error');
+             if (!validationState.startDate && fieldTouched.startDate) errors.push('Valid start date required');
+             if (!validationState.endDate && fieldTouched.endDate) errors.push('Valid end date required');
+             if (!validationState.duration && (fieldTouched.startDate || fieldTouched.endDate)) errors.push('Duration selection required');
+             if (!validationState.holidays) errors.push('Holiday dates selected');
+             
+             if (errors.length > 0) {
+               errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+               validationSummary.style.display = 'block';
+             } else {
+               validationSummary.style.display = 'none';
+             }
+           } else {
+             validationSummary.style.display = 'none';
+           }
+         }
+       }
+       
+       
+       const successFlag = "{{ success_flag|yesno:'true,false' }}";
+       if (successFlag === "true") {
+         Swal.fire({
+           title: 'Success!',
+           text: 'Your leave application has been submitted successfully and waiting for approval.',
+           icon: 'success',
+           confirmButtonText: 'OK'
+         });
+       }
+       
+       
+       const leaveForm = document.getElementById('leave_form');
+       if (leaveForm) {
+         leaveForm.addEventListener('submit', function(event) {
+           
+           if (!Object.values(validationState).every(state => state === true)) {
+             event.preventDefault();
+             Swal.fire({
+               title: 'Validation Error!',
+               text: 'Please fix all validation errors before submitting.',
+               icon: 'error',
+               confirmButtonText: 'OK'
+             });
+             return;
+           }
+           
+           
+           const durations = {};
+           const durationSelects = durationOptions.querySelectorAll('select');
+           durationSelects.forEach(select => {
+             durations[select.name] = select.value;
+           });
+           
+          
+           for (const [key, value] of Object.entries(durations)) {
+             const hiddenField = document.createElement('input');
+             hiddenField.type = 'hidden';
+             hiddenField.name = key;
+             hiddenField.value = value;
+             leaveForm.appendChild(hiddenField);
+           }
+         });
+       }
+       
+      
+       let toDatePicker;
+       
+       const fromDatePicker = flatpickr("input[name='start_date']", {
+         dateFormat: "Y-m-d",
+         disable: [
+           date => date.getDay() === 0 || date.getDay() === 6
+         ],
+         onChange: function (selectedDates, dateStr) {
+           if (selectedDates.length) {
+             fieldTouched.startDate = true;
+            
+             toDatePicker.setDate(dateStr, true);
+             toDatePicker.set('minDate', dateStr);
+             
+            
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           }
+         },
+         onReady: function (selectedDates, dateStr, instance) {
+           const todayButton = document.createElement('button');
+           todayButton.textContent = "Today";
+           todayButton.type = "button";
+           todayButton.className = "flatpickr-today-btn";
+           todayButton.style.margin = "10px";
+       
+           todayButton.addEventListener('click', function () {
+             const today = new Date();
+             
+             fieldTouched.startDate = true;
+             fieldTouched.endDate = true;
+       
+             fromDatePicker.setDate(today, true); 
+             if (toDatePicker) {
+               toDatePicker.setDate(today, true);
+               toDatePicker.set('minDate', today);
+             }
+       
+             fromDatePicker.close();
+             if (toDatePicker) toDatePicker.close();
+       
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           });
+       
+           instance.calendarContainer.appendChild(todayButton);
+         }
+       });
+       
+       toDatePicker = flatpickr("input[name='end_date']", {
+         dateFormat: "Y-m-d",
+         disable: [
+           date => date.getDay() === 0 || date.getDay() === 6
+         ],
+         onChange: function (selectedDates) {
+           fieldTouched.endDate = true;
+           const startDate = fromDatePicker.selectedDates[0];
+           if (selectedDates.length && startDate && selectedDates[0] < startDate) {
+             alert("End date cannot be before start date.");
+             toDatePicker.clear();
+             return;
+           }
+           showDurationSection();
+           updateDurationOptions();
+           validateDates();
+         },
+         onReady: function (selectedDates, dateStr, instance) {
+           const todayButton = document.createElement('button');
+           todayButton.textContent = "Today";
+           todayButton.type = "button";
+           todayButton.className = "flatpickr-today-btn";
+           todayButton.style.margin = "10px";
+       
+           todayButton.addEventListener('click', function () {
+             const today = new Date();
+             
+             fieldTouched.startDate = true;
+             fieldTouched.endDate = true;
+       
+             fromDatePicker.setDate(today, true);
+             toDatePicker.setDate(today, true);
+             toDatePicker.set('minDate', today);
+       
+             toDatePicker.close();
+             fromDatePicker.close();
+       
+             showDurationSection();
+             updateDurationOptions();
+             validateDates();
+           });
+       
+           instance.calendarContainer.appendChild(todayButton);
+         }
+       });
+       
+       function showDurationSection() {
+         const durationBox = document.getElementById("durationSection");
+         if (durationBox) {
+           durationBox.style.display = "block";
+         }
+       }
+       
+      
+      updateAssignButton();
+       });
+     
+  
+
+     
+       </script>
+
+    </body>
+</html>
+
+    

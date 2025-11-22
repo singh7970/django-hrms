@@ -1,0 +1,1076 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Assignment Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient( #fb93e1 );
+            --success-gradient: linear-gradient( #4facfe );
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --hover-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            margin-left: 290px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-header p {
+            margin: 8px 0 0 0;
+            color: #6c757d;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .btn-modern {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-modern {
+            background: #4c65d8;
+            color: white;
+            border: 1px solid #6f42c1;
+        }
+
+        .btn-primary-modern:hover {
+            background: #4c65d8;
+            border-color: #3657af;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary-modern {
+            background: #4c65d8;
+            color: white;
+            border: 1px solid #6f42c1;
+        }
+
+        .btn-secondary-modern:hover {
+            background: #4c65d8;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+       
+        .search-container {
+            background: white;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .search-container:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+            outline: none;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-gradient);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .clear-search {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-search:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .search-results-info {
+            margin-bottom: 15px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .data-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .data-card:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .table-container {
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .modern-table {
+            margin: 0;
+            border: none;
+        }
+
+        .modern-table thead th {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .modern-table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--success-gradient);
+        }
+
+        .modern-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transform: scale(1.01);
+        }
+
+        .modern-table tbody td {
+            padding: 20px;
+            border: none;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .dropdown-select {
+            width: 200px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .total-badge {
+            background: var(--success-gradient);
+            color: black;
+        }
+
+        .used-badge {
+            background: var(--secondary-gradient);
+            color: black;
+        }
+
+        .remaining-badge {
+            background: linear-gradient( #43e97b);
+            color: black;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 3px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 25px 30px;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .modal-footer {
+            border: none;
+            padding: 20px 30px 30px;
+        }
+
+        .employee-name {
+            font-weight: 600;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .employee-name::before {
+            content: '👤';
+            font-size: 1.2rem;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .no-data i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+            }
+            
+            .dropdown-select {
+                width: 100%;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+    
+    <div class="main-content">
+       
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-calendar-check"></i>
+                Leave Assignment Management
+            </h1>
+            <p>Configure and manage employee leave allocations efficiently</p>
+            
+            <div class="header-actions">
+                  <a href="{% url 'hr_dashboard_main' %}" class="btn btn-light btn-custom">
+                        <i class="fas fa-arrow-left me-2"></i>HR Dashboard
+                    </a>
+                <button class="btn btn-primary-modern btn-modern" data-bs-toggle="modal" data-bs-target="#addLeaveModal">
+                    <i class="fas fa-plus me-2"></i>
+                    Add Leave Mapping
+                </button>
+            </div>
+        </div>
+
+        
+        <div class="search-container">
+            <div class="d-flex align-items-center">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="employeeSearch" 
+                        class="search-input" 
+                        placeholder="Search employees by name..."
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" type="button" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <button class="clear-search" id="clearSearch" style="display: none;">
+                    <i class="fas fa-times me-1"></i>
+                    Clear
+                </button>
+            </div>
+            <div class="search-results-info" id="searchInfo" style="display: none;"></div>
+        </div>
+    
+        
+        <div class="data-card">
+            <div class="table-container">
+                <table class="table modern-table align-middle">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user me-2"></i>Employee</th>
+                            <th><i class="fas fa-tags me-2"></i>Leave Type</th>
+                            <th><i class="fas fa-calendar-alt me-2"></i>Total</th>
+                            <th><i class="fas fa-calendar-minus me-2"></i>Used</th>
+                            <th><i class="fas fa-calendar-plus me-2"></i>Remaining</th>
+                            <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        {% for mapping in page_obj %}
+                        <tr class="employee-row" data-user-id="{{ mapping.user_id }}" data-employee-name="{{ mapping.user_name|lower }}">
+                            <td>
+                                <div class="employee-name">{{ mapping.user_name }}</div>
+                            </td>
+                            <td>
+                                <select class="form-select leave-type-select dropdown-select">
+                                    {% for lt in leave_types %}
+                                    <option value="{{ lt.id }}" {% if lt.id == mapping.leave_type_id %}selected{% endif %}>{{ lt.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <span class="status-badge total-badge total">{{ mapping.total }}</span>
+                            </td>
+                            <td>
+                                <span class="status-badge used-badge used">{{ mapping.used }}</span>
+                            </td>
+                            <td>
+                                <span class="status-badge remaining-badge remaining">{{ mapping.remaining }}</span>
+                            </td>
+                            <td>
+                                <button class="action-btn btn-edit edit-btn">
+                                    <i class="fas fa-edit me-1"></i>
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr id="noDataRow">
+                            <td colspan="6" class="no-data">
+                                <i class="fas fa-calendar-times"></i>
+                                <h5>No Leave Mappings Found</h5>
+                                <p>Start by adding leave mappings for your employees</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+        <nav aria-label="Leave pagination">
+  <ul class="pagination justify-content-center mt-4">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}{% if search_term %}&search={{ search_term }}{% endif %}">
+          <i class="fas fa-chevron-left"></i> Previous
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link"><i class="fas fa-chevron-left"></i> Previous</span>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+          Next <i class="fas fa-chevron-right"></i>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next <i class="fas fa-chevron-right"></i></span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+    </div>
+
+    
+    <div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form id="editLeaveForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-edit me-2"></i>
+                            Edit Leave Balance
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="user_id" id="editUserId">
+                        <input type="hidden" name="leave_type_id" id="editLeaveTypeId">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editTotal" class="form-label">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        Total Leaves
+                                    </label>
+                                    <input type="number" step="0.1" class="form-control" id="editTotal" name="total_leaves" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editUsed" class="form-label">
+                                        <i class="fas fa-calendar-minus me-1"></i>
+                                        Used Leaves
+                                    </label>
+                                    <input type="number" step="0.1" class="form-control" id="editUsed" name="used_leaves" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-save me-2"></i>
+                            Update Leave Balance
+                        </button>
+                        <button type="button" class="btn btn-secondary-modern btn-modern" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="addLeaveModal" tabindex="-1" aria-labelledby="addLeaveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form id="addLeaveForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-plus me-2"></i>
+                            Add New Leave Mapping
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="addUserId" class="form-label">
+                                        <i class="fas fa-user me-1"></i>
+                                        Employee
+                                    </label>
+                                    <select class="form-select" id="addUserId" name="user_id" required>
+                                        <option value="">Select Employee</option>
+                                        {% for user in mappings %}
+                                        <option value="{{ user.user_id }}">{{ user.user_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="addLeaveTypeId" class="form-label">
+                                        <i class="fas fa-tags me-1"></i>
+                                        Leave Type
+                                    </label>
+                                    <select class="form-select" id="addLeaveTypeId" name="leave_type_id" required>
+                                        <option value="">Select Leave Type</option>
+                                        {% for lt in leave_types %}
+                                        <option value="{{ lt.id }}">{{ lt.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="addTotal" class="form-label">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        Total Leaves
+                                    </label>
+                                    <input type="number" class="form-control" id="addTotal" name="total_leaves" step="0.5" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="addUsed" class="form-label">
+                                        <i class="fas fa-calendar-minus me-1"></i>
+                                        Used Leaves
+                                    </label>
+                                    <input type="number" class="form-control" id="addUsed" name="used_leaves" step="0.5" value="0" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-plus me-2"></i>
+                            Add Leave Mapping
+                        </button>
+                        <button type="button" class="btn btn-secondary-modern btn-modern" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const trimmed = cookie.trim();
+                    if (trimmed.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        
+        function showLoading(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="loading-spinner me-2"></span>Processing...';
+            button.disabled = true;
+            return originalText;
+        }
+
+        function hideLoading(button, originalText) {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('employeeSearch').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('.employee-row');
+            const searchInfo = document.getElementById('searchInfo');
+            const clearBtn = document.getElementById('clearSearch');
+            const noDataRow = document.getElementById('noDataRow');
+            
+            let visibleCount = 0;
+            let totalRows = rows.length;
+
+            if (searchTerm === '') {
+                
+                rows.forEach(row => {
+                    row.style.display = '';
+                    visibleCount++;
+                });
+                searchInfo.style.display = 'none';
+                clearBtn.style.display = 'none';
+                
+                
+                if (noDataRow && totalRows > 0) {
+                    noDataRow.style.display = 'none';
+                }
+            } else {
+                
+                rows.forEach(row => {
+                    const employeeName = row.getAttribute('data-employee-name');
+                    if (employeeName && employeeName.includes(searchTerm)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                
+                searchInfo.style.display = 'block';
+                clearBtn.style.display = 'inline-block';
+                
+                if (visibleCount === 0) {
+                    searchInfo.innerHTML = `<i class="fas fa-search me-1"></i>No employees found matching "${searchTerm}"`;
+                    searchInfo.style.color = '#dc3545';
+                } else {
+                    searchInfo.innerHTML = `<i class="fas fa-search me-1"></i>Found ${visibleCount} employee${visibleCount !== 1 ? 's' : ''} matching "${searchTerm}"`;
+                    searchInfo.style.color = '#28a745';
+                }
+
+                
+                if (noDataRow) {
+                    noDataRow.style.display = 'none';
+                }
+            }
+
+            
+            const visibleRows = document.querySelectorAll('.employee-row[style=""], .employee-row:not([style*="display: none"])');
+            visibleRows.forEach((row, index) => {
+                setTimeout(() => {
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        row.style.transition = 'all 0.3s ease';
+                        row.style.opacity = '1';
+                        row.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 50);
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById('employeeSearch').value = '';
+            performSearch();
+            document.getElementById('employeeSearch').focus();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const searchInput = document.getElementById('employeeSearch');
+            const searchBtn = document.getElementById('searchBtn');
+            const clearBtn = document.getElementById('clearSearch');
+
+           
+           
+
+function submitSearch() {
+    const query = searchInput.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', query);
+    url.searchParams.set('page', 1);  
+    window.location.href = url.toString();
+}
+
+searchBtn.addEventListener('click', submitSearch);
+
+searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        submitSearch();
+    }
+});
+
+
+searchInput.addEventListener('input', function () {
+    if (this.value.trim().length > 0) {
+        clearBtn.style.display = 'inline-block';
+    } else {
+        clearBtn.style.display = 'none';
+    }
+});
+
+
+clearBtn.addEventListener('click', function () {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('search');
+    url.searchParams.set('page', 1);
+    window.location.href = url.toString();
+});
+
+            
+            document.querySelectorAll('.leave-type-select').forEach(select => {
+                select.addEventListener('change', function () {
+                    const row = this.closest('tr');
+                    const userId = row.dataset.userId;
+                    const leaveTypeId = this.value;
+
+                    if (!userId || !leaveTypeId) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'User or Leave Type missing!',
+                            confirmButtonColor: '#667eea'
+                        });
+                        return;
+                    }
+
+                    
+                    const badges = row.querySelectorAll('.status-badge');
+                    badges.forEach(badge => {
+                        badge.innerHTML = '<span class="loading-spinner"></span>';
+                    });
+
+                    fetch(`/hrms_app/api/get-leave-mapping/?user_id=${userId}&leave_type_id=${leaveTypeId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: data.error,
+                                    confirmButtonColor: '#667eea'
+                                });
+                            } else {
+                                
+                                setTimeout(() => {
+                                    row.querySelector('.total').textContent = data.total ?? 0;
+                                    row.querySelector('.used').textContent = data.used ?? 0;
+                                    row.querySelector('.remaining').textContent = data.remaining ?? 0;
+                                    
+                                    
+                                    row.style.background = 'linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.1))';
+                                    setTimeout(() => {
+                                        row.style.background = '';
+                                    }, 1000);
+                                }, 500);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching leave mapping:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Network Error',
+                                text: 'Failed to load leave data. Please try again.',
+                                confirmButtonColor: '#667eea'
+                            });
+                            
+                            
+                            badges.forEach((badge, index) => {
+                                const values = ['0', '0', '0'];
+                                badge.textContent = values[index];
+                            });
+                        });
+                });
+            });
+
+            
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const row = this.closest('tr');
+                    const userId = row.dataset.userId;
+                    const leaveTypeId = row.querySelector('.leave-type-select').value;
+                    const total = row.querySelector('.total').textContent.trim();
+                    const used = row.querySelector('.used').textContent.trim();
+
+                    document.getElementById('editUserId').value = userId;
+                    document.getElementById('editLeaveTypeId').value = leaveTypeId;
+                    document.getElementById('editTotal').value = total;
+                    document.getElementById('editUsed').value = used;
+
+                    new bootstrap.Modal(document.getElementById('editLeaveModal')).show();
+                });
+            });
+
+            
+            document.getElementById('editLeaveForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = showLoading(submitBtn);
+
+                const userId = document.getElementById('editUserId').value;
+                const leaveTypeId = document.getElementById('editLeaveTypeId').value;
+                const total = parseFloat(document.getElementById('editTotal').value);
+                const used = parseFloat(document.getElementById('editUsed').value);
+                const remaining = total - used;
+
+                fetch('/hrms_app/api/update-leave-mapping/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        leave_type_id: leaveTypeId,
+                        total_leaves: total,
+                        used_leaves: used
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    hideLoading(submitBtn, originalText);
+                    
+                    if (data.success) {
+                        const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+                        row.querySelector('.total').textContent = total;
+                        row.querySelector('.used').textContent = used;
+                        row.querySelector('.remaining').textContent = remaining;
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Leave balance updated successfully.',
+                            confirmButtonColor: '#667eea',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        
+                        bootstrap.Modal.getInstance(document.getElementById('editLeaveModal')).hide();
+                        
+                        
+                        row.style.background = 'linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.1))';
+                        setTimeout(() => {
+                            row.style.background = '';
+                        }, 2000);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Update Failed',
+                            text: data.error || 'Something went wrong. Please try again.',
+                            confirmButtonColor: '#667eea'
+                        });
+                    }
+                })
+                .catch(error => {
+                    hideLoading(submitBtn, originalText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: 'Failed to update. Please check your connection and try again.',
+                        confirmButtonColor: '#667eea'
+                    });
+                });
+            });
+
+           
+            document.getElementById('addLeaveForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = showLoading(submitBtn);
+
+                const userId = document.getElementById('addUserId').value;
+                const leaveTypeId = document.getElementById('addLeaveTypeId').value;
+                const total = parseFloat(document.getElementById('addTotal').value);
+                const used = parseFloat(document.getElementById('addUsed').value);
+
+                fetch('/hrms_app/api/add-leave-mapping/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        leave_type_id: leaveTypeId,
+                        total_leaves: total,
+                        used_leaves: used
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    hideLoading(submitBtn, originalText);
+                    
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Leave mapping added successfully.',
+                            confirmButtonColor: '#667eea'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Addition Failed',
+                            text: data.error || 'Something went wrong. Please try again.',
+                            confirmButtonColor: '#667eea'
+                        });
+                    }
+                })
+                .catch(error => {
+                    hideLoading(submitBtn, originalText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: 'Failed to add mapping. Please check your connection and try again.',
+                        confirmButtonColor: '#667eea'
+                    });
+                });
+            });
+
+            
+            setTimeout(() => {
+                document.querySelectorAll('.data-card, .page-header').forEach(element => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                });
+            }, 100);
+        });
+
+        
+        document.querySelectorAll('.data-card, .page-header').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'all 0.6s ease';
+        });
+    </script>
+</body>
+</html>

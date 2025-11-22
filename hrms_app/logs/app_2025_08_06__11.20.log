@@ -1,0 +1,29 @@
+2025-08-04 10:35:06,501 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-04 10:35:06,502 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2 days, 9:51:52.598372
+2025-08-04 10:35:06,502 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-08-04 10:35:38,478 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 10:35:49,758 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 10:36:09,628 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-04 10:36:09,628 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-04 10:36:09,635 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-08-04 10:36:11,043 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-08-04 10:36:11,043 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 0:00:01.414881
+2025-08-04 10:36:17,559 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-08-04 10:36:17,560 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-08-04 10:36:17,560 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-08-04 10:39:14,051 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 10:42:14,665 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 11:05:15,900 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 11:40:10,967 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 11:48:06,094 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/dashboard/ HTTP/1.1" 500 280104
+2025-08-04 12:21:10,065 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 12:21:43,094 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 12:21:45,124 , INFO, hrms_app ,time_punch_in_out_view.py, 39 ,save_punch_in_data ,call save_punch_in_data API
+2025-08-04 12:21:45,124 , INFO, hrms_app ,time_punch_in_out_view.py, 45 ,save_punch_in_data ,User: priy2032004anshu@gmail.com 
+2025-08-04 12:21:45,134 , INFO, hrms_app ,time_punch_in_out_view.py, 53 ,save_punch_in_data ,Punched in successfully
+2025-08-04 12:23:28,208 , INFO, hrms_app ,time_punch_in_out_view.py, 61 ,save_punch_out_data ,call punch out urls
+2025-08-04 12:23:28,209 , INFO, hrms_app ,time_punch_in_out_view.py, 62 ,save_punch_out_data ,User: priy2032004anshu@gmail.com 
+2025-08-04 12:23:28,210 , INFO, hrms_app ,time_punch_in_out_view.py, 67 ,save_punch_out_data ,note- : 
+2025-08-04 12:23:29,791 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 12:24:24,829 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-08-04 16:35:18,426 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Management - HRMS</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+      
+
+       
+        .main-content {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 30px;
+            min-height: calc(100vh - 70px);
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 80px;
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .page-title p {
+            color: #718096;
+            font-size: 1.1rem;
+            margin: 8px 0 0 0;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .table-search {
+            position: relative;
+            max-width: 400px;
+            flex: 1;
+        }
+
+        .table-search input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .table-search input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .table-search .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+
+        .table-container {
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0;
+        }
+
+        .table-header-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr;
+            gap: 20px;
+            padding: 20px 30px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr;
+            gap: 20px;
+            padding: 25px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            align-items: center;
+        }
+
+        .table-row:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .role-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .date-text {
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+
+        .btn-edit:hover, .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: #718096;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+       
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-footer {
+            padding: 0 30px 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-cancel:hover {
+            background: #cbd5e0;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border-left: 4px solid #38a169;
+        }
+
+        .message.error {
+            background: #fed7d7;
+            color: #c53030;
+            border-left: 4px solid #e53e3e;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar .sidebar-title,
+            .sidebar .nav-text,
+            .sidebar .nav-section-title {
+                opacity: 0;
+                width: 0;
+            }
+            
+            .navbar {
+                left: 80px;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .navbar {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .table-header-row,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .search-input {
+                width: 200px;
+            }
+            
+            .search-input:focus {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+   {% include 'sidebar.html' %}
+    {% include 'navbar.html' %}
+    
+    <main class="main-content">
+       
+        <div class="page-header">
+            <div class="page-title">
+                <div>
+                    <h1><i class="fas fa-user-shield"></i> Role Management</h1>
+                    <p>Configure and manage user roles efficiently</p>
+                </div>
+            </div>
+            <div class="page-actions">
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i>
+                    ADD ROLE
+                </button>
+            </div>
+        </div>
+
+        <div id="successMessage" class="message success"></div>
+        <div id="errorMessage" class="message error"></div>
+
+        <div class="content-card">
+            <div class="card-header">
+                <div class="search-container">
+                    <div class="table-search">
+                        <input type="text" id="searchInput" placeholder="Search roles by name..." onkeyup="searchRoles()">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-header-row">
+                        <div><i class="fas fa-user-shield"></i> ROLE</div>
+                        <div><i class="fas fa-calendar-plus"></i> CREATED DATE</div>
+                        <div><i class="fas fa-calendar-edit"></i> MODIFIED DATE</div>
+                        <div><i class="fas fa-toggle-on"></i> STATUS</div>
+                        <div><i class="fas fa-cogs"></i> ACTIONS</div>
+                    </div>
+                </div>
+                <div class="table-body" id="tableBody">
+                   
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Role</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="roleForm">
+                    <div class="form-group">
+                        <label class="form-label" for="roleName">Role Name *</label>
+                        <input type="text" class="form-input" id="roleName" name="name" required placeholder="Enter role name">
+                    </div>
+                    <input type="hidden" id="roleId" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveRole()">
+                    <i class="fas fa-save"></i>
+                    Save Role
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let roles = [];
+        let filteredRoles = [];
+        let editingRoleId = null;
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRoles();
+        });
+
+       
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            setTimeout(() => {
+                successEl.style.display = 'none';
+            }, 5000);
+        }
+
+        
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+
+        
+        function getCSRFToken() {
+            const csrfTokenEl = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (csrfTokenEl) {
+                return csrfTokenEl.value;
+            }
+            
+            const name = 'csrftoken';
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        
+        async function loadRoles() {
+            try {
+                showLoadingState();
+                
+                const response = await fetch('/api/roles/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load roles: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                roles = Array.isArray(data) ? data : (data.results || data.data || []);
+                filteredRoles = [...roles];
+                renderRoles();
+            } catch (error) {
+                console.error('Error loading roles:', error);
+                showErrorState(error.message);
+            }
+        }
+
+        
+        function showLoadingState() {
+            document.getElementById('tableBody').innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #718096;">
+                    <div style="display: inline-block; width: 30px; height: 30px; border: 3px solid #e2e8f0; border-radius: 50%; border-top-color: #667eea; animation: spin 1s ease-in-out infinite;"></div>
+                    <p style="margin-top: 15px;">Loading roles...</p>
+                </div>
+            `;
+        }
+
+        
+        function showErrorState(message) {
+            document.getElementById('tableBody').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Error Loading Roles</h3>
+                    <p>Unable to load roles: ${message}</p>
+                    <button class="btn btn-primary" onclick="loadRoles()" style="margin-top: 15px;">
+                        <i class="fas fa-refresh"></i>
+                        Retry
+                    </button>
+                </div>
+            `;
+        }
+
+        
+        function renderRoles() {
+            const tableBody = document.getElementById('tableBody');
+            
+            if (filteredRoles.length === 0) {
+                tableBody.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>No Roles Found</h3>
+                        <p>No roles match your search criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const rolesHtml = filteredRoles.map(role => `
+                <div class="table-row">
+                    <div>
+                        <div class="role-name">${escapeHtml(role.name)}</div>
+                    </div>
+                    <div>
+                        <div class="date-text">${formatDate(role.row_created_date)}</div>
+                    </div>
+                    <div>
+                        <div class="date-text">${formatDate(role.row_modified_date)}</div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-active">
+                            <i class="fas fa-circle"></i>
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-sm btn-edit" onclick="editRole(${role.id})">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn btn-sm btn-delete" onclick="deleteRole(${role.id})">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            tableBody.innerHTML = rolesHtml;
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        function searchRoles() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            filteredRoles = roles.filter(role =>
+                role.name.toLowerCase().includes(searchTerm)
+            );
+            renderRoles();
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function openAddModal() {
+            editingRoleId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Role';
+            document.getElementById('roleForm').reset();
+            document.getElementById('roleId').value = '';
+            document.getElementById('roleModal').style.display = 'block';
+            document.getElementById('roleName').focus();
+        }
+
+        function editRole(roleId) {
+            const role = roles.find(r => r.id === roleId);
+            if (!role) {
+                showError('Role not found');
+                return;
+            }
+
+            editingRoleId = roleId;
+            document.getElementById('modalTitle').textContent = 'Edit Role';
+            document.getElementById('roleId').value = role.id;
+            document.getElementById('roleName').value = role.name;
+            document.getElementById('roleModal').style.display = 'block';
+            document.getElementById('roleName').focus();
+        }
+
+        async function saveRole() {
+            const form = document.getElementById('roleForm');
+            const formData = new FormData(form);
+            const roleData = Object.fromEntries(formData);
+
+            if (!roleData.name.trim()) {
+                showError('Please enter a role name.');
+                return;
+            }
+
+            try {
+                let response;
+                const csrfToken = getCSRFToken();
+                
+                if (editingRoleId) {
+                    response = await fetch(`/api/roles/${editingRoleId}/`, {
+                        method: 'PUT',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                        body: JSON.stringify({
+                            name: roleData.name.trim(),
+                            row_modified_by: 'current_user' // You can get this from session
+                        })
+                    });
+                } else {
+                    response = await fetch('/api/roles/', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                        body: JSON.stringify({
+                            name: roleData.name.trim(),
+                            row_created_by: 'current_user' 
+                        })
+                    });
+                }
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                await loadRoles();
+                closeModal();
+
+                showSuccess(editingRoleId ? 'Role updated successfully!' : 'Role created successfully!');
+            } catch (error) {
+                console.error('Error saving role:', error);
+                showError(`Error saving role: ${error.message}`);
+            }
+        }
+
+        async function deleteRole(roleId) {
+            const role = roles.find(r => r.id === roleId);
+            if (!role) {
+                showError('Role not found');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete the role "${role.name}"?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/roles/${roleId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken(),
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                await loadRoles();
+                showSuccess('Role deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting role:', error);
+                showError(`Error deleting role: ${error.message}`);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('roleModal').style.display = 'none';
+            editingRoleId = null;
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('roleModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        document.getElementById('searchInput')?.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchRoles();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleNameInput = document.getElementById('roleName');
+            if (roleNameInput) {
+                roleNameInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        saveRole();
+                    }
+                });
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);

@@ -1,0 +1,32 @@
+2025-06-04 14:10:21,840 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212268
+2025-06-04 14:11:31,457 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212124
+2025-06-04 14:11:38,093 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 211987
+2025-06-04 14:15:13,200 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:14,060 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:14,451 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:14,858 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:15,389 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:15,596 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:15,822 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 14:15:16,060 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 212064
+2025-06-04 16:03:25,171 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 123957
+2025-06-04 16:03:33,120 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 123957
+2025-06-04 16:04:13,737 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 123957
+2025-06-04 16:05:32,337 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 125360
+2025-06-04 16:05:35,774 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 125362
+2025-06-04 16:05:37,122 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 125490
+2025-06-04 16:05:47,540 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/my_info/salary_details/ HTTP/1.1" 500 125225
+2025-06-04 16:22:07,307 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/salary_details/ HTTP/1.1" 500 194831
+2025-06-04 16:23:27,495 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/salary_details/ HTTP/1.1" 500 194583
+2025-06-04 16:23:31,115 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"POST /hrms_app/my_info/salary_details/ HTTP/1.1" 500 194583
+2025-06-05 00:04:21,042 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 00:10:09,970 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 00:12:19,218 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 10:06:02,311 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 10:41:54,694 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 10:52:53,851 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 11:24:30,147 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 12:04:57,048 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 12:08:44,564 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 12:09:19,334 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-06-05 12:45:47,971 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT

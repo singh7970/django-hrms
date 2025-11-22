@@ -1,0 +1,7 @@
+2025-07-30 17:19:20,742 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_IN
+2025-07-30 17:19:20,742 , INFO, hrms_app ,time_punch_in_out_view.py, 23 ,punch_in_out_page ,Time elapsed: 2 days, 4:04:27.636596
+2025-07-30 17:19:20,743 , INFO, hrms_app ,time_punch_in_out_view.py, 27 ,punch_in_out_page ,Punching disabled: exceeded 40 hours.
+2025-07-30 17:19:56,987 , INFO, hrms_app ,time_punch_in_out_view.py, 19 ,punch_in_out_page ,Latest record status: PUNCHED_OUT
+2025-07-30 17:22:41,846 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/api/employees/all/?page=1&page_size=5 HTTP/1.1" 500 77892
+2025-07-30 18:30:41,703 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/api/employees/all/?page=1&page_size=5 HTTP/1.1" 500 77903
+2025-07-30 18:30:45,335 , ERROR, django.server ,basehttp.py, 213 ,log_message ,"GET /hrms_app/api/employees/all/?page=1&page_size=5 HTTP/1.1" 500 77903

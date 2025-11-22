@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salary Details</title>
+
+    <!-- Fonts and Icons -->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+
+    <style>
+        .profile-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .sidebar-fixed {
+            width: 250px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            background-color: #fff;
+            margin-left: 15px;
+            margin-top: 0;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(100% - 265px);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-fixed {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .content-wrapper {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        .form-group label {
+            font-weight: 600;
+        }
+
+        .employee-image {
+            border-radius: 50%;
+            border: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body class="animsition">
+<div class="page-wrapper">
+
+    {% include 'sidebar.html' %}
+
+    <div class="page-container">
+        {% include 'navbar.html' %}
+
+        <div class="main-content">
+            <div class="container-fluid" style="background-color: #e5e5e5;">
+                <div style="margin: 10px; border-radius: 10px; padding: 10px; font-family: Arial, sans-serif; background-color: #e5e5e5;">
+                    
+                    <div class="profile-container">
+
+                        <!-- Sidebar -->
+                        <div class="sidebar-fixed">
+                            <div class="text-center mb-3">
+                                 <a href="{% url 'personal_documents' %}">
+                                        {% if user.profile_photo %}
+                                    <img src="{{ user.profile_photo.url }}" alt="Profile" class="employee-image">
+                                {% else %}
+                                    <div class="employee-image-placeholder" style="width: 120px; height: 120px; border: 2px dashed #ccc; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto;">
+                                        <i class="fa fa-user" style="font-size: 48px; color: #ccc;"></i>
+                                        <p style="margin-top: 10px; color: #999; font-size: 12px;">No Photo</p>
+                                    </div>
+                                {% endif %}
+    </a>
+                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'show_personal_profile_page' %}">Personal Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'contact_details_page' %}">Contact Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'emergency_contact_page' %}">Emergency Details</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'dependents_page' %}">Dependents</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'Immigration_page' %}">Immigration</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'job_details_page' %}">Job</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'salary_details_page' %}">Salary</a></li>
+                                <li class="nav-item mb-2"><a class="nav-link text-dark" href="{% url 'personal_documents' %}">Personal Documents</a></li>
+                               
+                            </ul>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="content-wrapper">
+                            <h2 class="mb-4 text-primary text-center">Salary Details</h2>
+
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Basic Salary <span class="text-danger">*</span></label>
+                                        <input type="number" name="basic_salary" class="form-control" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>HRA <span class="text-danger">*</span></label>
+                                        <input type="number" name="hra" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Special Allowance</label>
+                                        <input type="number" name="special_allowance" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Bonus</label>
+                                        <input type="number" name="bonus" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Other Allowances</label>
+                                        <input type="number" name="other_allowances" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Deductions</label>
+                                        <input type="number" name="deductions" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Net Salary</label>
+                                        <input type="number" name="net_salary" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Payment Mode</label>
+                                        <select name="payment_mode" class="form-control">
+                                            <option value="bank_transfer" {% if salary_details.payment_mode == "bank_transfer" %}selected{% endif %}>Bank Transfer</option>
+                                            <option value="cash" {% if salary_details.payment_mode == "cash" %}selected{% endif %}>Cash</option>
+                                            <option value="cheque" {% if salary_details.payment_mode == "cheque" %}selected{% endif %}>Cheque</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <small class="text-danger">* Required fields</small>
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </div>
+                            </form>
+
+                            <hr>
+                            <h4 class="text-center text-secondary">All Salary Records</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm text-nowrap">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Basic</th>
+                                            <th>HRA</th>
+                                            <th>Special</th>
+                                            <th>Bonus</th>
+                                            <th>Other</th>
+                                            <th>Deductions</th>
+                                            <th>Net</th>
+                                            <th>Payment Mode</th>
+                                            <th>Created</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for salary in all_salaries %}
+                                        <tr>
+                                            <td>{{ salary.basic_salary|floatformat:2 }}</td>
+                                            <td>{{ salary.hra|floatformat:2 }}</td>
+                                            <td>{{ salary.special_allowance|default_if_none:"-"|floatformat:2 }}</td>
+                                            <td>{{ salary.bonus|default_if_none:"-"|floatformat:2 }}</td>
+                                            <td>{{ salary.other_allowances|default_if_none:"-"|floatformat:2 }}</td>
+                                            <td>{{ salary.deductions|default_if_none:"-"|floatformat:2 }}</td>
+                                            <td>{{ salary.net_salary|floatformat:2 }}</td>
+                                            <td>{{ salary.get_payment_mode_display }}</td>
+                                            <td>{{ salary.row_created_date|date:"Y-m-d H:i" }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="9" class="text-center text-muted">No salary records found.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> <!-- content-wrapper -->
+
+                    </div> <!-- profile-container -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'js/time.js' %}"></script>
+</body>
+</html>
