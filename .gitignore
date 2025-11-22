@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+*.eggs/
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+pip-wheel-metadata/
+wheels/
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+static/
+*.sqlite3
+
+# Django Migrations (optional)
+*/migrations/*
+!*/migrations/__init__.py
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# VS Code
+.vscode/
+.vscode/*
+
+# JetBrains / PyCharm
+.idea/
+*.iml
+
+# Byte-compiled / caches
+*.pyc
+*.pyo
+__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Redis / Celery
+celerybeat-schedule
+celerybeat.pid
+
+# MySQL dump files
+*.sql
+*.sql.gz
+
+# Node / frontend (if used)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Python cache
+.pytest_cache/
+.cache/
+
+# Others
+*.bak
+*.swp
+*.swo
+logs/
