@@ -75,3 +75,7 @@ yarn-error.log
 *.swp
 *.swo
 logs/
+env/
+.env
+*.pyc
+__pycache__/
